@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Room - Business Intelligence Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: linear-gradient(135deg, #2E86AB, #A23B72);
+            color: white;
+            padding: 20px;
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-item {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .dashboard-header h1 {
+            color: #2E86AB;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .date-range-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .date-range-selector select {
+            padding: 8px 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2E86AB;
+            margin-bottom: 8px;
+        }
+
+        .kpi-label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .kpi-change {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+
+        .kpi-change.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .kpi-change.negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .chart-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+            border: 2px dashed #dee2e6;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .insight-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            background: #2E86AB;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .insight-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .insight-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .data-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            background: #2E86AB;
+            color: white;
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .export-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .export-button {
+            background: #A23B72;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .export-button:hover {
+            background: #8B2F5C;
+        }
+
+        .filter-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .chart-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <h2>Get a Room<br>Analytics</h2>
+            
+            <a href="#overview" class="nav-item active">📊 Overview</a>
+            <a href="#revenue" class="nav-item">💰 Revenue</a>
+            <a href="#bookings" class="nav-item">📅 Bookings</a>
+            <a href="#customers" class="nav-item">👥 Customers</a>
+            <a href="#spaces" class="nav-item">🏢 Spaces</a>
+            <a href="#payments" class="nav-item">💳 Payments</a>
+            <a href="#analytics" class="nav-item">📈 Analytics</a>
+            <a href="#reports" class="nav-item">📋 Reports</a>
+            <a href="#settings" class="nav-item">⚙️ Settings</a>
+        </nav>
+
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1>Business Dashboard</h1>
+                <div class="date-range-selector">
+                    <label for="dateRange">Period:</label>
+                    <select id="dateRange">
+                        <option value="today">Today</option>
+                        <option value="week" selected>This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="quarter">This Quarter</option>
+                        <option value="year">This Year</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-panel">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="spaceType">Space Type</label>
+                        <select id="spaceType">
+                            <option value="all">All Spaces</option>
+                            <option value="hot-desk">Hot Desks</option>
+                            <option value="private-office">Private Offices</option>
+                            <option value="meeting-room">Meeting Rooms</option>
+                            <option value="event-space">Event Space</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="bookingType">Booking Type</label>
+                        <select id="bookingType">
+                            <option value="all">All Bookings</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="paymentMethod">Payment Method</label>
+                        <select id="paymentMethod">
+                            <option value="all">All Methods</option>
+                            <option value="mpesa">M-Pesa</option>
+                            <option value="bank">Bank Transfer</option>
+                            <option value="cash">Cash</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">KES 127,500</div>
+                    <div class="kpi-label">Total Revenue</div>
+                    <div class="kpi-change positive">+12.5% vs last week</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">43</div>
+                    <div class="kpi-label">Active Bookings</div>
+                    <div class="kpi-change positive">+8 new this week</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">87%</div>
+                    <div class="kpi-label">Occupancy Rate</div>
+                    <div class="kpi-change positive">+5% vs last week</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">32</div>
+                    <div class="kpi-label">New Customers</div>
+                    <div class="kpi-change positive">+14 this month</div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-container">
+                    <h3 class="chart-title">Revenue Trend (Last 30 Days)</h3>
+                    <div class="chart-placeholder">
+                        [Interactive Line Chart]<br>
+                        Daily revenue showing M-Pesa vs other payment methods<br>
+                        Peak days: Monday-Wednesday<br>
+                        Average daily revenue: KES 18,200
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Space Utilization</h3>
+                    <div class="chart-placeholder">
+                        [Pie Chart]<br>
+                        Hot Desks: 45%<br>
+                        Private Offices: 30%<br>
+                        Meeting Rooms: 20%<br>
+                        Event Space: 5%
+                    </div>
+                </div>
+            </div>
+
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon">📈</div>
+                        <div class="insight-title">Peak Usage Patterns</div>
+                    </div>
+                    <div class="insight-content">
+                        <strong>Best Performance:</strong> Monday-Wednesday, 9 AM - 5 PM<br>
+                        <strong>Opportunity:</strong> Weekend bookings only 15% capacity<br>
+                        <strong>Recommendation:</strong> Consider weekend promotional pricing
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon">💰</div>
+                        <div class="insight-title">Revenue Insights</div>
+                    </div>
+                    <div class="insight-content">
+                        <strong>Top Revenue Source:</strong> Monthly memberships (65%)<br>
+                        <strong>Growth Driver:</strong> Daily bookings up 25%<br>
+                        <strong>Action Item:</strong> Focus on converting daily users to monthly
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon">👥</div>
+                        <div class="insight-title">Customer Behavior</div>
+                    </div>
+                    <div class="insight-content">
+                        <strong>Repeat Rate:</strong> 78% of customers book again<br>
+                        <strong>Avg Booking Value:</strong> KES 2,950<br>
+                        <strong>Top User Segment:</strong> Tech professionals (40%)
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon">📱</div>
+                        <div class="insight-title">Payment Preferences</div>
+                    </div>
+                    <div class="insight-content">
+                        <strong>M-Pesa Usage:</strong> 92% of all transactions<br>
+                        <strong>Success Rate:</strong> 98.5% payment completion<br>
+                        <strong>Avg Processing Time:</strong> 45 seconds
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-table">
+                <div class="table-header">Recent Bookings</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Space</th>
+                            <th>Date</th>
+                            <th>Duration</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>James Ochieng</td>
+                            <td>Hot Desk #12</td>
+                            <td>July 16, 2025</td>
+                            <td>Full Day</td>
+                            <td>KES 500</td>
+                            <td>M-Pesa</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Sarah Wanjiku</td>
+                            <td>Private Office B</td>
+                            <td>July 15-19, 2025</td>
+                            <td>5 Days</td>
+                            <td>KES 12,500</td>
+                            <td>M-Pesa</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>David Kimani</td>
+                            <td>Monthly Membership</td>
+                            <td>July 1-31, 2025</td>
+                            <td>Monthly</td>
+                            <td>KES 15,000</td>
+                            <td>Bank Transfer</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Mary Adhiambo</td>
+                            <td>Meeting Room A</td>
+                            <td>July 18, 2025</td>
+                            <td>3 Hours</td>
+                            <td>KES 1,500</td>
+                            <td>M-Pesa</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>Peter Otieno</td>
+                            <td>Hot Desk #5</td>
+                            <td>July 14, 2025</td>
+                            <td>Half Day</td>
+                            <td>KES 300</td>
+                            <td>M-Pesa</td>
+                            <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-container">
+                    <h3 class="chart-title">Customer Retention Analysis</h3>
+                    <div class="chart-placeholder">
+                        [Cohort Analysis Chart]<br>
+                        Month 1 Retention: 85%<br>
+                        Month 3 Retention: 62%<br>
+                        Month 6 Retention: 45%<br>
+                        Industry Benchmark: 40%
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Booking Sources</h3>
+                    <div class="chart-placeholder">
+                        [Bar Chart]<br>
+                        Direct Bookings: 70%<br>
+                        Word of Mouth: 20%<br>
+                        Social Media: 8%<br>
+                        Other: 2%
+                    </div>
+                </div>
+            </div>
+
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon">⚡</div>
+                        <div class="insight-title">Operational Efficiency</div>
+                    </div>
+                    <div class="insight-content">
+                        <strong>Time Savings:</strong> 3.5 hours/day vs manual system<br>
+                        <strong>Booking Accuracy:</strong> 99.2% (vs 87% manual)<br>
+                        <strong>Customer Satisfaction:</strong> 4.8/5.0 rating
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon">📊</div>
+                        <div class="insight-title">Performance Metrics</div>
+                    </div>
+                    <div class="insight-content">
+                        <strong>Conversion Rate:</strong> 78% (visitors to bookings)<br>
+                        <strong>Avg Session Time:</strong> 3.2 minutes<br>
+                        <strong>Mobile Usage:</strong> 85% of all bookings
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon">🎯</div>
+                        <div class="insight-title">Growth Opportunities</div>
+                    </div>
+                    <div class="insight-content">
+                        <strong>Underutilized:</strong> Evening slots (6-10 PM)<br>
+                        <strong>High Demand:</strong> Meeting rooms during lunch<br>
+                        <strong>Potential:</strong> Corporate packages for startups
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon">💡</div>
+                        <div class="insight-title">Recommendations</div>
+                    </div>
+                    <div class="insight-content">
+                        <strong>Immediate:</strong> Add evening hour promotions<br>
+                        <strong>Short-term:</strong> Launch corporate membership tiers<br>
+                        <strong>Long-term:</strong> Expand to second location in Nairobi
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-section">
+                <h3>Export Reports</h3>
+                <p>Generate detailed reports for external analysis and record keeping</p>
+                <div style="margin-top: 20px;">
+                    <button class="export-button">📊 Revenue Report (PDF)</button>
+                    <button class="export-button">📋 Booking Summary (Excel)</button>
+                    <button class="export-button">👥 Customer Database (CSV)</button>
+                    <button class="export-button">📈 Analytics Report (PowerPoint)</button>
+                </div>
+                <p style="margin-top: 15px; color: #666; font-size: 0.9rem;">
+                    Reports include KRA-compliant financial summaries and customer data protection compliance
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dashboard interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation highlighting
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Date range change
+            document.getElementById('dateRange').addEventListener('change', function() {
+                updateDashboardData(this.value);
+            });
+
+            // Filter changes
+            ['spaceType', 'bookingType', 'paymentMethod'].forEach(filterId => {
+                document.getElementById(filterId).addEventListener('change', function() {
+                    applyFilters();
+                });
+            });
+
+            // Export button functionality
+            document.querySelectorAll('.export-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const reportType = this.textContent.trim();
+                    exportReport(reportType);
+                });
+            });
+        });
+
+        function updateDashboardData(period) {
+            // Simulate data update based on selected period
+            console.log('Updating dashboard for period:', period);
+            
+            // In real implementation, this would:
+            // 1. Fetch new data from API
+            // 2. Update KPI cards
+            // 3. Refresh charts
+            // 4. Update insights
+            
+            // Show loading state
+            showLoadingState();
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                hideLoadingState();
+                showSuccessMessage('Dashboard updated for ' + period);
+            }, 1000);
+        }
+
+        function applyFilters() {
+            const filters = {
+                spaceType: document.getElementById('spaceType').value,
+                bookingType: document.getElementById('bookingType').value,
+                paymentMethod: document.getElementById('paymentMethod').value
+            };
+            
+            console.log('Applying filters:', filters);
+            
+            // In real implementation, this would filter the displayed data
+            showSuccessMessage('Filters applied successfully');
+        }
+
+        function exportReport(reportType) {
+            console.log('Exporting report:', reportType);
+            
+            // Show export progress
+            showLoadingState();
+            
+            // Simulate export process
+            setTimeout(() => {
+                hideLoadingState();
+                showSuccessMessage('Report exported: ' + reportType);
+            }, 2000);
+        }
+
+        function showLoadingState() {
+            // Add loading indicators to charts and data
+            document.querySelectorAll('.chart-placeholder').forEach(chart => {
+                chart.style.opacity = '0.5';
+                chart.innerHTML += '<br><em>Loading...</em>';
+            });
+        }
+
+        function hideLoadingState() {
+            // Remove loading indicators
+            document.querySelectorAll('.chart-placeholder').forEach(chart => {
+                chart.style.opacity = '1';
+                chart.innerHTML = chart.innerHTML.replace('<br><em>Loading...</em>', '');
+            });
+        }
+
+        function showSuccessMessage(message) {
+            // Create and show success notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                z-index: 1000;
+                font-weight: 600;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Simulate real-time updates
+        setInterval(() => {
+            // Update active bookings count
+            const activeBookingsElement = document.querySelector('.kpi-card:nth-child(2) .kpi-value');
+            if (activeBookingsElement) {
+                const currentValue = parseInt(activeBookingsElement.textContent);
+                // Random small changes to simulate real activity
+                const change = Math.random() > 0.5 ? 1 : -1;
+                if (currentValue + change >= 0) {
+                    activeBookingsElement.textContent = currentValue + change;
+                }
+            }
+        }, 30000); // Update every 30 seconds
+    </script>
+</body>
+</html>

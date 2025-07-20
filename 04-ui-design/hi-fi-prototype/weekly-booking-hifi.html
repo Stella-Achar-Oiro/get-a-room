@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Room - Weekly Team Booking (High-Fidelity)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1B4B8C 0%, #006B3C 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-text {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .team-indicator {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #1B4B8C 0%, #006B3C 100%);
+            height: 100%;
+            width: 60%;
+            transition: width 0.3s ease;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1B4B8C;
+            margin-bottom: 1.5rem;
+        }
+
+        .team-info-card {
+            background: #f0f9ff;
+            border: 2px solid #1B4B8C;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .team-leader {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1B4B8C;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-details {
+            color: #64748b;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #1B4B8C;
+            font-size: 1.1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            min-height: 56px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1B4B8C;
+            box-shadow: 0 0 0 3px rgba(27, 75, 140, 0.1);
+        }
+
+        .calendar-container {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-month {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1B4B8C;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            background: #1B4B8C;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #15375e;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.25rem;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            color: #64748b;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: #f0f9ff;
+        }
+
+        .calendar-day.disabled {
+            color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .calendar-day.disabled:hover {
+            background: none;
+        }
+
+        .calendar-day.selected {
+            background: #1B4B8C;
+            color: white;
+        }
+
+        .calendar-day.start-date {
+            background: #006B3C;
+            color: white;
+        }
+
+        .calendar-day.end-date {
+            background: #00A651;
+            color: white;
+        }
+
+        .calendar-day.in-range {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .workspace-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .workspace-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .workspace-card:hover {
+            border-color: #1B4B8C;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.1);
+        }
+
+        .workspace-card.selected {
+            border-color: #1B4B8C;
+            background: #f0f9ff;
+        }
+
+        .workspace-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+        .workspace-capacity {
+            background: #ecfdf5;
+            color: #047857;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+
+        .workspace-features {
+            color: #64748b;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .workspace-pricing {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1B4B8C;
+        }
+
+        .price-period {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .discount-badge {
+            background: #fef3c7;
+            color: #d97706;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .team-member-input {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: end;
+        }
+
+        .add-member-btn {
+            background: #006B3C;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 56px;
+        }
+
+        .add-member-btn:hover {
+            background: #005030;
+        }
+
+        .team-members-list {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .team-member {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .member-role {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .remove-btn {
+            background: #fef2f2;
+            color: #dc2626;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+            border: 2px solid #00A651;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #047857;
+            margin-bottom: 1rem;
+        }
+
+        .summary-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .total-amount {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .amount-before {
+            font-size: 1.1rem;
+            color: #64748b;
+            text-decoration: line-through;
+            margin-bottom: 0.25rem;
+        }
+
+        .amount-after {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #047857;
+            margin-bottom: 0.25rem;
+        }
+
+        .discount-info {
+            font-size: 0.9rem;
+            color: #d97706;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #1B4B8C;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #15375e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.3);
+        }
+
+        .btn-success {
+            background: #00A651;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #008442;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 166, 81, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #1B4B8C;
+            border: 2px solid #1B4B8C;
+        }
+
+        .btn-outline:hover {
+            background: #1B4B8C;
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .approval-notice {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .approval-title {
+            font-weight: 600;
+            color: #d97706;
+            margin-bottom: 0.5rem;
+        }
+
+        .approval-text {
+            color: #92400e;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .workspace-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-member-input {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Get a Room</div>
+            <div class="welcome-text">Team Workspace Booking</div>
+            <div class="team-indicator">Professional Team Solutions</div>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <!-- Step 1: Team Information -->
+            <div class="booking-step" id="step-1">
+                <h2 class="section-title">Team Information</h2>
+                
+                <div class="team-info-card">
+                    <div class="team-leader">Sarah Wanjiku - Team Lead</div>
+                    <div class="team-details">Tech Startup • Project Planning • Client Presentations</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Company/Organization</label>
+                    <input type="text" class="form-input" placeholder="Enter your company name" value="InnovateTech Solutions">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Project/Meeting Purpose</label>
+                    <input type="text" class="form-input" placeholder="Brief description of your meeting purpose" value="Quarterly strategy planning and client presentation prep">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Team Size</label>
+                    <select class="form-input" id="team-size">
+                        <option value="">Select team size</option>
+                        <option value="2-3">2-3 people</option>
+                        <option value="4-6" selected>4-6 people</option>
+                        <option value="7-10">7-10 people</option>
+                        <option value="11-15">11-15 people</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Add Team Members</label>
+                    <div class="team-member-input">
+                        <input type="text" class="form-input" placeholder="Member name" id="member-name">
+                        <input type="text" class="form-input" placeholder="Role/Title" id="member-role">
+                        <button class="add-member-btn" onclick="addTeamMember()">Add Member</button>
+                    </div>
+                    
+                    <div class="team-members-list" id="team-members">
+                        <div class="team-member">
+                            <div class="member-info">
+                                <div class="member-name">Sarah Wanjiku</div>
+                                <div class="member-role">Team Lead & Project Manager</div>
+                            </div>
+                            <button class="remove-btn" onclick="removeMember(this)" disabled>Lead</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="nextStep(2)">Continue to Date Selection</button>
+            </div>
+
+            <!-- Step 2: Date and Duration Selection -->
+            <div class="booking-step" id="step-2" style="display: none;">
+                <h2 class="section-title">Select Dates & Duration</h2>
+
+                <div class="form-group">
+                    <label class="form-label">Booking Period</label>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <div class="calendar-month" id="calendar-month">January 2024</div>
+                            <div class="calendar-nav">
+                                <button class="nav-btn" onclick="previousMonth()">&lt;</button>
+                                <button class="nav-btn" onclick="nextMonth()">&gt;</button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid" id="calendar-grid">
+                            <!-- Calendar will be generated by JavaScript -->
+                        </div>
+                    </div>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-top: 0.5rem;">
+                        Select start and end dates for your team booking. Minimum 2 days for team discounts.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Daily Schedule</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="font-size: 0.9rem; color: #64748b; margin-bottom: 0.5rem; display: block;">Start Time</label>
+                            <select class="form-input">
+                                <option>8:00 AM</option>
+                                <option selected>9:00 AM</option>
+                                <option>10:00 AM</option>
+                                <option>11:00 AM</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.9rem; color: #64748b; margin-bottom: 0.5rem; display: block;">End Time</label>
+                            <select class="form-input">
+                                <option>4:00 PM</option>
+                                <option selected>5:00 PM</option>
+                                <option>6:00 PM</option>
+                                <option>7:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-outline" onclick="previousStep(1)">Back</button>
+                    <button class="btn btn-primary" onclick="nextStep(3)">Continue to Workspace</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Workspace Selection -->
+            <div class="booking-step" id="step-3" style="display: none;">
+                <h2 class="section-title">Choose Team Workspace</h2>
+
+                <div class="workspace-options">
+                    <div class="workspace-card" onclick="selectWorkspace(this, 'conference')">
+                        <div class="workspace-name">Conference Room</div>
+                        <div class="workspace-capacity">Up to 8 people</div>
+                        <div class="workspace-features">
+                            • 65" presentation screen<br>
+                            • Video conferencing setup<br>
+                            • Whiteboard and markers<br>
+                            • Climate controlled<br>
+                            • Coffee/tea service
+                        </div>
+                        <div class="workspace-pricing">
+                            <div>
+                                <span class="price">KES 500</span>
+                                <span class="price-period">/hour</span>
+                            </div>
+                            <span class="discount-badge">20% team discount</span>
+                        </div>
+                    </div>
+
+                    <div class="workspace-card" onclick="selectWorkspace(this, 'collaborative')">
+                        <div class="workspace-name">Collaborative Zone</div>
+                        <div class="workspace-capacity">Up to 12 people</div>
+                        <div class="workspace-features">
+                            • Open flexible seating<br>
+                            • Multiple power outlets<br>
+                            • Moveable furniture<br>
+                            • Natural lighting<br>
+                            • Brainstorming walls
+                        </div>
+                        <div class="workspace-pricing">
+                            <div>
+                                <span class="price">KES 350</span>
+                                <span class="price-period">/hour</span>
+                            </div>
+                            <span class="discount-badge">25% team discount</span>
+                        </div>
+                    </div>
+
+                    <div class="workspace-card" onclick="selectWorkspace(this, 'executive')">
+                        <div class="workspace-name">Executive Boardroom</div>
+                        <div class="workspace-capacity">Up to 15 people</div>
+                        <div class="workspace-features">
+                            • Premium leather seating<br>
+                            • 4K presentation system<br>
+                            • Professional sound system<br>
+                            • Catering preparation area<br>
+                            • Executive amenities
+                        </div>
+                        <div class="workspace-pricing">
+                            <div>
+                                <span class="price">KES 800</span>
+                                <span class="price-period">/hour</span>
+                            </div>
+                            <span class="discount-badge">15% team discount</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="approval-notice">
+                    <div class="approval-title">Team Booking Approval</div>
+                    <div class="approval-text">Team bookings require approval from Grace. You'll receive confirmation within 2 hours during business hours.</div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-outline" onclick="previousStep(2)">Back</button>
+                    <button class="btn btn-primary" onclick="nextStep(4)" id="continue-btn" disabled>Continue to Summary</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Summary and Confirmation -->
+            <div class="booking-step" id="step-4" style="display: none;">
+                <h2 class="section-title">Booking Summary</h2>
+
+                <div class="summary-card">
+                    <div class="summary-title">Team Booking Request</div>
+                    
+                    <div class="summary-details">
+                        <div class="summary-item">
+                            <div class="summary-label">Team Leader</div>
+                            <div class="summary-value">Sarah Wanjiku</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Company</div>
+                            <div class="summary-value">InnovateTech Solutions</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Team Size</div>
+                            <div class="summary-value" id="summary-team-size">4 people</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Workspace</div>
+                            <div class="summary-value" id="summary-workspace">Conference Room</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Dates</div>
+                            <div class="summary-value" id="summary-dates">Jan 15-17, 2024 (3 days)</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Daily Hours</div>
+                            <div class="summary-value">9:00 AM - 5:00 PM (8 hours)</div>
+                        </div>
+                    </div>
+
+                    <div class="total-amount">
+                        <div class="amount-before">KES 12,000</div>
+                        <div class="amount-after">KES 9,600</div>
+                        <div class="discount-info">20% Team Discount Applied</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Contact Information</label>
+                    <input type="email" class="form-input" placeholder="Email for booking confirmation" value="sarah.w@innovatetech.co.ke">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" placeholder="+254 XXX XXX XXX" value="+254 712 345 678">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Special Requirements (Optional)</label>
+                    <textarea class="form-input" rows="3" placeholder="Any special setup requirements, catering needs, or accessibility requirements...">Need projector setup for client presentation on Day 2. Vegetarian lunch catering for 4 people on Day 3.</textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-outline" onclick="previousStep(3)">Back</button>
+                    <button class="btn btn-success" onclick="submitBooking()">Submit for Approval</button>
+                </div>
+            </div>
+
+            <!-- Confirmation Step -->
+            <div class="booking-step" id="step-5" style="display: none;">
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="width: 100px; height: 100px; background: #00A651; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: white; font-size: 3rem;">✓</div>
+                    
+                    <h2 style="color: #047857; margin-bottom: 1rem;">Booking Request Submitted!</h2>
+                    <p style="color: #166534; margin-bottom: 2rem; font-size: 1.1rem;">Asante Sarah! Your team booking request has been sent to Grace for approval.</p>
+                    
+                    <div style="background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; text-align: left;">
+                        <h3 style="color: #1B4B8C; margin-bottom: 1rem;">What happens next?</h3>
+                        <ul style="color: #64748b; line-height: 1.8;">
+                            <li><strong>Review:</strong> Grace will review your request within 2 hours</li>
+                            <li><strong>Confirmation:</strong> You'll receive email and SMS confirmation</li>
+                            <li><strong>Payment:</strong> Payment link will be sent upon approval</li>
+                            <li><strong>Access:</strong> Workspace access details 24 hours before</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #eff6ff; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
+                        <p style="color: #1e40af;"><strong>Booking Reference:</strong> GR-TEAM-2024-001</p>
+                        <p style="color: #1e40af; font-size: 0.9rem; margin-top: 0.5rem;">Questions? WhatsApp Grace: +254 XXX XXX XXX</p>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="newBooking()">Book Another Space</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedWorkspace = null;
+        let teamMembers = [{name: "Sarah Wanjiku", role: "Team Lead & Project Manager"}];
+        let selectedDates = [];
+
+        function nextStep(step) {
+            // Hide current step
+            document.getElementById('step-' + currentStep).style.display = 'none';
+            
+            // Show next step
+            document.getElementById('step-' + step).style.display = 'block';
+            currentStep = step;
+            
+            // Update progress bar
+            updateProgress();
+            
+            if (step === 2) {
+                generateCalendar();
+            }
+        }
+
+        function previousStep(step) {
+            // Hide current step
+            document.getElementById('step-' + currentStep).style.display = 'none';
+            
+            // Show previous step
+            document.getElementById('step-' + step).style.display = 'block';
+            currentStep = step;
+            
+            // Update progress bar
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = (currentStep / 5) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+        }
+
+        function addTeamMember() {
+            const name = document.getElementById('member-name').value;
+            const role = document.getElementById('member-role').value;
+            
+            if (name && role) {
+                teamMembers.push({name, role});
+                
+                const memberDiv = document.createElement('div');
+                memberDiv.className = 'team-member';
+                memberDiv.innerHTML = `
+                    <div class="member-info">
+                        <div class="member-name">${name}</div>
+                        <div class="member-role">${role}</div>
+                    </div>
+                    <button class="remove-btn" onclick="removeMember(this)">Remove</button>
+                `;
+                
+                document.getElementById('team-members').appendChild(memberDiv);
+                
+                // Clear inputs
+                document.getElementById('member-name').value = '';
+                document.getElementById('member-role').value = '';
+            }
+        }
+
+        function removeMember(button) {
+            const memberDiv = button.closest('.team-member');
+            const memberName = memberDiv.querySelector('.member-name').textContent;
+            
+            // Remove from array
+            teamMembers = teamMembers.filter(member => member.name !== memberName);
+            
+            // Remove from DOM
+            memberDiv.remove();
+        }
+
+        function generateCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+            
+            // Day headers
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                grid.appendChild(dayHeader);
+            });
+            
+            // Generate days for current month (simplified)
+            for (let i = 1; i <= 31; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'calendar-day';
+                dayDiv.textContent = i;
+                dayDiv.onclick = () => selectDate(i);
+                
+                // Disable past dates
+                if (i < 15) {
+                    dayDiv.classList.add('disabled');
+                    dayDiv.onclick = null;
+                }
+                
+                grid.appendChild(dayDiv);
+            }
+        }
+
+        function selectDate(day) {
+            const dayElements = document.querySelectorAll('.calendar-day');
+            const clickedDay = Array.from(dayElements).find(el => el.textContent == day && !el.classList.contains('disabled'));
+            
+            if (selectedDates.length < 2) {
+                selectedDates.push(day);
+                clickedDay.classList.add('selected');
+                
+                if (selectedDates.length === 2) {
+                    // Mark range
+                    const start = Math.min(...selectedDates);
+                    const end = Math.max(...selectedDates);
+                    
+                    dayElements.forEach(el => {
+                        const dayNum = parseInt(el.textContent);
+                        if (dayNum >= start && dayNum <= end && !el.classList.contains('disabled')) {
+                            if (dayNum === start) el.classList.add('start-date');
+                            else if (dayNum === end) el.classList.add('end-date');
+                            else el.classList.add('in-range');
+                        }
+                    });
+                }
+            } else {
+                // Reset selection
+                selectedDates = [day];
+                dayElements.forEach(el => {
+                    el.classList.remove('selected', 'start-date', 'end-date', 'in-range');
+                });
+                clickedDay.classList.add('selected');
+            }
+        }
+
+        function selectWorkspace(card, type) {
+            // Remove previous selections
+            document.querySelectorAll('.workspace-card').forEach(c => c.classList.remove('selected'));
+            
+            // Select current card
+            card.classList.add('selected');
+            selectedWorkspace = {
+                type: type,
+                name: card.querySelector('.workspace-name').textContent,
+                price: card.querySelector('.price').textContent
+            };
+            
+            // Enable continue button
+            document.getElementById('continue-btn').disabled = false;
+        }
+
+        function submitBooking() {
+            // Simulate submission
+            nextStep(5);
+        }
+
+        function newBooking() {
+            // Reset everything
+            currentStep = 1;
+            selectedWorkspace = null;
+            selectedDates = [];
+            teamMembers = [{name: "Sarah Wanjiku", role: "Team Lead & Project Manager"}];
+            
+            // Reset display
+            document.querySelectorAll('.booking-step').forEach(step => step.style.display = 'none');
+            document.getElementById('step-1').style.display = 'block';
+            
+            // Reset progress
+            updateProgress();
+            
+            // Reset forms
+            document.querySelectorAll('.workspace-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById('continue-btn').disabled = true;
+        }
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Get a Room Management</title>
+    <link rel="stylesheet" href="../css/wireframe-base.css">
+    <style>
+        /* Admin Dashboard Specific Styles */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #212529 0%, #495057 100%);
+            color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-info h1 {
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .stat-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .quick-action-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        
+        .quick-action-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .sidebar-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .dashboard-card {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .card-action {
+            font-size: 0.875rem;
+            color: #495057;
+            text-decoration: none;
+            padding: 0.25rem 0.75rem;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .card-action:hover {
+            background-color: #e9ecef;
+            color: #212529;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Calendar View */
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .calendar-nav button {
+            background: none;
+            border: 1px solid #dee2e6;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-nav button:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .view-toggle {
+            display: flex;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .view-toggle button {
+            background: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        
+        .view-toggle button.active {
+            background-color: #212529;
+            color: #fff;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #dee2e6;
+            border: 1px solid #dee2e6;
+        }
+        
+        .calendar-day-header {
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .calendar-day {
+            background-color: #fff;
+            padding: 0.5rem;
+            min-height: 80px;
+            position: relative;
+        }
+        
+        .calendar-day.other-month {
+            background-color: #f8f9fa;
+            opacity: 0.6;
+        }
+        
+        .calendar-day.today {
+            background-color: #e7f3ff;
+        }
+        
+        .day-number {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .booking-indicator {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            margin-bottom: 0.25rem;
+        }
+        
+        .booking-indicator.full {
+            background-color: #dc3545;
+        }
+        
+        .booking-indicator.busy {
+            background-color: #ffc107;
+        }
+        
+        .booking-indicator.available {
+            background-color: #28a745;
+        }
+        
+        .booking-count {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        
+        /* Occupancy Overview */
+        .occupancy-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .space-indicator {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .space-indicator:hover {
+            transform: scale(1.1);
+        }
+        
+        .space-indicator.occupied {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        
+        .space-indicator.reserved {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .space-indicator.available {
+            background-color: #28a745;
+            color: #fff;
+        }
+        
+        .space-indicator.maintenance {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        
+        .occupancy-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        
+        /* Recent Activity */
+        .activity-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .activity-icon.booking {
+            background-color: #e7f3ff;
+            color: #0066cc;
+        }
+        
+        .activity-icon.payment {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .activity-icon.cancellation {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .activity-icon.maintenance {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-details {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        
+        .activity-time {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        
+        /* Payment Tracking */
+        .payment-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .payment-stat {
+            text-align: center;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .payment-amount {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .payment-amount.positive {
+            color: #28a745;
+        }
+        
+        .payment-amount.negative {
+            color: #dc3545;
+        }
+        
+        .payment-label {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        
+        .overdue-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .overdue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .overdue-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .overdue-info {
+            flex: 1;
+        }
+        
+        .overdue-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #721c24;
+        }
+        
+        .overdue-details {
+            font-size: 0.75rem;
+            color: #721c24;
+            opacity: 0.8;
+        }
+        
+        .overdue-amount {
+            font-weight: 600;
+            color: #721c24;
+        }
+        
+        /* Quick Booking */
+        .quick-booking-form {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .booking-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            
+            .quick-actions {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .header-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .calendar-day {
+                min-height: 60px;
+                padding: 0.25rem;
+            }
+            
+            .occupancy-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            .payment-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-controls {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <a href="#" class="header-brand">Get a Room - Admin</a>
+                </div>
+                <div class="col-6 text-right">
+                    <nav class="header-nav justify-content-end">
+                        <a href="#" class="nav-link active">Dashboard</a>
+                        <a href="#" class="nav-link">Bookings</a>
+                        <a href="#" class="nav-link">Members</a>
+                        <a href="#" class="nav-link">Reports</a>
+                        <a href="#" class="nav-link">Settings</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="dashboard-container">
+                
+                <!-- Dashboard Header -->
+                <div class="dashboard-header">
+                    <div class="header-content">
+                        <div class="header-info">
+                            <h1>Good morning, Grace!</h1>
+                            <p>Today is Wednesday, January 24, 2024 - Here's your workspace overview</p>
+                        </div>
+                    </div>
+                    
+                    <div class="header-stats">
+                        <div class="stat-card">
+                            <span class="stat-number">47/50</span>
+                            <span class="stat-label">Total Occupied</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">12/15</span>
+                            <span class="stat-label">Daily Spots</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">35/35</span>
+                            <span class="stat-label">Monthly Members</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">KES 125,400</span>
+                            <span class="stat-label">Today's Revenue</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <a href="#" class="quick-action-btn" onclick="showQuickBooking()">Quick Booking</a>
+                        <a href="#" class="quick-action-btn" onclick="toggleMaintenance()">Mark Maintenance</a>
+                        <a href="#" class="quick-action-btn" onclick="sendReminders()">Send Reminders</a>
+                        <a href="#" class="quick-action-btn" onclick="exportReport()">Export Report</a>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="main-content">
+                        
+                        <!-- Calendar View -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Booking Calendar</h3>
+                                <a href="#" class="card-action">Full Calendar</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="calendar-controls">
+                                    <div class="calendar-nav">
+                                        <button id="prevWeek">&lt;</button>
+                                        <span id="currentWeek">January 22 - 28, 2024</span>
+                                        <button id="nextWeek">&gt;</button>
+                                    </div>
+                                    <div class="view-toggle">
+                                        <button class="active" onclick="setCalendarView('week')">Week</button>
+                                        <button onclick="setCalendarView('month')">Month</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="calendar-grid" id="calendarGrid">
+                                    <!-- Calendar headers -->
+                                    <div class="calendar-day-header">Mon</div>
+                                    <div class="calendar-day-header">Tue</div>
+                                    <div class="calendar-day-header">Wed</div>
+                                    <div class="calendar-day-header">Thu</div>
+                                    <div class="calendar-day-header">Fri</div>
+                                    <div class="calendar-day-header">Sat</div>
+                                    <div class="calendar-day-header">Sun</div>
+                                    
+                                    <!-- Calendar days -->
+                                    <div class="calendar-day">
+                                        <div class="day-number">22</div>
+                                        <div class="booking-indicator busy"></div>
+                                        <div class="booking-count">8 bookings</div>
+                                    </div>
+                                    <div class="calendar-day">
+                                        <div class="day-number">23</div>
+                                        <div class="booking-indicator full"></div>
+                                        <div class="booking-count">12 bookings</div>
+                                    </div>
+                                    <div class="calendar-day today">
+                                        <div class="day-number">24</div>
+                                        <div class="booking-indicator full"></div>
+                                        <div class="booking-count">15 bookings</div>
+                                    </div>
+                                    <div class="calendar-day">
+                                        <div class="day-number">25</div>
+                                        <div class="booking-indicator busy"></div>
+                                        <div class="booking-count">9 bookings</div>
+                                    </div>
+                                    <div class="calendar-day">
+                                        <div class="day-number">26</div>
+                                        <div class="booking-indicator available"></div>
+                                        <div class="booking-count">4 bookings</div>
+                                    </div>
+                                    <div class="calendar-day">
+                                        <div class="day-number">27</div>
+                                        <div class="booking-indicator available"></div>
+                                        <div class="booking-count">2 bookings</div>
+                                    </div>
+                                    <div class="calendar-day">
+                                        <div class="day-number">28</div>
+                                        <div class="booking-indicator available"></div>
+                                        <div class="booking-count">1 booking</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Real-time Occupancy -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Live Workspace Status</h3>
+                                <a href="#" class="card-action">Manage Spaces</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="occupancy-grid">
+                                    <!-- Daily Hot Spots (15 spots) -->
+                                    <div class="space-indicator occupied" title="Hot Spot 1 - James Ochieng">1</div>
+                                    <div class="space-indicator occupied" title="Hot Spot 2 - Sarah Wilson">2</div>
+                                    <div class="space-indicator available" title="Hot Spot 3 - Available">3</div>
+                                    <div class="space-indicator occupied" title="Hot Spot 4 - David Kim">4</div>
+                                    <div class="space-indicator occupied" title="Hot Spot 5 - Mary Jones">5</div>
+                                    <div class="space-indicator reserved" title="Hot Spot 6 - Reserved 2PM">6</div>
+                                    <div class="space-indicator occupied" title="Hot Spot 7 - Mike Chen">7</div>
+                                    <div class="space-indicator occupied" title="Hot Spot 8 - Lisa Park">8</div>
+                                    <div class="space-indicator available" title="Hot Spot 9 - Available">9</div>
+                                    <div class="space-indicator occupied" title="Hot Spot 10 - John Smith">10</div>
+                                    <div class="space-indicator occupied" title="Hot Spot 11 - Emma Brown">11</div>
+                                    <div class="space-indicator occupied" title="Hot Spot 12 - Tom Wilson">12</div>
+                                    <div class="space-indicator maintenance" title="Hot Spot 13 - Maintenance">13</div>
+                                    <div class="space-indicator occupied" title="Hot Spot 14 - Jane Doe">14</div>
+                                    <div class="space-indicator available" title="Hot Spot 15 - Available">15</div>
+                                    
+                                    <!-- Monthly Dedicated (35 spots - showing first 10) -->
+                                    <div class="space-indicator occupied" title="Monthly A1 - Tech Startup">A1</div>
+                                    <div class="space-indicator occupied" title="Monthly A2 - Consultant">A2</div>
+                                    <div class="space-indicator occupied" title="Monthly A3 - Freelancer">A3</div>
+                                    <div class="space-indicator occupied" title="Monthly B1 - Legal Firm">B1</div>
+                                    <div class="space-indicator occupied" title="Monthly B2 - Marketing">B2</div>
+                                    <div class="space-indicator occupied" title="Monthly C1 - Designer">C1</div>
+                                    <div class="space-indicator occupied" title="Monthly C2 - Developer">C2</div>
+                                    <div class="space-indicator available" title="Monthly C3 - Available">C3</div>
+                                    <div class="space-indicator occupied" title="Monthly D1 - Architect">D1</div>
+                                    <div class="space-indicator occupied" title="Monthly D2 - Writer">D2</div>
+                                </div>
+                                
+                                <div class="occupancy-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: #dc3545;"></div>
+                                        <span>Occupied (38)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: #ffc107;"></div>
+                                        <span>Reserved (1)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: #28a745;"></div>
+                                        <span>Available (10)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: #6c757d;"></div>
+                                        <span>Maintenance (1)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-content">
+                        
+                        <!-- Recent Activity -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Recent Activity</h3>
+                                <a href="#" class="card-action">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <ul class="activity-list">
+                                    <li class="activity-item">
+                                        <div class="activity-icon booking">B</div>
+                                        <div class="activity-content">
+                                            <div class="activity-title">New Daily Booking</div>
+                                            <div class="activity-details">James Ochieng - Hot Spot 1</div>
+                                        </div>
+                                        <div class="activity-time">2 min ago</div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <div class="activity-icon payment">P</div>
+                                        <div class="activity-content">
+                                            <div class="activity-title">Payment Received</div>
+                                            <div class="activity-details">KES 12,000 - Monthly Member</div>
+                                        </div>
+                                        <div class="activity-time">15 min ago</div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <div class="activity-icon cancellation">C</div>
+                                        <div class="activity-content">
+                                            <div class="activity-title">Booking Cancelled</div>
+                                            <div class="activity-details">Weekly booking - Refund issued</div>
+                                        </div>
+                                        <div class="activity-time">1 hour ago</div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <div class="activity-icon booking">B</div>
+                                        <div class="activity-content">
+                                            <div class="activity-title">Weekly Booking</div>
+                                            <div class="activity-details">Sarah Team - 4 person pod</div>
+                                        </div>
+                                        <div class="activity-time">2 hours ago</div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <div class="activity-icon maintenance">M</div>
+                                        <div class="activity-content">
+                                            <div class="activity-title">Maintenance Complete</div>
+                                            <div class="activity-details">WiFi router replacement</div>
+                                        </div>
+                                        <div class="activity-time">3 hours ago</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Payment Tracking -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Payment Overview</h3>
+                                <a href="#" class="card-action">Full Report</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="payment-summary">
+                                    <div class="payment-stat">
+                                        <div class="payment-amount positive">KES 342,000</div>
+                                        <div class="payment-label">This Month</div>
+                                    </div>
+                                    <div class="payment-stat">
+                                        <div class="payment-amount">KES 125,400</div>
+                                        <div class="payment-label">Today</div>
+                                    </div>
+                                    <div class="payment-stat">
+                                        <div class="payment-amount negative">KES 15,200</div>
+                                        <div class="payment-label">Overdue</div>
+                                    </div>
+                                </div>
+                                
+                                <h5 style="margin-bottom: 1rem; color: #dc3545;">Overdue Payments</h5>
+                                <ul class="overdue-list">
+                                    <li class="overdue-item">
+                                        <div class="overdue-info">
+                                            <div class="overdue-name">Tech Solutions Ltd</div>
+                                            <div class="overdue-details">Monthly - 5 days overdue</div>
+                                        </div>
+                                        <div class="overdue-amount">KES 8,000</div>
+                                    </li>
+                                    <li class="overdue-item">
+                                        <div class="overdue-info">
+                                            <div class="overdue-name">Freelancer Mike</div>
+                                            <div class="overdue-details">Weekly - 3 days overdue</div>
+                                        </div>
+                                        <div class="overdue-amount">KES 3,200</div>
+                                    </li>
+                                    <li class="overdue-item">
+                                        <div class="overdue-info">
+                                            <div class="overdue-name">Design Studio</div>
+                                            <div class="overdue-details">Daily - 2 days overdue</div>
+                                        </div>
+                                        <div class="overdue-amount">KES 4,000</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Quick Booking -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Quick Booking</h3>
+                                <a href="#" class="card-action">Advanced</a>
+                            </div>
+                            <div class="card-body">
+                                <form class="quick-booking-form" id="quickBookingForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Customer Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter customer name" id="customerName" required>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label">Phone</label>
+                                            <input type="tel" class="form-control" placeholder="07XX XXX XXX" id="customerPhone" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Space Type</label>
+                                            <select class="form-control form-select" id="spaceType" required>
+                                                <option value="">Select space</option>
+                                                <option value="hot-desk">Hot Desk (KES 800)</option>
+                                                <option value="quiet-zone">Quiet Zone (KES 900)</option>
+                                                <option value="booth">Private Booth (KES 1,000)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label">Date</label>
+                                            <input type="date" class="form-control" id="bookingDate" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Duration</label>
+                                            <select class="form-control form-select" id="duration" required>
+                                                <option value="">Select duration</option>
+                                                <option value="half-day">Half Day (4 hours)</option>
+                                                <option value="full-day">Full Day (8+ hours)</option>
+                                                <option value="custom">Custom Hours</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Payment Method</label>
+                                        <select class="form-control form-select" id="paymentMethod" required>
+                                            <option value="">Select payment</option>
+                                            <option value="mpesa">M-Pesa</option>
+                                            <option value="cash">Cash</option>
+                                            <option value="card">Card</option>
+                                            <option value="bank">Bank Transfer</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary btn-block">Create Booking</button>
+                                    
+                                    <div class="booking-success" id="bookingSuccess">
+                                        <strong>Booking Created!</strong> 
+                                        Reference: <span id="bookingRef">QB001234</span>
+                                        <br>SMS confirmation sent to customer.
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Management Tools -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h4 class="card-title">M-Pesa Integration</h4>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="payment-stat mb-3">
+                                    <div class="payment-amount positive">KES 98,400</div>
+                                    <div class="payment-label">M-Pesa Received Today</div>
+                                </div>
+                                <button class="btn btn-outline btn-sm" onclick="reconcilePayments()">Reconcile Payments</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h4 class="card-title">Communication Center</h4>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="payment-stat mb-3">
+                                    <div class="payment-amount">12</div>
+                                    <div class="payment-label">Pending Responses</div>
+                                </div>
+                                <button class="btn btn-outline btn-sm" onclick="sendBulkSMS()">Send Bulk SMS</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h4 class="card-title">Analytics Summary</h4>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="payment-stat mb-3">
+                                    <div class="payment-amount">94%</div>
+                                    <div class="payment-label">Occupancy Rate</div>
+                                </div>
+                                <button class="btn btn-outline btn-sm" onclick="generateReport()">Weekly Report</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Get a Room Coworking Space - Admin Dashboard</p>
+            <p>Last system backup: Today 3:00 AM | Server status: Online | Support: +254 XXX XXX XXX</p>
+        </div>
+    </footer>
+
+    <script>
+        // Admin Dashboard JavaScript Functionality
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            setCurrentDate();
+            startRealTimeUpdates();
+        });
+
+        function setupEventListeners() {
+            // Quick booking form
+            document.getElementById('quickBookingForm').addEventListener('submit', handleQuickBooking);
+            
+            // Calendar navigation
+            document.getElementById('prevWeek').addEventListener('click', () => navigateWeek(-1));
+            document.getElementById('nextWeek').addEventListener('click', () => navigateWeek(1));
+        }
+
+        function setCurrentDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingDate').value = today;
+        }
+
+        // Quick Booking Functionality
+        function handleQuickBooking(event) {
+            event.preventDefault();
+            
+            const formData = {
+                customerName: document.getElementById('customerName').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                spaceType: document.getElementById('spaceType').value,
+                bookingDate: document.getElementById('bookingDate').value,
+                duration: document.getElementById('duration').value,
+                paymentMethod: document.getElementById('paymentMethod').value
+            };
+            
+            // Validate form
+            if (!formData.customerName || !formData.customerPhone || !formData.spaceType || 
+                !formData.bookingDate || !formData.duration || !formData.paymentMethod) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            
+            // Simulate booking creation
+            setTimeout(() => {
+                const reference = 'QB' + Date.now().toString().slice(-6);
+                document.getElementById('bookingRef').textContent = reference;
+                document.getElementById('bookingSuccess').style.display = 'block';
+                
+                // Reset form
+                document.getElementById('quickBookingForm').reset();
+                setCurrentDate();
+                
+                // Update dashboard stats
+                updateDashboardStats();
+                
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('bookingSuccess').style.display = 'none';
+                }, 5000);
+            }, 2000);
+        }
+
+        // Calendar Navigation
+        let currentWeekOffset = 0;
+
+        function navigateWeek(direction) {
+            currentWeekOffset += direction;
+            updateCalendarDisplay();
+        }
+
+        function updateCalendarDisplay() {
+            const today = new Date();
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - today.getDay() + 1 + (currentWeekOffset * 7));
+            
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+            
+            const weekText = `${formatDate(startOfWeek)} - ${formatDate(endOfWeek)}`;
+            document.getElementById('currentWeek').textContent = weekText;
+            
+            // Update calendar days (simplified - in real app would fetch actual data)
+            updateCalendarDays(startOfWeek);
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('en-GB', {
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function updateCalendarDays(startDate) {
+            const calendarDays = document.querySelectorAll('.calendar-day:not(.calendar-day-header)');
+            
+            calendarDays.forEach((day, index) => {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + index);
+                
+                const dayNumber = day.querySelector('.day-number');
+                if (dayNumber) {
+                    dayNumber.textContent = currentDate.getDate();
+                }
+                
+                // Update today indicator
+                const today = new Date();
+                if (currentDate.toDateString() === today.toDateString()) {
+                    day.classList.add('today');
+                } else {
+                    day.classList.remove('today');
+                }
+            });
+        }
+
+        function setCalendarView(view) {
+            // Update active button
+            document.querySelectorAll('.view-toggle button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // In a real app, this would change the calendar layout
+            console.log(`Switched to ${view} view`);
+        }
+
+        // Dashboard Management Functions
+        function showQuickBooking() {
+            document.getElementById('quickBookingForm').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+            document.getElementById('customerName').focus();
+        }
+
+        function toggleMaintenance() {
+            const spaceNumber = prompt('Enter space number to toggle maintenance mode:');
+            if (spaceNumber) {
+                alert(`Space ${spaceNumber} maintenance mode toggled`);
+                // In real app, would update space status
+            }
+        }
+
+        function sendReminders() {
+            const confirmed = confirm('Send payment reminders to all overdue customers?');
+            if (confirmed) {
+                alert('Payment reminders sent to 3 customers via SMS');
+                // In real app, would trigger SMS sending
+            }
+        }
+
+        function exportReport() {
+            alert('Daily report exported to PDF. Check your downloads folder.');
+            // In real app, would generate and download report
+        }
+
+        function reconcilePayments() {
+            alert('M-Pesa payments reconciled. 12 transactions verified.');
+            // In real app, would sync with M-Pesa API
+        }
+
+        function sendBulkSMS() {
+            const message = prompt('Enter message to send to all members:');
+            if (message) {
+                alert(`Bulk SMS sent to 35 members: "${message}"`);
+                // In real app, would send SMS via bulk SMS service
+            }
+        }
+
+        function generateReport() {
+            alert('Weekly analytics report generated and sent to your email.');
+            // In real app, would generate comprehensive analytics
+        }
+
+        // Real-time Updates Simulation
+        function startRealTimeUpdates() {
+            // Simulate real-time updates every 30 seconds
+            setInterval(() => {
+                updateOccupancyStatus();
+                updateRecentActivity();
+            }, 30000);
+        }
+
+        function updateOccupancyStatus() {
+            // Simulate occasional status changes
+            const spaces = document.querySelectorAll('.space-indicator');
+            const randomSpace = spaces[Math.floor(Math.random() * spaces.length)];
+            
+            // Randomly change a space status
+            if (Math.random() > 0.8) {
+                const statuses = ['occupied', 'available', 'reserved'];
+                const currentStatus = randomSpace.className.split(' ').pop();
+                const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                
+                if (currentStatus !== newStatus) {
+                    randomSpace.className = `space-indicator ${newStatus}`;
+                    console.log(`Space status updated: ${randomSpace.textContent} -> ${newStatus}`);
+                }
+            }
+        }
+
+        function updateRecentActivity() {
+            // In real app, would fetch latest activities from server
+            console.log('Checking for new activities...');
+        }
+
+        function updateDashboardStats() {
+            // Update occupancy numbers after new booking
+            const totalOccupied = document.querySelector('.stat-number');
+            if (totalOccupied) {
+                const current = parseInt(totalOccupied.textContent.split('/')[0]);
+                totalOccupied.textContent = `${current + 1}/50`;
+            }
+        }
+
+        // Initialize calendar display
+        updateCalendarDisplay();
+    </script>
+</body>
+</html>

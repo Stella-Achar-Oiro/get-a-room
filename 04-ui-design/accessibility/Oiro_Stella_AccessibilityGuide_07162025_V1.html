@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Room - Accessibility Framework</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2E86AB, #A23B72);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #2E86AB;
+        }
+
+        .section h2 {
+            color: #2E86AB;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .section h3 {
+            color: #A23B72;
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+        }
+
+        .checklist {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            margin: 10px 0;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #28a745;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .checklist li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+
+        .priority-high {
+            border-left-color: #dc3545;
+        }
+
+        .priority-high:before {
+            color: #dc3545;
+            content: "!";
+        }
+
+        .priority-medium {
+            border-left-color: #ffc107;
+        }
+
+        .priority-medium:before {
+            color: #ffc107;
+            content: "◆";
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .highlight-box {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #2E86AB;
+            color: white;
+            font-weight: 600;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 4px solid #A23B72;
+        }
+
+        .feature-card h4 {
+            color: #A23B72;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Get a Room - Accessibility Framework</h1>
+            <p>WCAG 2.1 AA Compliance Guide for Kenya Market</p>
+            <p><strong>Designer:</strong> Stella Oiro | <strong>Date:</strong> July 16, 2025</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Executive Summary</h2>
+                <p>This accessibility framework ensures Get a Room's booking system is usable by all individuals, including those with disabilities. With 15% of Kenya's population having some form of disability, accessibility compliance is both a moral imperative and business opportunity.</p>
+                
+                <div class="highlight-box">
+                    <h4>Key Benefits</h4>
+                    <ul>
+                        <li><strong>Market Expansion:</strong> Reach 7.5 million potential users in Kenya</li>
+                        <li><strong>Legal Compliance:</strong> Align with Kenya's disability rights legislation</li>
+                        <li><strong>Improved UX:</strong> Better usability for all users, not just those with disabilities</li>
+                        <li><strong>SEO Benefits:</strong> Better semantic structure improves search rankings</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>WCAG 2.1 AA Compliance Checklist</h2>
+                
+                <h3>Perceivable</h3>
+                <ul class="checklist">
+                    <li class="priority-high">Color contrast ratio minimum 4.5:1 for normal text, 3:1 for large text</li>
+                    <li class="priority-high">Alt text for all images, including M-Pesa logos and payment icons</li>
+                    <li class="priority-high">Captions for any video content (demo videos, tutorials)</li>
+                    <li class="priority-medium">Text resizable up to 200% without horizontal scrolling</li>
+                    <li class="priority-medium">Images of text avoided where possible, use actual text instead</li>
+                    <li>Color not used as the only means of conveying information</li>
+                    <li>Audio controls for any background sounds or notifications</li>
+                </ul>
+
+                <h3>Operable</h3>
+                <ul class="checklist">
+                    <li class="priority-high">All functionality available via keyboard navigation</li>
+                    <li class="priority-high">Tab order follows logical reading sequence</li>
+                    <li class="priority-high">Touch targets minimum 44px x 44px for mobile devices</li>
+                    <li class="priority-medium">No content flashes more than 3 times per second</li>
+                    <li class="priority-medium">Users can pause, stop, or hide moving content</li>
+                    <li>Skip links to main content and navigation</li>
+                    <li>Session timeouts have warnings and extensions available</li>
+                    <li>Focus indicators clearly visible for all interactive elements</li>
+                </ul>
+
+                <h3>Understandable</h3>
+                <ul class="checklist">
+                    <li class="priority-high">Language of page declared (en-KE or sw-KE)</li>
+                    <li class="priority-high">Clear, simple language appropriate for literacy levels</li>
+                    <li class="priority-high">Error messages specific and helpful</li>
+                    <li class="priority-medium">Instructions provided for complex interactions</li>
+                    <li class="priority-medium">Labels clearly describe form inputs</li>
+                    <li>Consistent navigation throughout the application</li>
+                    <li>Help text available for form fields requiring specific formats</li>
+                    <li>Context changes only occur when expected by users</li>
+                </ul>
+
+                <h3>Robust</h3>
+                <ul class="checklist">
+                    <li class="priority-high">Valid HTML markup for proper screen reader interpretation</li>
+                    <li class="priority-high">Semantic HTML elements used appropriately</li>
+                    <li class="priority-medium">ARIA labels and roles implemented correctly</li>
+                    <li>Compatible with current and future assistive technologies</li>
+                    <li>Content remains accessible when JavaScript is disabled</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Screen Reader Optimization</h2>
+                
+                <h3>Booking Flow Screen Reader Script</h3>
+                <div class="code-block">
+&lt;main role="main" aria-labelledby="booking-title"&gt;
+    &lt;h1 id="booking-title"&gt;Book Your Workspace&lt;/h1&gt;
+    
+    &lt;div role="region" aria-labelledby="step-indicator"&gt;
+        &lt;h2 id="step-indicator"&gt;Step 1 of 4: Select Space Type&lt;/h2&gt;
+        &lt;div role="radiogroup" aria-labelledby="space-selection"&gt;
+            &lt;h3 id="space-selection"&gt;Choose Your Workspace&lt;/h3&gt;
+            &lt;label&gt;
+                &lt;input type="radio" name="space-type" value="hot-desk" 
+                       aria-describedby="hot-desk-desc"&gt;
+                Hot Desk - KES 500 per day
+            &lt;/label&gt;
+            &lt;p id="hot-desk-desc"&gt;
+                Flexible workspace, first-come basis, shared common area
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/main&gt;
+                </div>
+
+                <h3>Payment Flow Accessibility</h3>
+                <div class="code-block">
+&lt;section role="region" aria-labelledby="payment-section"&gt;
+    &lt;h2 id="payment-section"&gt;Payment Information&lt;/h2&gt;
+    
+    &lt;div role="group" aria-labelledby="mpesa-payment"&gt;
+        &lt;h3 id="mpesa-payment"&gt;M-Pesa Payment&lt;/h3&gt;
+        &lt;label for="phone-number"&gt;
+            Phone Number
+            &lt;span aria-label="required"&gt;*&lt;/span&gt;
+        &lt;/label&gt;
+        &lt;input type="tel" id="phone-number" 
+               aria-describedby="phone-help phone-error"
+               aria-required="true"
+               pattern="^254[0-9]{9}$"&gt;
+        &lt;div id="phone-help"&gt;
+            Enter your M-Pesa number starting with 254
+        &lt;/div&gt;
+        &lt;div id="phone-error" aria-live="polite" role="alert"&gt;
+            &lt;!-- Error messages appear here --&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Keyboard Navigation Patterns</h2>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Key Binding</th>
+                                <th>Action</th>
+                                <th>Screen Reader Feedback</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Main Navigation</td>
+                                <td>Tab / Shift+Tab</td>
+                                <td>Move between nav items</td>
+                                <td>"Navigation menu, 4 items"</td>
+                            </tr>
+                            <tr>
+                                <td>Space Selection</td>
+                                <td>Arrow Keys</td>
+                                <td>Navigate radio options</td>
+                                <td>"Hot desk, KES 500, 1 of 3"</td>
+                            </tr>
+                            <tr>
+                                <td>Calendar</td>
+                                <td>Arrow Keys</td>
+                                <td>Navigate dates</td>
+                                <td>"July 16, 2025, available"</td>
+                            </tr>
+                            <tr>
+                                <td>Form Fields</td>
+                                <td>Tab</td>
+                                <td>Move to next field</td>
+                                <td>"Phone number, required, edit text"</td>
+                            </tr>
+                            <tr>
+                                <td>Submit Button</td>
+                                <td>Space / Enter</td>
+                                <td>Submit form</td>
+                                <td>"Processing payment, please wait"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>High Contrast Mode Specifications</h2>
+                
+                <h3>Color Palette for High Contrast</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Primary Colors</h4>
+                        <ul>
+                            <li><strong>Background:</strong> #FFFFFF (White)</li>
+                            <li><strong>Text:</strong> #000000 (Black)</li>
+                            <li><strong>Links:</strong> #0066CC (Blue)</li>
+                            <li><strong>Visited Links:</strong> #6600CC (Purple)</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Interactive Elements</h4>
+                        <ul>
+                            <li><strong>Buttons:</strong> #000000 text on #FFFFFF background</li>
+                            <li><strong>Focus Outline:</strong> #FF0000 (Red), 3px solid</li>
+                            <li><strong>Error States:</strong> #CC0000 (Dark Red)</li>
+                            <li><strong>Success States:</strong> #006600 (Dark Green)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>High Contrast CSS Implementation</h3>
+                <div class="code-block">
+@media (prefers-contrast: high) {
+    :root {
+        --primary-bg: #ffffff;
+        --primary-text: #000000;
+        --link-color: #0066cc;
+        --button-bg: #ffffff;
+        --button-text: #000000;
+        --button-border: #000000;
+        --focus-outline: #ff0000;
+        --error-color: #cc0000;
+        --success-color: #006600;
+    }
+
+    .btn-primary {
+        background-color: var(--button-bg);
+        color: var(--button-text);
+        border: 3px solid var(--button-border);
+    }
+
+    .btn-primary:focus {
+        outline: 3px solid var(--focus-outline);
+        outline-offset: 2px;
+    }
+
+    .form-control {
+        border: 2px solid var(--primary-text);
+        background-color: var(--primary-bg);
+        color: var(--primary-text);
+    }
+
+    .alert-error {
+        background-color: var(--primary-bg);
+        color: var(--error-color);
+        border: 2px solid var(--error-color);
+    }
+}
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Simple Language Guidelines</h2>
+                
+                <h3>Kenya-Specific Language Considerations</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Complex Term</th>
+                                <th>Simple Alternative</th>
+                                <th>Kiswahili Option</th>
+                                <th>Context</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Authentication</td>
+                                <td>Sign in</td>
+                                <td>Ingia</td>
+                                <td>Login process</td>
+                            </tr>
+                            <tr>
+                                <td>Transaction</td>
+                                <td>Payment</td>
+                                <td>Malipo</td>
+                                <td>M-Pesa payments</td>
+                            </tr>
+                            <tr>
+                                <td>Availability</td>
+                                <td>Free spaces</td>
+                                <td>Nafasi zilizo wazi</td>
+                                <td>Booking calendar</td>
+                            </tr>
+                            <tr>
+                                <td>Confirmation</td>
+                                <td>Booking approved</td>
+                                <td>Uhifadhi umeidhinishwa</td>
+                                <td>Success messages</td>
+                            </tr>
+                            <tr>
+                                <td>Configuration</td>
+                                <td>Settings</td>
+                                <td>Mipangilio</td>
+                                <td>User preferences</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Reading Level Guidelines</h3>
+                <ul class="checklist">
+                    <li>Target 6th grade reading level for all interface text</li>
+                    <li>Use active voice instead of passive voice</li>
+                    <li>Keep sentences under 20 words when possible</li>
+                    <li>Define technical terms on first use</li>
+                    <li>Use bullet points instead of long paragraphs</li>
+                    <li>Include visual cues to support text instructions</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Voice Guidance Implementation</h2>
+                
+                <h3>Critical Voice Prompts</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Booking Process</h4>
+                        <ul>
+                            <li>"Welcome to Get a Room booking"</li>
+                            <li>"Step 1: Choose your workspace type"</li>
+                            <li>"Hot desk selected, KES 500 per day"</li>
+                            <li>"Step 2: Pick your date and time"</li>
+                            <li>"July 16th selected, available all day"</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Payment Process</h4>
+                        <ul>
+                            <li>"Step 3: Enter M-Pesa details"</li>
+                            <li>"Phone number field, required"</li>
+                            <li>"Payment processing, please wait"</li>
+                            <li>"Payment successful, booking confirmed"</li>
+                            <li>"SMS confirmation sent to your phone"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Error Handling Voice Feedback</h3>
+                <div class="code-block">
+// Voice guidance for form errors
+const voiceMessages = {
+    phoneNumberEmpty: "Phone number is required for M-Pesa payment",
+    phoneNumberInvalid: "Please enter a valid Kenya phone number starting with 254",
+    dateUnavailable: "Selected date is not available, please choose another date",
+    paymentFailed: "Payment could not be processed, please try again or contact support",
+    networkError: "Connection problem, please check your internet and try again"
+};
+
+function announceError(errorType) {
+    const message = voiceMessages[errorType];
+    // Use Web Speech API or screen reader announcement
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.lang = 'en-KE';
+        speechSynthesis.speak(utterance);
+    }
+    
+    // Also update ARIA live region for screen readers
+    document.getElementById('sr-announcements').textContent = message;
+}
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Motor Disability Considerations</h2>
+                
+                <h3>Touch Target Specifications</h3>
+                <ul class="checklist">
+                    <li class="priority-high">Minimum 44px x 44px touch targets for all interactive elements</li>
+                    <li class="priority-high">8px minimum spacing between touch targets</li>
+                    <li class="priority-medium">Alternative input methods for complex gestures</li>
+                    <li>Large, easy-to-tap buttons for primary actions</li>
+                    <li>Undo functionality for accidental activations</li>
+                    <li>Confirmation dialogs for destructive actions</li>
+                </ul>
+
+                <h3>Mobile Accessibility Patterns</h3>
+                <div class="code-block">
+/* Mobile-first accessible touch targets */
+.btn {
+    min-height: 44px;
+    min-width: 44px;
+    margin: 4px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+.btn:focus {
+    outline: 3px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* Accessible form controls */
+.form-control {
+    min-height: 44px;
+    padding: 12px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    border: 2px solid #666;
+    border-radius: 4px;
+}
+
+.form-control:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.3);
+}
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Cognitive Load Reduction</h2>
+                
+                <h3>Information Architecture Principles</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Progressive Disclosure</h4>
+                        <ul>
+                            <li>Show only essential information per step</li>
+                            <li>Use expandable sections for detailed info</li>
+                            <li>Provide help text on demand</li>
+                            <li>Hide advanced options initially</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Memory Aids</h4>
+                        <ul>
+                            <li>Visual progress indicators</li>
+                            <li>Breadcrumb navigation</li>
+                            <li>Auto-save draft bookings</li>
+                            <li>Recently viewed spaces</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Error Prevention Strategies</h3>
+                <ul class="checklist">
+                    <li>Real-time form validation with helpful messages</li>
+                    <li>Format examples for phone numbers and dates</li>
+                    <li>Confirmation steps for irreversible actions</li>
+                    <li>Clear distinction between primary and secondary actions</li>
+                    <li>Contextual help available without leaving the page</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Testing Protocols</h2>
+                
+                <h3>Accessibility Testing Checklist</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Test Type</th>
+                                <th>Tool/Method</th>
+                                <th>Success Criteria</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Automated Testing</td>
+                                <td>WAVE, axe-core</td>
+                                <td>Zero critical violations</td>
+                                <td>Every build</td>
+                            </tr>
+                            <tr>
+                                <td>Keyboard Navigation</td>
+                                <td>Manual testing</td>
+                                <td>All functions accessible</td>
+                                <td>Weekly</td>
+                            </tr>
+                            <tr>
+                                <td>Screen Reader</td>
+                                <td>NVDA, JAWS, VoiceOver</td>
+                                <td>Logical reading order</td>
+                                <td>Before each release</td>
+                            </tr>
+                            <tr>
+                                <td>Color Contrast</td>
+                                <td>Colour Contrast Analyser</td>
+                                <td>WCAG AA standards met</td>
+                                <td>Design phase</td>
+                            </tr>
+                            <tr>
+                                <td>User Testing</td>
+                                <td>Disabled users</td>
+                                <td>Task completion &gt;80%</td>
+                                <td>Before launch</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Implementation Timeline</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Phase 1: Foundation (Week 1-2)</h4>
+                        <ul>
+                            <li>Semantic HTML structure</li>
+                            <li>Keyboard navigation implementation</li>
+                            <li>Color contrast compliance</li>
+                            <li>Screen reader testing setup</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Phase 2: Enhancement (Week 3-4)</h4>
+                        <ul>
+                            <li>ARIA labels and roles</li>
+                            <li>Voice guidance integration</li>
+                            <li>High contrast mode</li>
+                            <li>Language simplification</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Phase 3: Validation (Week 5-6)</h4>
+                        <ul>
+                            <li>Comprehensive testing</li>
+                            <li>User testing with disabled users</li>
+                            <li>Performance optimization</li>
+                            <li>Documentation completion</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Maintenance and Monitoring</h2>
+                
+                <h3>Ongoing Accessibility Practices</h3>
+                <ul class="checklist">
+                    <li>Monthly accessibility audits using automated tools</li>
+                    <li>Quarterly user testing with disabled participants</li>
+                    <li>Annual comprehensive WCAG compliance review</li>
+                    <li>Staff training on accessibility best practices</li>
+                    <li>Feedback mechanism for accessibility issues</li>
+                    <li>Regular updates to assistive technology compatibility</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h4>Success Metrics</h4>
+                    <ul>
+                        <li><strong>Technical:</strong> Zero critical accessibility violations</li>
+                        <li><strong>User Experience:</strong> 90%+ task completion by users with disabilities</li>
+                        <li><strong>Business:</strong> 15% increase in bookings from previously excluded users</li>
+                        <li><strong>Compliance:</strong> Full WCAG 2.1 AA certification maintained</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
