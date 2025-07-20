@@ -2,8 +2,7 @@
 **Project:** Get a Room Online Booking System  
 **Designer:** Stella Oiro  
 **Based on:** User research and interviews in Kisumu, Kenya  
-**Date:** January 2024
-
+**Date:** July 2025
 ---
 
 ## Persona Development Methodology

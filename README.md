@@ -74,7 +74,7 @@ get-a-room-ux-project/
 
 ## Key Deliverables
 
-### 📋 Research & Discovery
+### Research & Discovery
 - **Client Interview Template**: Comprehensive interview guide for Grace Akinyi
 - **User Interview Scripts**: Detailed scripts for 4 user personas (James, Sarah, David, Mary)
 - **Cultural Research**: Kenya-specific business practices and payment preferences
@@ -266,8 +266,7 @@ Examples:
 **Designer:** Stella Oiro  
 **Email:** stella.oiro@gmail.com  
 **Phone:** +254 712 345 678  
-**Project Duration:** 2 weeks (July 2025)
-
+**Project Duration:** 2 weeks (July 8-22, 2025)
 **Client Contact:**  
 **Grace Akinyi** - Get a Room Coworking Space  
 **Location:** Kisumu, Kenya  
@@ -301,6 +300,6 @@ This project and all associated materials are proprietary to Get a Room Coworkin
 
 ---
 
-*Last Updated: July 2025*  
+*Last Updated: July 22, 2025*  
 *Project Version: 1.0*  
 *Ready for Development Handoff*
