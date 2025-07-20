@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Room - Design System & Assets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #1B4B8C 0%, #006B3C 100%);
+            color: white;
+            border-radius: 16px;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1B4B8C;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #00A651;
+            padding-bottom: 0.5rem;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .color-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-preview {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-info {
+            padding: 1rem;
+            background: white;
+        }
+
+        .color-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .color-code {
+            font-family: monospace;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .typography-demo {
+            margin-bottom: 2rem;
+        }
+
+        .text-sample {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .text-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .h1-demo {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1B4B8C;
+        }
+
+        .h2-demo {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1B4B8C;
+        }
+
+        .h3-demo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .body-demo {
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+
+        .caption-demo {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .icon-item {
+            text-align: center;
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .icon-item:hover {
+            border-color: #1B4B8C;
+            transform: translateY(-2px);
+        }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #1B4B8C;
+        }
+
+        .icon-name {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .component-demo {
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+
+        .component-title {
+            font-weight: 600;
+            color: #1B4B8C;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #1B4B8C;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #15375e;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: #00A651;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #008442;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #1B4B8C;
+            border: 2px solid #1B4B8C;
+        }
+
+        .btn-outline:hover {
+            background: #1B4B8C;
+            color: white;
+        }
+
+        .form-demo {
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1B4B8C;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1B4B8C;
+            box-shadow: 0 0 0 3px rgba(27, 75, 140, 0.1);
+        }
+
+        .card-demo {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .card-demo:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .spacing-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .spacing-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f0f9ff;
+            border-radius: 8px;
+            border: 2px solid #1B4B8C;
+        }
+
+        .spacing-value {
+            font-family: monospace;
+            font-weight: 600;
+            color: #1B4B8C;
+            margin-bottom: 0.5rem;
+        }
+
+        .spacing-pixels {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .logo-variations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .logo-variant {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .logo-variant.dark {
+            background: #1e293b;
+            color: white;
+        }
+
+        .logo-variant.light {
+            background: white;
+        }
+
+        .logo-variant.green {
+            background: #00A651;
+            color: white;
+        }
+
+        .download-section {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+            border-radius: 12px;
+            border: 2px solid #00A651;
+        }
+
+        .download-btn {
+            background: #00A651;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #008442;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Get a Room</div>
+            <div class="subtitle">Complete Design System & Asset Library</div>
+        </div>
+
+        <!-- Color Palette -->
+        <div class="section">
+            <h2 class="section-title">Color Palette</h2>
+            <h3 style="margin-bottom: 1rem; color: #1e293b;">Primary Colors</h3>
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-preview" style="background: #1B4B8C;">Primary Blue</div>
+                    <div class="color-info">
+                        <div class="color-name">Primary Blue</div>
+                        <div class="color-code">#1B4B8C</div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-preview" style="background: #006B3C;">Forest Green</div>
+                    <div class="color-info">
+                        <div class="color-name">Forest Green</div>
+                        <div class="color-code">#006B3C</div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-preview" style="background: #00A651;">Success Green</div>
+                    <div class="color-info">
+                        <div class="color-name">Success Green</div>
+                        <div class="color-code">#00A651</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin: 2rem 0 1rem; color: #1e293b;">Neutral Colors</h3>
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-preview" style="background: #1e293b;">Dark Gray</div>
+                    <div class="color-info">
+                        <div class="color-name">Dark Gray</div>
+                        <div class="color-code">#1e293b</div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-preview" style="background: #2c3e50;">Text Primary</div>
+                    <div class="color-info">
+                        <div class="color-name">Text Primary</div>
+                        <div class="color-code">#2c3e50</div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-preview" style="background: #64748b;">Text Secondary</div>
+                    <div class="color-info">
+                        <div class="color-name">Text Secondary</div>
+                        <div class="color-code">#64748b</div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-preview" style="background: #e2e8f0; color: #1e293b;">Border</div>
+                    <div class="color-info">
+                        <div class="color-name">Border</div>
+                        <div class="color-code">#e2e8f0</div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-preview" style="background: #f8fafc; color: #1e293b;">Background</div>
+                    <div class="color-info">
+                        <div class="color-name">Background</div>
+                        <div class="color-code">#f8fafc</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="section">
+            <h2 class="section-title">Typography</h2>
+            <div class="typography-demo">
+                <div class="text-sample">
+                    <div class="text-label">Heading 1 - 3rem/700</div>
+                    <div class="h1-demo">Welcome to Get a Room</div>
+                </div>
+                <div class="text-sample">
+                    <div class="text-label">Heading 2 - 2rem/600</div>
+                    <div class="h2-demo">Choose Your Workspace</div>
+                </div>
+                <div class="text-sample">
+                    <div class="text-label">Heading 3 - 1.5rem/600</div>
+                    <div class="h3-demo">Professional Membership</div>
+                </div>
+                <div class="text-sample">
+                    <div class="text-label">Body Text - 1rem/400</div>
+                    <div class="body-demo">Find the perfect workspace for your needs. From quiet corners for focused work to collaborative spaces for team meetings, we have everything you need to be productive.</div>
+                </div>
+                <div class="text-sample">
+                    <div class="text-label">Caption Text - 0.9rem/400</div>
+                    <div class="caption-demo">Available Monday to Friday, 6 AM to 10 PM</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Icons -->
+        <div class="section">
+            <h2 class="section-title">Icon Library</h2>
+            <div class="icon-grid">
+                <div class="icon-item">
+                    <div class="icon">🏢</div>
+                    <div class="icon-name">Building</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">💻</div>
+                    <div class="icon-name">Workspace</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">📅</div>
+                    <div class="icon-name">Calendar</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">⏰</div>
+                    <div class="icon-name">Time</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">👥</div>
+                    <div class="icon-name">Team</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">💰</div>
+                    <div class="icon-name">Payment</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">🔐</div>
+                    <div class="icon-name">Security</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">📊</div>
+                    <div class="icon-name">Analytics</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">⚙️</div>
+                    <div class="icon-name">Settings</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">📱</div>
+                    <div class="icon-name">Mobile</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">✓</div>
+                    <div class="icon-name">Success</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">❌</div>
+                    <div class="icon-name">Error</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Components -->
+        <div class="section">
+            <h2 class="section-title">UI Components</h2>
+            
+            <div class="component-grid">
+                <!-- Buttons -->
+                <div class="component-demo">
+                    <div class="component-title">Buttons</div>
+                    <button class="btn btn-primary">Primary Button</button>
+                    <button class="btn btn-success">Success Button</button>
+                    <button class="btn btn-outline">Outline Button</button>
+                </div>
+
+                <!-- Form Elements -->
+                <div class="component-demo">
+                    <div class="component-title">Form Elements</div>
+                    <div class="form-demo">
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" placeholder="your.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" placeholder="••••••••">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cards -->
+                <div class="component-demo">
+                    <div class="component-title">Card Component</div>
+                    <div class="card-demo">
+                        <h3 style="color: #1B4B8C; margin-bottom: 0.5rem;">Professional Plan</h3>
+                        <p style="color: #64748b; margin-bottom: 1rem;">Perfect for growing teams and dedicated workspace needs.</p>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: #00A651;">KES 15,000/month</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spacing System -->
+        <div class="section">
+            <h2 class="section-title">Spacing System</h2>
+            <div class="spacing-demo">
+                <div class="spacing-item">
+                    <div class="spacing-value">0.25rem</div>
+                    <div class="spacing-pixels">4px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-value">0.5rem</div>
+                    <div class="spacing-pixels">8px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-value">0.75rem</div>
+                    <div class="spacing-pixels">12px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-value">1rem</div>
+                    <div class="spacing-pixels">16px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-value">1.5rem</div>
+                    <div class="spacing-pixels">24px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-value">2rem</div>
+                    <div class="spacing-pixels">32px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-value">3rem</div>
+                    <div class="spacing-pixels">48px</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logo Variations -->
+        <div class="section">
+            <h2 class="section-title">Logo Variations</h2>
+            <div class="logo-variations">
+                <div class="logo-variant light">
+                    <h2 style="font-size: 2.5rem; font-weight: 700; color: #1B4B8C;">Get a Room</h2>
+                    <p>Light Background</p>
+                </div>
+                <div class="logo-variant dark">
+                    <h2 style="font-size: 2.5rem; font-weight: 700;">Get a Room</h2>
+                    <p>Dark Background</p>
+                </div>
+                <div class="logo-variant green">
+                    <h2 style="font-size: 2.5rem; font-weight: 700;">Get a Room</h2>
+                    <p>Green Background</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="section">
+            <div class="download-section">
+                <h2 style="color: #047857; margin-bottom: 1rem;">Design Assets Download</h2>
+                <p style="color: #166534; margin-bottom: 2rem;">Download complete design assets including color swatches, component library, and brand guidelines.</p>
+                <button class="download-btn" onclick="downloadAssets('colors')">Download Color Palette</button>
+                <button class="download-btn" onclick="downloadAssets('components')">Download Components</button>
+                <button class="download-btn" onclick="downloadAssets('complete')">Download Complete Kit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadAssets(type) {
+            // In a real implementation, this would trigger actual downloads
+            alert(`Downloading ${type} assets... (Demo: This would download design files)`);
+        }
+
+        // Add some interactive enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to color cards
+            const colorCards = document.querySelectorAll('.color-card');
+            colorCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const colorCode = this.querySelector('.color-code').textContent;
+                    navigator.clipboard.writeText(colorCode).then(() => {
+                        // Create a temporary tooltip
+                        const tooltip = document.createElement('div');
+                        tooltip.textContent = 'Copied!';
+                        tooltip.style.cssText = `
+                            position: absolute;
+                            background: #1B4B8C;
+                            color: white;
+                            padding: 0.5rem;
+                            border-radius: 4px;
+                            font-size: 0.8rem;
+                            z-index: 1000;
+                            pointer-events: none;
+                        `;
+                        document.body.appendChild(tooltip);
+                        
+                        const rect = this.getBoundingClientRect();
+                        tooltip.style.left = rect.left + rect.width/2 - tooltip.offsetWidth/2 + 'px';
+                        tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+                        
+                        setTimeout(() => {
+                            document.body.removeChild(tooltip);
+                        }, 1500);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

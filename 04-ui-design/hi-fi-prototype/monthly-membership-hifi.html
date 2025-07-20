@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Room - Monthly Membership (High-Fidelity)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1B4B8C 0%, #006B3C 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: white;
+            border-radius: 40px 40px 0 0;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .membership-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 3rem 2rem 2rem;
+        }
+
+        .member-welcome {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .member-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1B4B8C;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-type {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1B4B8C;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .tier-comparison {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .tier-card {
+            border: 3px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            background: white;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(27, 75, 140, 0.15);
+            border-color: #1B4B8C;
+        }
+
+        .tier-card.recommended {
+            border-color: #00A651;
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+            transform: scale(1.05);
+        }
+
+        .tier-card.recommended::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00A651;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .tier-card.selected {
+            border-color: #1B4B8C;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(27, 75, 140, 0.2);
+        }
+
+        .tier-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .tier-price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #1B4B8C;
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-period {
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .tier-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .tier-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .tier-features li::before {
+            content: '✓';
+            color: #00A651;
+            font-weight: 700;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .tier-features li.premium::before {
+            content: '★';
+            color: #f59e0b;
+        }
+
+        .tier-features li.not-included {
+            opacity: 0.5;
+        }
+
+        .tier-features li.not-included::before {
+            content: '—';
+            color: #cbd5e1;
+        }
+
+        .select-tier-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .basic-btn {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+        .basic-btn:hover {
+            background: #cbd5e1;
+            color: #475569;
+        }
+
+        .professional-btn {
+            background: #00A651;
+            color: white;
+        }
+
+        .professional-btn:hover {
+            background: #008442;
+            transform: translateY(-2px);
+        }
+
+        .premium-btn {
+            background: #1B4B8C;
+            color: white;
+        }
+
+        .premium-btn:hover {
+            background: #15375e;
+            transform: translateY(-2px);
+        }
+
+        .workspace-customization {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            display: none;
+        }
+
+        .workspace-customization.active {
+            display: block;
+        }
+
+        .customization-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1B4B8C;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .workspace-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .workspace-option {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .workspace-option:hover {
+            border-color: #1B4B8C;
+            transform: translateY(-2px);
+        }
+
+        .workspace-option.selected {
+            border-color: #1B4B8C;
+            background: #f0f9ff;
+        }
+
+        .workspace-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #1B4B8C;
+        }
+
+        .workspace-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .workspace-desc {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .preferences-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .preference-group {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .preference-title {
+            font-weight: 600;
+            color: #1B4B8C;
+            margin-bottom: 1rem;
+        }
+
+        .preference-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .preference-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .preference-option input[type="radio"],
+        .preference-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #1B4B8C;
+        }
+
+        .payment-setup {
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+            border: 2px solid #00A651;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            display: none;
+        }
+
+        .payment-setup.active {
+            display: block;
+        }
+
+        .payment-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #047857;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .billing-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1B4B8C;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1B4B8C;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1B4B8C;
+            box-shadow: 0 0 0 3px rgba(27, 75, 140, 0.1);
+        }
+
+        .mpesa-section {
+            background: white;
+            border: 2px solid #00A651;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .mpesa-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .mpesa-logo {
+            background: #00A651;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-right: 1rem;
+        }
+
+        .recurring-info {
+            background: #fffbeb;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background: #1B4B8C;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #15375e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.3);
+        }
+
+        .btn-success {
+            background: #00A651;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #008442;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 166, 81, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #1B4B8C;
+            border: 2px solid #1B4B8C;
+        }
+
+        .btn-outline:hover {
+            background: #1B4B8C;
+            color: white;
+        }
+
+        .confirmation-section {
+            display: none;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .confirmation-section.active {
+            display: block;
+        }
+
+        .success-animation {
+            width: 120px;
+            height: 120px;
+            background: #00A651;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            color: white;
+            font-size: 4rem;
+            animation: successPulse 1.5s ease-in-out;
+        }
+
+        @keyframes successPulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .confirmation-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #047857;
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-subtitle {
+            color: #166534;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .membership-card {
+            background: linear-gradient(135deg, #1B4B8C 0%, #006B3C 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card-id {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .member-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .member-detail {
+            margin-bottom: 0.5rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .next-billing {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .workspace-assigned {
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+            }
+            
+            .content {
+                padding: 2rem 1rem;
+            }
+            
+            .tier-comparison {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .tier-card.recommended {
+                transform: none;
+            }
+            
+            .workspace-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .preferences-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Get a Room</div>
+            <div class="tagline">Professional Membership Plans</div>
+            <div class="membership-badge">Dedicated Workspace Solutions</div>
+        </div>
+
+        <div class="content">
+            <!-- Member Welcome -->
+            <div class="member-welcome">
+                <div class="member-name">Karibu David Kimani!</div>
+                <div class="member-type">Remote Software Developer • Consistency Seeker</div>
+            </div>
+
+            <!-- Step 1: Tier Selection -->
+            <div class="membership-step" id="step-1">
+                <h2 class="section-title">Choose Your Membership Level</h2>
+                
+                <div class="tier-comparison">
+                    <div class="tier-card" onclick="selectTier(this, 'basic')">
+                        <div class="tier-name">Basic</div>
+                        <div class="tier-price">KES 8,000</div>
+                        <div class="tier-period">per month</div>
+                        
+                        <ul class="tier-features">
+                            <li>20 hours monthly access</li>
+                            <li>Shared workspace areas</li>
+                            <li>Basic WiFi (10 Mbps)</li>
+                            <li>Coffee & tea included</li>
+                            <li>Email support</li>
+                            <li class="not-included">Dedicated desk</li>
+                            <li class="not-included">Meeting room access</li>
+                            <li class="not-included">Priority booking</li>
+                        </ul>
+                        
+                        <button class="select-tier-btn basic-btn">Select Basic</button>
+                    </div>
+
+                    <div class="tier-card recommended" onclick="selectTier(this, 'professional')">
+                        <div class="tier-name">Professional</div>
+                        <div class="tier-price">KES 15,000</div>
+                        <div class="tier-period">per month</div>
+                        
+                        <ul class="tier-features">
+                            <li>Unlimited workspace access</li>
+                            <li>Dedicated desk assignment</li>
+                            <li>High-speed WiFi (50 Mbps)</li>
+                            <li>Coffee, tea & snacks</li>
+                            <li>Priority phone/email support</li>
+                            <li>4 hours meeting room monthly</li>
+                            <li>Professional address service</li>
+                            <li>Guest day passes (2/month)</li>
+                        </ul>
+                        
+                        <button class="select-tier-btn professional-btn">Select Professional</button>
+                    </div>
+
+                    <div class="tier-card" onclick="selectTier(this, 'premium')">
+                        <div class="tier-name">Premium</div>
+                        <div class="tier-price">KES 25,000</div>
+                        <div class="tier-period">per month</div>
+                        
+                        <ul class="tier-features">
+                            <li>24/7 workspace access</li>
+                            <li>Private office space</li>
+                            <li class="premium">Ultra-fast WiFi (100 Mbps)</li>
+                            <li class="premium">Premium catering service</li>
+                            <li class="premium">Dedicated phone line</li>
+                            <li class="premium">Unlimited meeting rooms</li>
+                            <li class="premium">Personal assistant (4hrs/week)</li>
+                            <li class="premium">VIP parking space</li>
+                        </ul>
+                        
+                        <button class="select-tier-btn premium-btn">Select Premium</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Workspace Customization -->
+            <div class="workspace-customization" id="step-2">
+                <h3 class="customization-title">Customize Your Workspace</h3>
+                
+                <div class="workspace-options">
+                    <div class="workspace-option" onclick="selectWorkspace(this, 'window-view')">
+                        <div class="workspace-icon">🌅</div>
+                        <div class="workspace-title">Window View</div>
+                        <div class="workspace-desc">Natural light and garden view</div>
+                    </div>
+                    
+                    <div class="workspace-option" onclick="selectWorkspace(this, 'quiet-corner')">
+                        <div class="workspace-icon">🤫</div>
+                        <div class="workspace-title">Quiet Corner</div>
+                        <div class="workspace-desc">Minimal noise, focus zone</div>
+                    </div>
+                    
+                    <div class="workspace-option" onclick="selectWorkspace(this, 'tech-hub')">
+                        <div class="workspace-icon">💻</div>
+                        <div class="workspace-title">Tech Hub</div>
+                        <div class="workspace-desc">Multiple monitors, power outlets</div>
+                    </div>
+                    
+                    <div class="workspace-option" onclick="selectWorkspace(this, 'collaborative')">
+                        <div class="workspace-icon">👥</div>
+                        <div class="workspace-title">Collaborative Zone</div>
+                        <div class="workspace-desc">Near team areas, networking</div>
+                    </div>
+                </div>
+
+                <div class="preferences-grid">
+                    <div class="preference-group">
+                        <div class="preference-title">Working Hours Preference</div>
+                        <div class="preference-options">
+                            <label class="preference-option">
+                                <input type="radio" name="hours" value="morning">
+                                <span>Early Bird (6 AM - 2 PM)</span>
+                            </label>
+                            <label class="preference-option">
+                                <input type="radio" name="hours" value="standard" checked>
+                                <span>Standard (8 AM - 6 PM)</span>
+                            </label>
+                            <label class="preference-option">
+                                <input type="radio" name="hours" value="evening">
+                                <span>Night Owl (12 PM - 10 PM)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="preference-group">
+                        <div class="preference-title">Additional Services</div>
+                        <div class="preference-options">
+                            <label class="preference-option">
+                                <input type="checkbox" value="locker">
+                                <span>Personal locker (+KES 500/month)</span>
+                            </label>
+                            <label class="preference-option">
+                                <input type="checkbox" value="printing">
+                                <span>Printing credits (+KES 300/month)</span>
+                            </label>
+                            <label class="preference-option">
+                                <input type="checkbox" value="premium-coffee">
+                                <span>Premium coffee service (+KES 800/month)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="nextStep(3)">Continue to Payment Setup</button>
+            </div>
+
+            <!-- Step 3: Payment Setup -->
+            <div class="payment-setup" id="step-3">
+                <h3 class="payment-title">Setup Recurring Payment</h3>
+                
+                <div class="billing-summary">
+                    <h4 style="color: #1B4B8C; margin-bottom: 1rem;">Monthly Billing Summary</h4>
+                    <div class="summary-row">
+                        <span>Professional Membership</span>
+                        <span>KES 15,000</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tech Hub Workspace</span>
+                        <span>Included</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Personal Locker</span>
+                        <span>KES 500</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Premium Coffee Service</span>
+                        <span>KES 800</span>
+                    </div>
+                    <div class="summary-row">
+                        <span><strong>Total Monthly</strong></span>
+                        <span><strong>KES 16,300</strong></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" value="David Kimani" placeholder="Your full legal name">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Company/Organization (Optional)</label>
+                    <input type="text" class="form-input" placeholder="Your company name">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" value="david.k@techdev.co.ke" placeholder="your.email@example.com">
+                </div>
+
+                <div class="mpesa-section">
+                    <div class="mpesa-header">
+                        <div class="mpesa-logo">M-PESA</div>
+                        <div>
+                            <div style="font-weight: 600; color: #047857;">Recurring Monthly Payment</div>
+                            <div style="font-size: 0.9rem; color: #166534;">Automatic billing on the same date each month</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">M-Pesa Phone Number</label>
+                        <input type="tel" class="form-input" placeholder="+254 XXX XXX XXX" value="+254 701 234 567">
+                    </div>
+                </div>
+
+                <div class="recurring-info">
+                    <strong style="color: #d97706;">Recurring Payment Setup</strong><br>
+                    Your first payment will be processed immediately. Subsequent payments will be automatically deducted on the same date each month. You can cancel anytime with 7 days notice.
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-outline" onclick="previousStep()" style="flex: 1;">Back</button>
+                    <button class="btn btn-success" onclick="processPayment()" style="flex: 2;">Setup Membership</button>
+                </div>
+            </div>
+
+            <!-- Confirmation -->
+            <div class="confirmation-section" id="step-4">
+                <div class="success-animation">✓</div>
+                <div class="confirmation-title">Membership Activated!</div>
+                <div class="confirmation-subtitle">Asante David! Welcome to Get a Room Professional Membership</div>
+
+                <div class="membership-card">
+                    <div class="card-header">
+                        <div class="card-title">Get a Room Membership</div>
+                        <div class="card-id">ID: GR-PROF-2024-001</div>
+                    </div>
+                    
+                    <div class="member-details">
+                        <div class="member-detail"><strong>Member:</strong> David Kimani</div>
+                        <div class="member-detail"><strong>Plan:</strong> Professional</div>
+                        <div class="member-detail"><strong>Workspace:</strong> Tech Hub - Desk T12</div>
+                        <div class="member-detail"><strong>Access Hours:</strong> 24/7 (Standard preference: 8 AM - 6 PM)</div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="next-billing">Next billing: Feb 20, 2024</div>
+                        <div class="workspace-assigned">KES 16,300/month</div>
+                    </div>
+                </div>
+
+                <div style="background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; text-align: left;">
+                    <h4 style="color: #1B4B8C; margin-bottom: 1rem;">What's Next?</h4>
+                    <ul style="color: #64748b; line-height: 1.8;">
+                        <li><strong>Access Card:</strong> Pick up your access card from Grace within 24 hours</li>
+                        <li><strong>Workspace Setup:</strong> Your Tech Hub desk (T12) is ready for customization</li>
+                        <li><strong>Welcome Tour:</strong> Grace will show you all premium member facilities</li>
+                        <li><strong>Member Portal:</strong> Access your dashboard at getaroom.co.ke/members</li>
+                        <li><strong>Monthly Benefits:</strong> 4 meeting room hours available immediately</li>
+                    </ul>
+                </div>
+
+                <div style="background: #eff6ff; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                    <h4 style="color: #1e40af; margin-bottom: 0.5rem;">Member Support</h4>
+                    <p style="color: #1e40af;">Questions or need assistance? WhatsApp Grace directly: +254 XXX XXX XXX</p>
+                    <p style="color: #1e40af; font-size: 0.9rem; margin-top: 0.5rem;">Professional members get priority support with 2-hour response time</p>
+                </div>
+
+                <button class="btn btn-primary" onclick="openMemberPortal()">Access Member Portal</button>
+                <button class="btn btn-outline" onclick="downloadMembershipInfo()">Download Membership Info</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedTier = null;
+        let selectedWorkspace = null;
+        let currentStep = 1;
+
+        function selectTier(card, tier) {
+            // Remove previous selections
+            document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+            
+            // Select current card
+            card.classList.add('selected');
+            selectedTier = tier;
+            
+            // Show customization step
+            setTimeout(() => {
+                document.getElementById('step-2').classList.add('active');
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+
+        function selectWorkspace(card, workspace) {
+            // Remove previous selections
+            document.querySelectorAll('.workspace-option').forEach(c => c.classList.remove('selected'));
+            
+            // Select current card
+            card.classList.add('selected');
+            selectedWorkspace = workspace;
+        }
+
+        function nextStep(step) {
+            if (step === 3) {
+                // Hide previous steps
+                document.getElementById('step-1').style.display = 'none';
+                document.getElementById('step-2').style.display = 'none';
+                
+                // Show payment step
+                document.getElementById('step-3').classList.add('active');
+                currentStep = 3;
+            }
+        }
+
+        function previousStep() {
+            if (currentStep === 3) {
+                // Show previous steps
+                document.getElementById('step-1').style.display = 'block';
+                document.getElementById('step-2').style.display = 'block';
+                
+                // Hide payment step
+                document.getElementById('step-3').classList.remove('active');
+                currentStep = 2;
+            }
+        }
+
+        function processPayment() {
+            // Simulate payment processing
+            document.getElementById('step-3').style.display = 'none';
+            
+            // Show confirmation with animation
+            setTimeout(() => {
+                document.getElementById('step-4').classList.add('active');
+                currentStep = 4;
+            }, 500);
+        }
+
+        function openMemberPortal() {
+            alert('Redirecting to member portal... (Demo: This would open the member dashboard)');
+        }
+
+        function downloadMembershipInfo() {
+            alert('Downloading membership information... (Demo: This would download a PDF with membership details)');
+        }
+
+        // Add some interactive enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-select professional tier after 2 seconds (demo enhancement)
+            setTimeout(() => {
+                const professionalCard = document.querySelector('.tier-card.recommended');
+                if (!selectedTier) {
+                    professionalCard.style.animation = 'pulse 1s ease-in-out 3';
+                }
+            }, 2000);
+        });
+
+        // Add pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { transform: scale(1.05); }
+                50% { transform: scale(1.1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
