@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Room - Presentation Feedback Forms</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #f8fafc;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-section {
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #1B4B8C 0%, #006B3C 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-subtitle {
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1B4B8C;
+        }
+
+        input[type="text"], input[type="email"], textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #1B4B8C;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .rating-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .rating-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating-item input[type="radio"] {
+            width: auto;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+
+        .instructions {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .instructions h3 {
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+        }
+
+        .print-page {
+            page-break-after: always;
+        }
+
+        @media print {
+            .container {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .form-section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                margin-bottom: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .rating-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="instructions">
+            <h3>Instructions for Presentation Feedback</h3>
+            <p><strong>Distribution:</strong> Hand out these forms at the beginning of the presentation</p>
+            <p><strong>Completion:</strong> Please fill out as we progress through each section</p>
+            <p><strong>Collection:</strong> Forms will be collected at the end for analysis</p>
+            <p><strong>Purpose:</strong> Your feedback helps validate our design decisions and identify improvements</p>
+        </div>
+
+        <!-- UX Phase Feedback Form -->
+        <div class="form-section print-page">
+            <div class="form-header">
+                <div class="form-title">UX Phase Feedback Form</div>
+                <div class="form-subtitle">Research, Personas & Problem Definition</div>
+            </div>
+
+            <div class="form-group">
+                <label for="attendee-name-ux">Your Name:</label>
+                <input type="text" id="attendee-name-ux" name="attendee-name-ux">
+            </div>
+
+            <div class="form-group">
+                <label for="attendee-role-ux">Your Role:</label>
+                <select id="attendee-role-ux" name="attendee-role-ux">
+                    <option value="">Select your role</option>
+                    <option value="client">Client (Grace)</option>
+                    <option value="stakeholder">Business Stakeholder</option>
+                    <option value="potential-user">Potential User</option>
+                    <option value="developer">Developer</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>1. How clear was the initial project brief? (1-10 scale)</label>
+                <div class="rating-group">
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="1"><span>1</span></div>
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="2"><span>2</span></div>
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="3"><span>3</span></div>
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="4"><span>4</span></div>
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="5"><span>5</span></div>
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="6"><span>6</span></div>
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="7"><span>7</span></div>
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="8"><span>8</span></div>
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="9"><span>9</span></div>
+                    <div class="rating-item"><input type="radio" name="brief-clarity" value="10"><span>10</span></div>
+                </div>
+                <div class="scale-labels">
+                    <span>Unclear</span>
+                    <span>Very Clear</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>2. How comprehensive was the UX project planning? (1-10 scale)</label>
+                <div class="rating-group">
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="1"><span>1</span></div>
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="2"><span>2</span></div>
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="3"><span>3</span></div>
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="4"><span>4</span></div>
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="5"><span>5</span></div>
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="6"><span>6</span></div>
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="7"><span>7</span></div>
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="8"><span>8</span></div>
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="9"><span>9</span></div>
+                    <div class="rating-item"><input type="radio" name="ux-planning" value="10"><span>10</span></div>
+                </div>
+                <div class="scale-labels">
+                    <span>Incomplete</span>
+                    <span>Very Comprehensive</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>3. How accurately do the 4 user personas represent real users?</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="personas" value="james-accurate">
+                        <span>James (Freelancer) - Accurate</span>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="personas" value="sarah-accurate">
+                        <span>Sarah (Team Lead) - Accurate</span>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="personas" value="david-accurate">
+                        <span>David (Remote Worker) - Accurate</span>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="personas" value="mary-accurate">
+                        <span>Mary (Visitor) - Accurate</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>4. How clear were the 4 problem statements? (1-10 scale)</label>
+                <div class="rating-group">
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="1"><span>1</span></div>
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="2"><span>2</span></div>
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="3"><span>3</span></div>
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="4"><span>4</span></div>
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="5"><span>5</span></div>
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="6"><span>6</span></div>
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="7"><span>7</span></div>
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="8"><span>8</span></div>
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="9"><span>9</span></div>
+                    <div class="rating-item"><input type="radio" name="problem-clarity" value="10"><span>10</span></div>
+                </div>
+                <div class="scale-labels">
+                    <span>Unclear</span>
+                    <span>Very Clear</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ux-feedback">5. Additional UX Phase Feedback:</label>
+                <textarea id="ux-feedback" name="ux-feedback" placeholder="What worked well? What could be improved in the UX research and problem definition?"></textarea>
+            </div>
+        </div>
+
+        <!-- UI Phase Feedback Form -->
+        <div class="form-section print-page">
+            <div class="form-header">
+                <div class="form-title">UI Phase Feedback Form</div>
+                <div class="form-subtitle">Visual Design, Prototypes & Testing</div>
+            </div>
+
+            <div class="form-group">
+                <label for="attendee-name-ui">Your Name:</label>
+                <input type="text" id="attendee-name-ui" name="attendee-name-ui">
+            </div>
+
+            <div class="form-group">
+                <label>1. How well did the moodboard convey the design direction? (1-10 scale)</label>
+                <div class="rating-group">
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="1"><span>1</span></div>
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="2"><span>2</span></div>
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="3"><span>3</span></div>
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="4"><span>4</span></div>
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="5"><span>5</span></div>
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="6"><span>6</span></div>
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="7"><span>7</span></div>
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="8"><span>8</span></div>
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="9"><span>9</span></div>
+                    <div class="rating-item"><input type="radio" name="moodboard-rating" value="10"><span>10</span></div>
+                </div>
+                <div class="scale-labels">
+                    <span>Poor</span>
+                    <span>Excellent</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>2. How appropriate is the style guide for Kenya market? (1-10 scale)</label>
+                <div class="rating-group">
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="1"><span>1</span></div>
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="2"><span>2</span></div>
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="3"><span>3</span></div>
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="4"><span>4</span></div>
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="5"><span>5</span></div>
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="6"><span>6</span></div>
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="7"><span>7</span></div>
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="8"><span>8</span></div>
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="9"><span>9</span></div>
+                    <div class="rating-item"><input type="radio" name="styleguide-rating" value="10"><span>10</span></div>
+                </div>
+                <div class="scale-labels">
+                    <span>Inappropriate</span>
+                    <span>Very Appropriate</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>3. How effective were the high-fidelity prototype demos?</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="prototype-effectiveness" value="easy-to-understand">
+                        <span>Easy to understand</span>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="prototype-effectiveness" value="realistic-interactions">
+                        <span>Realistic interactions</span>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="prototype-effectiveness" value="good-mobile-demo">
+                        <span>Good mobile demonstration</span>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="prototype-effectiveness" value="clear-user-flows">
+                        <span>Clear user flows</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>4. How valuable were the usability testing insights? (1-10 scale)</label>
+                <div class="rating-group">
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="1"><span>1</span></div>
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="2"><span>2</span></div>
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="3"><span>3</span></div>
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="4"><span>4</span></div>
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="5"><span>5</span></div>
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="6"><span>6</span></div>
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="7"><span>7</span></div>
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="8"><span>8</span></div>
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="9"><span>9</span></div>
+                    <div class="rating-item"><input type="radio" name="testing-insights" value="10"><span>10</span></div>
+                </div>
+                <div class="scale-labels">
+                    <span>Not Valuable</span>
+                    <span>Very Valuable</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ui-feedback">5. Additional UI Phase Feedback:</label>
+                <textarea id="ui-feedback" name="ui-feedback" placeholder="What worked well in the visual design? What could be improved in the prototypes or testing approach?"></textarea>
+            </div>
+        </div>
+
+        <!-- Overall Presentation Feedback -->
+        <div class="form-section">
+            <div class="form-header">
+                <div class="form-title">Overall Presentation Feedback</div>
+                <div class="form-subtitle">Timing, Flow & Next Steps</div>
+            </div>
+
+            <div class="form-group">
+                <label for="attendee-name-overall">Your Name:</label>
+                <input type="text" id="attendee-name-overall" name="attendee-name-overall">
+            </div>
+
+            <div class="form-group">
+                <label>1. Was the 30-minute presentation timing appropriate?</label>
+                <div class="rating-group">
+                    <div class="rating-item"><input type="radio" name="timing" value="too-short"><span>Too Short</span></div>
+                    <div class="rating-item"><input type="radio" name="timing" value="just-right"><span>Just Right</span></div>
+                    <div class="rating-item"><input type="radio" name="timing" value="too-long"><span>Too Long</span></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>2. How clear were the next steps? (1-10 scale)</label>
+                <div class="rating-group">
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="1"><span>1</span></div>
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="2"><span>2</span></div>
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="3"><span>3</span></div>
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="4"><span>4</span></div>
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="5"><span>5</span></div>
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="6"><span>6</span></div>
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="7"><span>7</span></div>
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="8"><span>8</span></div>
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="9"><span>9</span></div>
+                    <div class="rating-item"><input type="radio" name="next-steps-clarity" value="10"><span>10</span></div>
+                </div>
+                <div class="scale-labels">
+                    <span>Unclear</span>
+                    <span>Very Clear</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>3. Overall presentation quality (1-10 scale)</label>
+                <div class="rating-group">
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="1"><span>1</span></div>
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="2"><span>2</span></div>
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="3"><span>3</span></div>
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="4"><span>4</span></div>
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="5"><span>5</span></div>
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="6"><span>6</span></div>
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="7"><span>7</span></div>
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="8"><span>8</span></div>
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="9"><span>9</span></div>
+                    <div class="rating-item"><input type="radio" name="overall-quality" value="10"><span>10</span></div>
+                </div>
+                <div class="scale-labels">
+                    <span>Poor</span>
+                    <span>Excellent</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="improvements">4. What could be improved for future presentations?</label>
+                <textarea id="improvements" name="improvements" placeholder="Suggestions for better structure, content, or delivery..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="overall-feedback">5. Final thoughts and recommendations:</label>
+                <textarea id="overall-feedback" name="overall-feedback" placeholder="Overall impressions, recommendations for the project, concerns, or approval..."></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
