@@ -267,7 +267,6 @@ Examples:
 **Email:** stella.oiro@gmail.com  
 **Phone:** +254 712 345 678  
 **Project Duration:** 2 weeks (July 8-22, 2025)
-
 **Client Contact:**  
 **Grace Akinyi** - Get a Room Coworking Space  
 **Location:** Kisumu, Kenya  

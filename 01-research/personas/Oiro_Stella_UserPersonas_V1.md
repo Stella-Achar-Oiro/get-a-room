@@ -3,7 +3,6 @@
 **Designer:** Stella Oiro  
 **Based on:** User research and interviews in Kisumu, Kenya  
 **Date:** July 2025
-
 ---
 
 ## Persona Development Methodology
