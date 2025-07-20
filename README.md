@@ -1,4 +1,4 @@
-# Get a Room - UX/UI Project
+d# Get a Room - UX/UI Project
 
 **Complete UX/UI design system for Get a Room coworking space booking platform**
 
@@ -69,6 +69,40 @@ get-a-room-ux-project/
 │   └── Oiro_Stella_PresentationOutline_V1.md
 └── deliverables/                   # Final deliverables
 ```
+
+---
+
+## Quick Access: Presentation Requirements
+
+### General Presentation
+- **[Attendee Planning](./05-presentation/Presentation_Logistics_Checklist_V1.md)** - 5+ people, logistics checklist
+- **[Feedback Forms](./05-presentation/feedback-forms/Feedback_Forms_V1.html)** - Interactive 3-part feedback system
+- **[30-Min Presentation](./05-presentation/slides/Oiro_Stella_30Min_Presentation_V2.html)** - Complete slide deck with timing
+
+### Phase 1 - UX Process
+- **[Initial Brief](./01-research/client-interview/Oiro_Stella_ClientInterview_Template_V1.md)** - 60-90min client interview template
+- **[UX Planning](./01-research/research-synthesis/Oiro_Stella_ResearchSynthesis_V1.md)** - Methodology, phases, timeline
+- **[4 User Personas](./01-research/personas/Oiro_Stella_UserPersonas_V1.md)** - James, Sarah, David, Mary with research data
+- **[Problem Statements](./05-presentation/slides/Oiro_Stella_30Min_Presentation_V2.html)** - Slide 6: 4 refined problem statements
+- **[Concept Introduction](./05-presentation/slides/Oiro_Stella_30Min_Presentation_V2.html)** - Slide 8: Three-tier booking solution
+- **[Mid-Fi Prototypes](./02-wireframes/html-wireframes/)** - 4 interactive wireframe prototypes
+- **[Usability Testing](./03-testing/Oiro_Stella_TestingProtocol_V1.md)** - Complete protocol with results
+
+### Phase 2 - UI Process
+- **[UI Planning](./05-presentation/slides/Oiro_Stella_30Min_Presentation_V2.html)** - Slide 9: UI methodology
+- **[Moodboard](./04-ui-design/moodboard/Oiro_Stella_Moodboard_V1.html)** - Kenya cultural design direction
+- **[Style Guide](./04-ui-design/style-guide/Oiro_Stella_StyleGuide_V1.html)** - Complete design system
+- **[Hi-Fi Prototypes](./04-ui-design/hi-fi-prototype/)** - 4 enhanced visual prototypes
+- **[Final Testing](./03-testing/hi-fi-testing/Oiro_Stella_FinalTestingProtocol_V1.md)** - Hi-fi validation protocol
+- **[Next Steps](./05-presentation/slides/Oiro_Stella_30Min_Presentation_V2.html)** - Slides 14-15: Implementation roadmap
+
+### Demo Videos (Ready for Recording)
+- **[Video Specifications](./05-presentation/demo-videos/Demo_Video_Specifications_V1.md)** - Complete scripts and timing
+- **Mid-Fi Videos**: 8-minute walkthrough (wireframe prototypes ready)
+- **Hi-Fi Videos**: 6-minute walkthrough (visual prototypes ready)
+
+### Complete Project Overview
+- **[Project Summary](./deliverables/Oiro_Stella_ProjectDeliverables_Summary_V1.md)** - All deliverables consolidated
 
 ---
 
