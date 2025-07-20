@@ -1,4 +1,4 @@
-d# Get a Room - UX/UI Project
+# Get a Room - UX/UI Project
 
 **Complete UX/UI design system for Get a Room coworking space booking platform**
 
