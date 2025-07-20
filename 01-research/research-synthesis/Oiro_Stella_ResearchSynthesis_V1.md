@@ -1,8 +1,8 @@
 # Research Synthesis - Get a Room UX/UI Project
 **Project:** Get a Room Online Booking System  
 **Designer:** Stella Oiro  
-**Synthesis Date:** January 2024  
-**Research Period:** January 8-15, 2024
+**Synthesis Date:** July 2025  
+**Research Period:** July 8-15, 2025
 
 ---
 
@@ -440,6 +440,6 @@ This synthesis consolidates findings from comprehensive user research conducted 
 ---
 
 **Research conducted by:** Stella Oiro  
-**Synthesis completed:** January 2024  
+**Synthesis completed:** July 2025  
 **Validation status:** Ready for user testing  
 **Next research phase:** Expanded user interviews and prototype testing

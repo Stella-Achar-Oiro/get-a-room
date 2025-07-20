@@ -2,7 +2,7 @@
 **Project:** Get a Room Online Booking System  
 **Designer:** Stella Oiro  
 **Wireframe Version:** 1.0  
-**Documentation Date:** January 2024
+**Documentation Date:** July 2025
 
 ---
 
@@ -658,4 +658,4 @@ This document provides comprehensive documentation for all wireframe prototypes 
 **Documentation prepared by:** Stella Oiro  
 **Wireframe version:** 1.0  
 **Ready for:** User testing and development handoff  
-**Last updated:** January 2024
+**Last updated:** July 2025
