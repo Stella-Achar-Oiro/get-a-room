@@ -3,8 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get a Room - Admin Dashboard (High-Fidelity)</title>
+    <title>Admin Dashboard - Get a Room Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-blue: #1B4B8C;
+            --kenya-green: #006B3C;
+            --mpesa-green: #00A651;
+            --accent-orange: #FF7F00;
+            --warning-yellow: #FFC107;
+            --error-red: #C62828;
+            --neutral-50: #f8fafc;
+            --neutral-100: #f1f5f9;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e1;
+            --neutral-400: #94a3b8;
+            --neutral-500: #64748b;
+            --neutral-600: #475569;
+            --neutral-700: #334155;
+            --neutral-800: #1e293b;
+            --neutral-900: #0f172a;
+            --surface-white: #ffffff;
+            --surface-light: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-accent: #1B4B8C;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --border-radius-sm: 0.375rem;
+            --border-radius-md: 0.5rem;
+            --border-radius-lg: 0.75rem;
+            --border-radius-xl: 1rem;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,56 +47,129 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #2c3e50;
-            background: #f8fafc;
+            color: var(--text-primary);
+            background: var(--surface-light);
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 1.5rem;
         }
 
-        .header {
-            background: linear-gradient(135deg, #1B4B8C 0%, #006B3C 100%);
-            color: white;
+        /* Header */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--kenya-green) 100%);
+            color: var(--surface-white);
             padding: 2rem;
-            border-radius: 12px;
+            border-radius: var(--border-radius-xl);
             margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
 
-        .header-left h1 {
+        .header-info h1 {
             font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
         }
 
-        .header-subtitle {
-            opacity: 0.9;
+        .header-info p {
             font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
         }
 
-        .header-right {
-            text-align: right;
+        .header-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
-        .current-time {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        .business-status {
+        .stat-card:hover {
             background: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            transform: translateY(-2px);
         }
 
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--surface-white);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-md);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+            color: var(--surface-white);
+        }
+
+        /* Main Layout */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -69,869 +177,1314 @@
             margin-bottom: 2rem;
         }
 
-        .main-content {
+        .main-content,
+        .sidebar-content {
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
+        .dashboard-card {
+            background: var(--surface-white);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--border-radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
         }
 
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
+        .dashboard-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--neutral-300);
         }
 
         .card-header {
+            background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
+            border-bottom: 1px solid var(--neutral-200);
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
         }
 
         .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #1B4B8C;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-accent);
+            letter-spacing: -0.025em;
+            margin: 0;
         }
 
         .card-action {
-            background: #1B4B8C;
-            color: white;
+            background: var(--primary-blue);
+            color: var(--surface-white);
+            font-size: 0.875rem;
+            font-weight: 600;
             padding: 0.5rem 1rem;
             border: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
+            border-radius: var(--border-radius-md);
             cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .card-action:hover {
             background: #15375e;
             transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
+        .card-body {
+            padding: 2rem;
         }
 
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid #1B4B8C;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1B4B8C;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        .stat-trend {
-            font-size: 0.8rem;
-            margin-top: 0.25rem;
-        }
-
-        .trend-up {
-            color: #00A651;
-        }
-
-        .trend-down {
-            color: #C62828;
-        }
-
-        .workspace-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
+        /* Calendar View */
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
             gap: 1rem;
         }
 
-        .workspace-item {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            transition: all 0.3s ease;
+        .calendar-nav {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .calendar-nav button {
+            background: var(--surface-white);
+            border: 2px solid var(--neutral-200);
+            padding: 0.75rem;
+            border-radius: var(--border-radius-md);
             cursor: pointer;
-            position: relative;
-        }
-
-        .workspace-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .workspace-item.occupied {
-            border-color: #00A651;
-            background: #ecfdf5;
-        }
-
-        .workspace-item.maintenance {
-            border-color: #FFC107;
-            background: #fefbf0;
-        }
-
-        .workspace-item.available {
-            border-color: #e2e8f0;
-            background: white;
-        }
-
-        .workspace-number {
-            font-size: 1.2rem;
+            transition: all 0.3s ease;
             font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .calendar-nav button:hover {
+            background: var(--neutral-50);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .calendar-nav span {
+            font-weight: 600;
+            color: var(--text-accent);
+            font-size: 1.1rem;
+            letter-spacing: -0.025em;
+        }
+
+        .view-toggle {
+            display: flex;
+            border: 2px solid var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            background: var(--surface-white);
+        }
+
+        .view-toggle button {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .view-toggle button.active {
+            background: var(--primary-blue);
+            color: var(--surface-white);
+        }
+
+        .view-toggle button:not(.active):hover {
+            background: var(--neutral-50);
+            color: var(--primary-blue);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--neutral-200);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+        }
+
+        .calendar-day-header {
+            background: linear-gradient(135deg, var(--neutral-100) 0%, var(--neutral-200) 100%);
+            padding: 1rem 0.5rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: var(--text-accent);
+        }
+
+        .calendar-day {
+            background: var(--surface-white);
+            padding: 1rem;
+            min-height: 100px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: var(--neutral-50);
+        }
+
+        .calendar-day.other-month {
+            background: var(--neutral-50);
+            opacity: 0.6;
+        }
+
+        .calendar-day.today {
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .day-number {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .booking-indicator {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
             margin-bottom: 0.5rem;
         }
 
-        .workspace-status {
-            font-size: 0.8rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
+        .booking-indicator.full {
+            background: linear-gradient(90deg, var(--error-red) 0%, #ef4444 100%);
+        }
+
+        .booking-indicator.busy {
+            background: linear-gradient(90deg, var(--warning-yellow) 0%, #f59e0b 100%);
+        }
+
+        .booking-indicator.available {
+            background: linear-gradient(90deg, var(--mpesa-green) 0%, var(--kenya-green) 100%);
+        }
+
+        .booking-count {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
             font-weight: 600;
         }
 
-        .status-occupied {
-            background: #00A651;
-            color: white;
+        /* Occupancy Overview */
+        .occupancy-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
-        .status-available {
-            background: #e2e8f0;
-            color: #64748b;
+        .space-indicator {
+            aspect-ratio: 1;
+            border-radius: var(--border-radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
 
-        .status-maintenance {
-            background: #FFC107;
-            color: #1e293b;
+        .space-indicator:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
         }
 
-        .workspace-time {
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-top: 0.25rem;
+        .space-indicator.occupied {
+            background: linear-gradient(135deg, var(--error-red) 0%, #ef4444 100%);
+            color: var(--surface-white);
         }
 
-        .booking-list {
+        .space-indicator.reserved {
+            background: linear-gradient(135deg, var(--warning-yellow) 0%, #f59e0b 100%);
+            color: var(--text-primary);
+        }
+
+        .space-indicator.available {
+            background: linear-gradient(135deg, var(--mpesa-green) 0%, var(--kenya-green) 100%);
+            color: var(--surface-white);
+        }
+
+        .space-indicator.maintenance {
+            background: linear-gradient(135deg, var(--neutral-400) 0%, var(--neutral-500) 100%);
+            color: var(--surface-white);
+        }
+
+        .occupancy-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: var(--border-radius-sm);
+            flex-shrink: 0;
+        }
+
+        /* Activity List */
+        .activity-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
             max-height: 400px;
             overflow-y: auto;
         }
 
-        .booking-item {
+        .activity-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--neutral-100);
             transition: background 0.3s ease;
         }
 
-        .booking-item:hover {
-            background: #f8fafc;
+        .activity-item:hover {
+            background: var(--neutral-50);
         }
 
-        .booking-info {
-            flex: 1;
+        .activity-item:last-child {
+            border-bottom: none;
         }
 
-        .booking-customer {
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 0.25rem;
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            flex-shrink: 0;
         }
 
-        .booking-details {
-            font-size: 0.9rem;
-            color: #64748b;
+        .activity-icon.booking {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: var(--primary-blue);
         }
 
-        .booking-status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: 1rem;
+        .activity-icon.payment {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: var(--kenya-green);
         }
 
-        .status-confirmed {
-            background: #ecfdf5;
-            color: #047857;
+        .activity-icon.cancellation {
+            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+            color: var(--error-red);
         }
 
-        .status-pending {
-            background: #fef3c7;
+        .activity-icon.maintenance {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             color: #d97706;
         }
 
-        .status-overdue {
-            background: #fef2f2;
-            color: #dc2626;
+        .activity-content {
+            flex: 1;
         }
 
-        .payment-item {
+        .activity-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .activity-details {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* Payment Tracking */
+        .payment-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--neutral-200);
+            transition: all 0.3s ease;
+        }
+
+        .payment-stat:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .payment-amount {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .payment-amount.positive {
+            color: var(--mpesa-green);
+        }
+
+        .payment-amount.negative {
+            color: var(--error-red);
+        }
+
+        .payment-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .overdue-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .overdue-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #fecaca;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
         }
 
-        .payment-amount {
-            font-weight: 600;
-            color: #1B4B8C;
+        .overdue-item:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
-        .payment-method {
+        .overdue-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .overdue-info {
+            flex: 1;
+        }
+
+        .overdue-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--error-red);
+            margin-bottom: 0.25rem;
+        }
+
+        .overdue-details {
             font-size: 0.8rem;
-            color: #64748b;
+            color: #991b1b;
+            opacity: 0.8;
         }
 
-        .quick-actions {
+        .overdue-amount {
+            font-weight: 700;
+            color: var(--error-red);
+            font-size: 1rem;
+        }
+
+        /* Quick Booking Form */
+        .quick-booking-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
 
-        .action-btn {
-            background: #1B4B8C;
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .action-btn:hover {
-            background: #15375e;
-            transform: translateY(-1px);
-        }
-
-        .action-btn.secondary {
-            background: #006B3C;
-        }
-
-        .action-btn.secondary:hover {
-            background: #005030;
-        }
-
-        .action-btn.warning {
-            background: #FFC107;
-            color: #1e293b;
-        }
-
-        .action-btn.warning:hover {
-            background: #e6ac00;
-        }
-
-        .notifications {
-            background: #fef3c7;
-            border: 1px solid #FFC107;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .notification-title {
-            font-weight: 600;
-            color: #d97706;
-            margin-bottom: 0.5rem;
-        }
-
-        .notification-list {
-            font-size: 0.9rem;
-            color: #92400e;
-        }
-
-        .notification-list li {
-            margin-bottom: 0.25rem;
-        }
-
-        .chart-placeholder {
-            height: 200px;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1B4B8C;
-            font-size: 1.1rem;
-            margin-top: 1rem;
-        }
-
-        .mobile-responsive {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .workspace-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .header {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-            
-            .quick-actions {
-                grid-template-columns: 1fr;
-            }
-            
-            .mobile-responsive {
-                display: block;
-            }
-            
-            .desktop-only {
-                display: none;
-            }
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 5% auto;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #1B4B8C;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #64748b;
-        }
-
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 0;
         }
 
         .form-label {
             display: block;
-            font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #1B4B8C;
+            font-weight: 600;
+            color: var(--text-accent);
+            font-size: 0.875rem;
         }
 
-        .form-input {
+        .form-control {
             width: 100%;
             padding: 0.75rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 1rem;
+            border: 2px solid var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: var(--surface-white);
+            color: var(--text-primary);
         }
 
-        .form-input:focus {
+        .form-control:focus {
             outline: none;
-            border-color: #1B4B8C;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(27, 75, 140, 0.1);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #15375e 100%);
+            color: var(--surface-white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-blue);
+            color: var(--surface-white);
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .booking-success {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border: 1px solid #86efac;
+            color: var(--kenya-green);
+            padding: 1rem;
+            border-radius: var(--border-radius-md);
+            margin-top: 1rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .booking-success strong {
+            color: var(--kenya-green);
+        }
+
+        /* Bottom Section */
+        .management-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: var(--surface-white);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--border-radius-xl);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tool-card h4 {
+            color: var(--text-accent);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .tool-card .payment-stat {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            
+            .quick-actions {
+                justify-content: center;
+            }
+
+            .occupancy-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        @media (max-width: 767px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .calendar-day {
+                min-height: 80px;
+                padding: 0.75rem;
+            }
+            
+            .payment-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-controls {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .occupancy-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .management-tools {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles */
+        .calendar-day:focus,
+        .space-indicator:focus,
+        .activity-item:focus {
+            outline: 3px solid var(--primary-blue);
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-left">
-                <h1>Get a Room - Admin Dashboard</h1>
-                <div class="header-subtitle">Karibu Grace! Managing your coworking empire</div>
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="header-content">
+                <div class="header-info">
+                    <h1>Good morning, Grace!</h1>
+                    <p>Today is Wednesday, July 20, 2025 - Here's your workspace overview</p>
+                </div>
             </div>
-            <div class="header-right">
-                <div class="current-time" id="current-time">2:30 PM</div>
-                <div class="business-status">Open • 6 AM - 10 PM</div>
+            
+            <div class="header-stats">
+                <div class="stat-card">
+                    <span class="stat-number">47/50</span>
+                    <span class="stat-label">Total Occupied</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">12/15</span>
+                    <span class="stat-label">Daily Spots</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">35/35</span>
+                    <span class="stat-label">Monthly Members</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">KES 125,400</span>
+                    <span class="stat-label">Today's Revenue</span>
+                </div>
             </div>
-        </div>
-
-        <!-- Key Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value">32</div>
-                <div class="stat-label">Spaces Occupied</div>
-                <div class="stat-trend trend-up">+15% from yesterday</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">KES 45,600</div>
-                <div class="stat-label">Today's Revenue</div>
-                <div class="stat-trend trend-up">+22% from average</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">18</div>
-                <div class="stat-label">Available Now</div>
-                <div class="stat-trend">Peak hours: 2-5 PM</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">3</div>
-                <div class="stat-label">Pending Payments</div>
-                <div class="stat-trend trend-down">Follow up needed</div>
+            
+            <div class="quick-actions">
+                <a href="#" class="quick-action-btn" onclick="showQuickBooking()">
+                    <span>+</span> Quick Booking
+                </a>
+                <a href="#" class="quick-action-btn" onclick="toggleMaintenance()">
+                    <span>🔧</span> Mark Maintenance
+                </a>
+                <a href="#" class="quick-action-btn" onclick="sendReminders()">
+                    <span>💬</span> Send Reminders
+                </a>
+                <a href="#" class="quick-action-btn" onclick="exportReport()">
+                    <span>📊</span> Export Report
+                </a>
             </div>
         </div>
 
         <div class="dashboard-grid">
-            <!-- Main Content -->
             <div class="main-content">
-                <!-- Real-time Workspace Status -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Live Workspace Status</h2>
-                        <button class="card-action" onclick="refreshWorkspaces()">Refresh</button>
-                    </div>
-                    
-                    <div class="workspace-grid">
-                        <div class="workspace-item occupied" onclick="openWorkspaceModal('A1')">
-                            <div class="workspace-number">A1</div>
-                            <div class="workspace-status status-occupied">Occupied</div>
-                            <div class="workspace-time">Until 5:00 PM</div>
-                        </div>
-                        <div class="workspace-item occupied" onclick="openWorkspaceModal('A2')">
-                            <div class="workspace-number">A2</div>
-                            <div class="workspace-status status-occupied">Occupied</div>
-                            <div class="workspace-time">Until 3:30 PM</div>
-                        </div>
-                        <div class="workspace-item available" onclick="openWorkspaceModal('A3')">
-                            <div class="workspace-number">A3</div>
-                            <div class="workspace-status status-available">Available</div>
-                        </div>
-                        <div class="workspace-item occupied" onclick="openWorkspaceModal('A4')">
-                            <div class="workspace-number">A4</div>
-                            <div class="workspace-status status-occupied">Occupied</div>
-                            <div class="workspace-time">Until 6:00 PM</div>
-                        </div>
-                        <div class="workspace-item maintenance" onclick="openWorkspaceModal('A5')">
-                            <div class="workspace-number">A5</div>
-                            <div class="workspace-status status-maintenance">Cleaning</div>
-                            <div class="workspace-time">Back 4:00 PM</div>
-                        </div>
-                        <div class="workspace-item available" onclick="openWorkspaceModal('B1')">
-                            <div class="workspace-number">B1</div>
-                            <div class="workspace-status status-available">Available</div>
-                        </div>
-                        <div class="workspace-item occupied" onclick="openWorkspaceModal('B2')">
-                            <div class="workspace-number">B2</div>
-                            <div class="workspace-status status-occupied">Occupied</div>
-                            <div class="workspace-time">Until 7:00 PM</div>
-                        </div>
-                        <div class="workspace-item available" onclick="openWorkspaceModal('B3')">
-                            <div class="workspace-number">B3</div>
-                            <div class="workspace-status status-available">Available</div>
-                        </div>
-                        <div class="workspace-item occupied" onclick="openWorkspaceModal('B4')">
-                            <div class="workspace-number">B4</div>
-                            <div class="workspace-status status-occupied">Occupied</div>
-                            <div class="workspace-time">Until 4:15 PM</div>
-                        </div>
-                        <div class="workspace-item available" onclick="openWorkspaceModal('B5')">
-                            <div class="workspace-number">B5</div>
-                            <div class="workspace-status status-available">Available</div>
-                        </div>
-                    </div>
-
-                    <div class="chart-placeholder">
-                        Occupancy Analytics Chart - Revenue Trends Over Time
-                    </div>
-                </div>
-
-                <!-- Today's Bookings -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Today's Bookings</h2>
-                        <button class="card-action" onclick="openQuickBookingModal()">+ Quick Book</button>
-                    </div>
-                    
-                    <div class="booking-list">
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <div class="booking-customer">James Ochieng</div>
-                                <div class="booking-details">Creative Zone • 2:00 PM - 6:00 PM • KES 800</div>
-                            </div>
-                            <div class="booking-status status-confirmed">Confirmed</div>
-                        </div>
-                        
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <div class="booking-customer">Sarah Wanjiku</div>
-                                <div class="booking-details">Team Space • 9:00 AM - 12:00 PM • KES 1,200</div>
-                            </div>
-                            <div class="booking-status status-confirmed">Confirmed</div>
-                        </div>
-                        
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <div class="booking-customer">David Kimani</div>
-                                <div class="booking-details">Focus Pod • 1:00 PM - 5:00 PM • KES 1,200</div>
-                            </div>
-                            <div class="booking-status status-pending">Payment Pending</div>
-                        </div>
-                        
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <div class="booking-customer">Mary Adhiambo</div>
-                                <div class="booking-details">Meeting Room • 3:30 PM - 6:30 PM • KES 900</div>
-                            </div>
-                            <div class="booking-status status-confirmed">Confirmed</div>
-                        </div>
-                        
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <div class="booking-customer">Peter Kamau</div>
-                                <div class="booking-details">Creative Zone • 10:00 AM - 2:00 PM • KES 800</div>
-                            </div>
-                            <div class="booking-status status-overdue">Overdue Payment</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Notifications -->
-                <div class="notifications">
-                    <div class="notification-title">Attention Required</div>
-                    <ul class="notification-list">
-                        <li>3 overdue payments need follow-up</li>
-                        <li>Workspace A5 cleaning scheduled</li>
-                        <li>Peak hours approaching (2-5 PM)</li>
-                        <li>Monthly report due tomorrow</li>
-                    </ul>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="card">
-                    <h3 class="card-title">Quick Actions</h3>
-                    <div class="quick-actions">
-                        <button class="action-btn" onclick="openQuickBookingModal()">
-                            <span>+</span>
-                            Quick Book
-                        </button>
-                        <button class="action-btn secondary" onclick="sendReminders()">
-                            <span></span>
-                            Send Reminders
-                        </button>
-                        <button class="action-btn warning" onclick="viewReports()">
-                            <span></span>
-                            View Reports
-                        </button>
-                        <button class="action-btn" onclick="manageSettings()">
-                            <span></span>
-                            Settings
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Recent Payments -->
-                <div class="card">
-                    <h3 class="card-title">Recent M-Pesa Payments</h3>
-                    <div>
-                        <div class="payment-item">
-                            <div>
-                                <div class="payment-amount">KES 800</div>
-                                <div class="payment-method">M-Pesa • James O.</div>
-                            </div>
-                            <div style="font-size: 0.8rem; color: #00A651;">Confirmed</div>
-                        </div>
-                        
-                        <div class="payment-item">
-                            <div>
-                                <div class="payment-amount">KES 1,200</div>
-                                <div class="payment-method">M-Pesa • Sarah W.</div>
-                            </div>
-                            <div style="font-size: 0.8rem; color: #00A651;">Confirmed</div>
-                        </div>
-                        
-                        <div class="payment-item">
-                            <div>
-                                <div class="payment-amount">KES 900</div>
-                                <div class="payment-method">M-Pesa • Mary A.</div>
-                            </div>
-                            <div style="font-size: 0.8rem; color: #FFC107;">⏱ Processing</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Performance Summary -->
-                <div class="card">
-                    <h3 class="card-title">This Week</h3>
-                    <div style="text-align: center;">
-                        <div style="font-size: 1.5rem; font-weight: 700; color: #1B4B8C; margin-bottom: 0.5rem;">
-                            KES 285,000
-                        </div>
-                        <div style="color: #64748b; margin-bottom: 1rem;">Total Revenue</div>
-                        
-                        <div style="background: #f0f9ff; padding: 1rem; border-radius: 8px;">
-                            <div style="font-size: 0.9rem; color: #1B4B8C;">
-                                <strong>92% Occupancy Rate</strong><br>
-                                <span style="color: #64748b;">Best week this month!</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quick Booking Modal -->
-    <div id="quickBookingModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Quick Booking (Walk-in)</h3>
-                <button class="close-btn" onclick="closeModal('quickBookingModal')">&times;</button>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Customer Name</label>
-                <input type="text" class="form-input" placeholder="Enter customer name">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Phone Number</label>
-                <input type="tel" class="form-input" placeholder="+254 XXX XXX XXX">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Workspace</label>
-                <select class="form-input">
-                    <option>Select available workspace</option>
-                    <option>A3 - Creative Zone</option>
-                    <option>B1 - Focus Pod</option>
-                    <option>B3 - Collaborative</option>
-                    <option>B5 - Meeting Room</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Duration</label>
-                <select class="form-input">
-                    <option>Select duration</option>
-                    <option>1 hour - KES 200</option>
-                    <option>2 hours - KES 400</option>
-                    <option>3 hours - KES 600</option>
-                    <option>4 hours - KES 800</option>
-                    <option>Full day - KES 1,200</option>
-                </select>
-            </div>
-            
-            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                <button class="action-btn" style="flex: 1;" onclick="closeModal('quickBookingModal')">Cancel</button>
-                <button class="action-btn secondary" style="flex: 2;" onclick="createQuickBooking()">Create Booking</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Workspace Details Modal -->
-    <div id="workspaceModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="workspaceModalTitle">Workspace A1</h3>
-                <button class="close-btn" onclick="closeModal('workspaceModal')">&times;</button>
-            </div>
-            
-            <div id="workspaceDetails">
-                <div style="margin-bottom: 1rem;">
-                    <strong>Current Status:</strong> <span style="color: #00A651;">Occupied</span>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <strong>Customer:</strong> James Ochieng
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <strong>Time:</strong> 2:00 PM - 6:00 PM
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <strong>Payment:</strong> <span style="color: #00A651;">Confirmed (KES 800)</span>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <strong>Contact:</strong> +254 XXX XXX XXX
-                </div>
                 
-                <div style="display: flex; gap: 1rem;">
-                    <button class="action-btn warning" style="flex: 1;" onclick="sendMessage()">Send Message</button>
-                    <button class="action-btn" style="flex: 1;" onclick="extendBooking()">Extend Time</button>
+                <!-- Calendar View -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Booking Calendar</h3>
+                        <a href="#" class="card-action">Full Calendar</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="calendar-controls">
+                            <div class="calendar-nav">
+                                <button id="prevWeek" aria-label="Previous week">&lt;</button>
+                                <span id="currentWeek">July 16 - 22, 2025</span>
+                                <button id="nextWeek" aria-label="Next week">&gt;</button>
+                            </div>
+                            <div class="view-toggle">
+                                <button class="active" onclick="setCalendarView('week')">Week</button>
+                                <button onclick="setCalendarView('month')">Month</button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar headers -->
+                            <div class="calendar-day-header">Mon</div>
+                            <div class="calendar-day-header">Tue</div>
+                            <div class="calendar-day-header">Wed</div>
+                            <div class="calendar-day-header">Thu</div>
+                            <div class="calendar-day-header">Fri</div>
+                            <div class="calendar-day-header">Sat</div>
+                            <div class="calendar-day-header">Sun</div>
+                            
+                            <!-- Calendar days -->
+                            <div class="calendar-day" tabindex="0">
+                                <div class="day-number">16</div>
+                                <div class="booking-indicator busy"></div>
+                                <div class="booking-count">8 bookings</div>
+                            </div>
+                            <div class="calendar-day" tabindex="0">
+                                <div class="day-number">17</div>
+                                <div class="booking-indicator full"></div>
+                                <div class="booking-count">12 bookings</div>
+                            </div>
+                            <div class="calendar-day" tabindex="0">
+                                <div class="day-number">18</div>
+                                <div class="booking-indicator full"></div>
+                                <div class="booking-count">15 bookings</div>
+                            </div>
+                            <div class="calendar-day" tabindex="0">
+                                <div class="day-number">19</div>
+                                <div class="booking-indicator busy"></div>
+                                <div class="booking-count">9 bookings</div>
+                            </div>
+                            <div class="calendar-day today" tabindex="0">
+                                <div class="day-number">20</div>
+                                <div class="booking-indicator full"></div>
+                                <div class="booking-count">14 bookings</div>
+                            </div>
+                            <div class="calendar-day" tabindex="0">
+                                <div class="day-number">21</div>
+                                <div class="booking-indicator available"></div>
+                                <div class="booking-count">4 bookings</div>
+                            </div>
+                            <div class="calendar-day" tabindex="0">
+                                <div class="day-number">22</div>
+                                <div class="booking-indicator available"></div>
+                                <div class="booking-count">2 bookings</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Real-time Occupancy -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Live Workspace Status</h3>
+                        <a href="#" class="card-action">Manage Spaces</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="occupancy-grid">
+                            <!-- Daily Hot Spots (15 spots) -->
+                            <div class="space-indicator occupied" title="Hot Spot 1 - James Ochieng" tabindex="0">1</div>
+                            <div class="space-indicator occupied" title="Hot Spot 2 - Sarah Wilson" tabindex="0">2</div>
+                            <div class="space-indicator available" title="Hot Spot 3 - Available" tabindex="0">3</div>
+                            <div class="space-indicator occupied" title="Hot Spot 4 - David Kim" tabindex="0">4</div>
+                            <div class="space-indicator occupied" title="Hot Spot 5 - Mary Jones" tabindex="0">5</div>
+                            <div class="space-indicator reserved" title="Hot Spot 6 - Reserved 2PM" tabindex="0">6</div>
+                            <div class="space-indicator occupied" title="Hot Spot 7 - Mike Chen" tabindex="0">7</div>
+                            <div class="space-indicator occupied" title="Hot Spot 8 - Lisa Park" tabindex="0">8</div>
+                            <div class="space-indicator available" title="Hot Spot 9 - Available" tabindex="0">9</div>
+                            <div class="space-indicator occupied" title="Hot Spot 10 - John Smith" tabindex="0">10</div>
+                            <div class="space-indicator occupied" title="Hot Spot 11 - Emma Brown" tabindex="0">11</div>
+                            <div class="space-indicator occupied" title="Hot Spot 12 - Tom Wilson" tabindex="0">12</div>
+                            <div class="space-indicator maintenance" title="Hot Spot 13 - Maintenance" tabindex="0">13</div>
+                            <div class="space-indicator occupied" title="Hot Spot 14 - Jane Doe" tabindex="0">14</div>
+                            <div class="space-indicator available" title="Hot Spot 15 - Available" tabindex="0">15</div>
+                            
+                            <!-- Monthly Dedicated (35 spots - showing first 10) -->
+                            <div class="space-indicator occupied" title="Monthly A1 - Tech Startup" tabindex="0">A1</div>
+                            <div class="space-indicator occupied" title="Monthly A2 - Consultant" tabindex="0">A2</div>
+                            <div class="space-indicator occupied" title="Monthly A3 - Freelancer" tabindex="0">A3</div>
+                            <div class="space-indicator occupied" title="Monthly B1 - Legal Firm" tabindex="0">B1</div>
+                            <div class="space-indicator occupied" title="Monthly B2 - Marketing" tabindex="0">B2</div>
+                            <div class="space-indicator occupied" title="Monthly C1 - Designer" tabindex="0">C1</div>
+                            <div class="space-indicator occupied" title="Monthly C2 - Developer" tabindex="0">C2</div>
+                            <div class="space-indicator available" title="Monthly C3 - Available" tabindex="0">C3</div>
+                            <div class="space-indicator occupied" title="Monthly D1 - Architect" tabindex="0">D1</div>
+                            <div class="space-indicator occupied" title="Monthly D2 - Writer" tabindex="0">D2</div>
+                        </div>
+                        
+                        <div class="occupancy-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: linear-gradient(135deg, var(--error-red) 0%, #ef4444 100%);"></div>
+                                <span>Occupied (38)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: linear-gradient(135deg, var(--warning-yellow) 0%, #f59e0b 100%);"></div>
+                                <span>Reserved (1)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: linear-gradient(135deg, var(--mpesa-green) 0%, var(--kenya-green) 100%);"></div>
+                                <span>Available (10)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: linear-gradient(135deg, var(--neutral-400) 0%, var(--neutral-500) 100%);"></div>
+                                <span>Maintenance (1)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-content">
+                
+                <!-- Recent Activity -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Activity</h3>
+                        <a href="#" class="card-action">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <ul class="activity-list">
+                            <li class="activity-item" tabindex="0">
+                                <div class="activity-icon booking">B</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">New Daily Booking</div>
+                                    <div class="activity-details">James Ochieng - Hot Spot 1</div>
+                                </div>
+                                <div class="activity-time">2 min ago</div>
+                            </li>
+                            <li class="activity-item" tabindex="0">
+                                <div class="activity-icon payment">P</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Payment Received</div>
+                                    <div class="activity-details">KES 12,000 - Monthly Member</div>
+                                </div>
+                                <div class="activity-time">15 min ago</div>
+                            </li>
+                            <li class="activity-item" tabindex="0">
+                                <div class="activity-icon cancellation">C</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Booking Cancelled</div>
+                                    <div class="activity-details">Weekly booking - Refund issued</div>
+                                </div>
+                                <div class="activity-time">1 hour ago</div>
+                            </li>
+                            <li class="activity-item" tabindex="0">
+                                <div class="activity-icon booking">B</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Weekly Booking</div>
+                                    <div class="activity-details">Sarah Team - 4 person pod</div>
+                                </div>
+                                <div class="activity-time">2 hours ago</div>
+                            </li>
+                            <li class="activity-item" tabindex="0">
+                                <div class="activity-icon maintenance">M</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Maintenance Complete</div>
+                                    <div class="activity-details">WiFi router replacement</div>
+                                </div>
+                                <div class="activity-time">3 hours ago</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Payment Tracking -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Payment Overview</h3>
+                        <a href="#" class="card-action">Full Report</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="payment-summary">
+                            <div class="payment-stat">
+                                <div class="payment-amount positive">KES 342,000</div>
+                                <div class="payment-label">This Month</div>
+                            </div>
+                            <div class="payment-stat">
+                                <div class="payment-amount">KES 125,400</div>
+                                <div class="payment-label">Today</div>
+                            </div>
+                            <div class="payment-stat">
+                                <div class="payment-amount negative">KES 15,200</div>
+                                <div class="payment-label">Overdue</div>
+                            </div>
+                        </div>
+                        
+                        <h5 style="margin-bottom: 1rem; color: var(--error-red); font-weight: 700;">Overdue Payments</h5>
+                        <ul class="overdue-list">
+                            <li class="overdue-item">
+                                <div class="overdue-info">
+                                    <div class="overdue-name">Tech Solutions Ltd</div>
+                                    <div class="overdue-details">Monthly - 5 days overdue</div>
+                                </div>
+                                <div class="overdue-amount">KES 8,000</div>
+                            </li>
+                            <li class="overdue-item">
+                                <div class="overdue-info">
+                                    <div class="overdue-name">Freelancer Mike</div>
+                                    <div class="overdue-details">Weekly - 3 days overdue</div>
+                                </div>
+                                <div class="overdue-amount">KES 3,200</div>
+                            </li>
+                            <li class="overdue-item">
+                                <div class="overdue-info">
+                                    <div class="overdue-name">Design Studio</div>
+                                    <div class="overdue-details">Daily - 2 days overdue</div>
+                                </div>
+                                <div class="overdue-amount">KES 4,000</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Quick Booking -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Quick Booking</h3>
+                        <a href="#" class="card-action">Advanced</a>
+                    </div>
+                    <div class="card-body">
+                        <form class="quick-booking-form" id="quickBookingForm">
+                            <div class="form-group">
+                                <label class="form-label">Customer Name</label>
+                                <input type="text" class="form-control" placeholder="Enter customer name" id="customerName" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" placeholder="07XX XXX XXX" id="customerPhone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Space Type</label>
+                                    <select class="form-control form-select" id="spaceType" required>
+                                        <option value="">Select space</option>
+                                        <option value="hot-desk">Hot Desk (KES 800)</option>
+                                        <option value="quiet-zone">Quiet Zone (KES 900)</option>
+                                        <option value="booth">Private Booth (KES 1,000)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="bookingDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Duration</label>
+                                    <select class="form-control form-select" id="duration" required>
+                                        <option value="">Select duration</option>
+                                        <option value="half-day">Half Day (4 hours)</option>
+                                        <option value="full-day">Full Day (8+ hours)</option>
+                                        <option value="custom">Custom Hours</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Payment Method</label>
+                                <select class="form-control form-select" id="paymentMethod" required>
+                                    <option value="">Select payment</option>
+                                    <option value="mpesa">M-Pesa</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Card</option>
+                                    <option value="bank">Bank Transfer</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Create Booking</button>
+                            
+                            <div class="booking-success" id="bookingSuccess">
+                                <strong>Booking Created!</strong> 
+                                Reference: <span id="bookingRef">QB001234</span>
+                                <br>SMS confirmation sent to customer.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Management Tools -->
+        <div class="management-tools">
+            <div class="tool-card">
+                <h4>M-Pesa Integration</h4>
+                <div class="payment-stat">
+                    <div class="payment-amount positive">KES 98,400</div>
+                    <div class="payment-label">M-Pesa Received Today</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="reconcilePayments()">Reconcile Payments</button>
+            </div>
+            
+            <div class="tool-card">
+                <h4>Communication Center</h4>
+                <div class="payment-stat">
+                    <div class="payment-amount">12</div>
+                    <div class="payment-label">Pending Responses</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="sendBulkSMS()">Send Bulk SMS</button>
+            </div>
+            
+            <div class="tool-card">
+                <h4>Analytics Summary</h4>
+                <div class="payment-stat">
+                    <div class="payment-amount">94%</div>
+                    <div class="payment-label">Occupancy Rate</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="generateReport()">Weekly Report</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Update current time
-        function updateTime() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { 
-                hour: 'numeric', 
-                minute: '2-digit',
-                hour12: true 
-            });
-            document.getElementById('current-time').textContent = timeString;
-        }
+        // Admin Dashboard JavaScript Functionality
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            setCurrentDate();
+            startRealTimeUpdates();
+        });
 
-        // Call immediately and then every minute
-        updateTime();
-        setInterval(updateTime, 60000);
-
-        function refreshWorkspaces() {
-            // Simulate refresh
-            const button = event.target;
-            button.textContent = 'Refreshing...';
-            button.disabled = true;
+        function setupEventListeners() {
+            // Quick booking form
+            document.getElementById('quickBookingForm').addEventListener('submit', handleQuickBooking);
             
-            setTimeout(() => {
-                button.textContent = 'Refresh';
-                button.disabled = false;
-                // Show success message
-                showNotification('Workspace status updated successfully');
-            }, 1500);
+            // Calendar navigation
+            document.getElementById('prevWeek').addEventListener('click', () => navigateWeek(-1));
+            document.getElementById('nextWeek').addEventListener('click', () => navigateWeek(1));
         }
 
-        function openWorkspaceModal(workspaceId) {
-            document.getElementById('workspaceModalTitle').textContent = 'Workspace ' + workspaceId;
-            document.getElementById('workspaceModal').style.display = 'block';
+        function setCurrentDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingDate').value = today;
         }
 
-        function openQuickBookingModal() {
-            document.getElementById('quickBookingModal').style.display = 'block';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function createQuickBooking() {
+        // Quick Booking Functionality
+        function handleQuickBooking(event) {
+            event.preventDefault();
+            
+            const formData = {
+                customerName: document.getElementById('customerName').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                spaceType: document.getElementById('spaceType').value,
+                bookingDate: document.getElementById('bookingDate').value,
+                duration: document.getElementById('duration').value,
+                paymentMethod: document.getElementById('paymentMethod').value
+            };
+            
+            // Validate form
+            if (!formData.customerName || !formData.customerPhone || !formData.spaceType || 
+                !formData.bookingDate || !formData.duration || !formData.paymentMethod) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            
             // Simulate booking creation
-            closeModal('quickBookingModal');
-            showNotification('Quick booking created successfully!');
-            
-            // Add to booking list (simulate)
             setTimeout(() => {
-                refreshWorkspaces();
-            }, 1000);
+                const reference = 'QB' + Date.now().toString().slice(-6);
+                document.getElementById('bookingRef').textContent = reference;
+                document.getElementById('bookingSuccess').style.display = 'block';
+                
+                // Reset form
+                document.getElementById('quickBookingForm').reset();
+                setCurrentDate();
+                
+                // Update dashboard stats
+                updateDashboardStats();
+                
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('bookingSuccess').style.display = 'none';
+                }, 5000);
+            }, 2000);
+        }
+
+        // Calendar Navigation
+        let currentWeekOffset = 0;
+
+        function navigateWeek(direction) {
+            currentWeekOffset += direction;
+            updateCalendarDisplay();
+        }
+
+        function updateCalendarDisplay() {
+            const today = new Date();
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - today.getDay() + 1 + (currentWeekOffset * 7));
+            
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+            
+            const weekText = `${formatDate(startOfWeek)} - ${formatDate(endOfWeek)}`;
+            document.getElementById('currentWeek').textContent = weekText;
+            
+            // Update calendar days (simplified - in real app would fetch actual data)
+            updateCalendarDays(startOfWeek);
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('en-GB', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        function updateCalendarDays(startDate) {
+            const calendarDays = document.querySelectorAll('.calendar-day:not(.calendar-day-header)');
+            
+            calendarDays.forEach((day, index) => {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + index);
+                
+                const dayNumber = day.querySelector('.day-number');
+                if (dayNumber) {
+                    dayNumber.textContent = currentDate.getDate();
+                }
+                
+                // Update today indicator
+                const today = new Date();
+                if (currentDate.toDateString() === today.toDateString()) {
+                    day.classList.add('today');
+                } else {
+                    day.classList.remove('today');
+                }
+            });
+        }
+
+        function setCalendarView(view) {
+            // Update active button
+            document.querySelectorAll('.view-toggle button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // In a real app, this would change the calendar layout
+            console.log(`Switched to ${view} view`);
+        }
+
+        // Dashboard Management Functions
+        function showQuickBooking() {
+            document.getElementById('quickBookingForm').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+            document.getElementById('customerName').focus();
+        }
+
+        function toggleMaintenance() {
+            const spaceNumber = prompt('Enter space number to toggle maintenance mode:');
+            if (spaceNumber) {
+                alert(`Space ${spaceNumber} maintenance mode toggled`);
+                // In real app, would update space status
+            }
         }
 
         function sendReminders() {
-            showNotification('Payment reminders sent to 3 customers via SMS');
+            const confirmed = confirm('Send payment reminders to all overdue customers?');
+            if (confirmed) {
+                alert('Payment reminders sent to 3 customers via SMS');
+                // In real app, would trigger SMS sending
+            }
         }
 
-        function viewReports() {
-            showNotification('Opening monthly reports...');
+        function exportReport() {
+            alert('Daily report exported to PDF. Check your downloads folder.');
+            // In real app, would generate and download report
         }
 
-        function manageSettings() {
-            showNotification('Opening workspace settings...');
+        function reconcilePayments() {
+            alert('M-Pesa payments reconciled. 12 transactions verified.');
+            // In real app, would sync with M-Pesa API
         }
 
-        function sendMessage() {
-            showNotification('WhatsApp message sent to customer');
-            closeModal('workspaceModal');
+        function sendBulkSMS() {
+            const message = prompt('Enter message to send to all members:');
+            if (message) {
+                alert(`Bulk SMS sent to 35 members: "${message}"`);
+                // In real app, would send SMS via bulk SMS service
+            }
         }
 
-        function extendBooking() {
-            showNotification('Booking extended by 1 hour');
-            closeModal('workspaceModal');
+        function generateReport() {
+            alert('Weekly analytics report generated and sent to your email.');
+            // In real app, would generate comprehensive analytics
         }
 
-        function showNotification(message) {
-            // Create temporary notification
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #00A651;
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 8px;
-                z-index: 2000;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-                animation: slideIn 0.3s ease;
-            `;
-            notification.textContent = message;
-            document.body.appendChild(notification);
+        // Real-time Updates Simulation
+        function startRealTimeUpdates() {
+            // Simulate real-time updates every 30 seconds
+            setInterval(() => {
+                updateOccupancyStatus();
+                updateRecentActivity();
+            }, 30000);
+        }
+
+        function updateOccupancyStatus() {
+            // Simulate occasional status changes
+            const spaces = document.querySelectorAll('.space-indicator');
+            const randomSpace = spaces[Math.floor(Math.random() * spaces.length)];
             
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
+            // Randomly change a space status
+            if (Math.random() > 0.8) {
+                const statuses = ['occupied', 'available', 'reserved'];
+                const currentStatus = randomSpace.className.split(' ').pop();
+                const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                
+                if (currentStatus !== newStatus) {
+                    randomSpace.className = `space-indicator ${newStatus}`;
+                    console.log(`Space status updated: ${randomSpace.textContent} -> ${newStatus}`);
+                }
+            }
         }
 
-        // Close modals when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
+        function updateRecentActivity() {
+            // In real app, would fetch latest activities from server
+            console.log('Checking for new activities...');
+        }
+
+        function updateDashboardStats() {
+            // Update occupancy numbers after new booking
+            const totalOccupied = document.querySelector('.stat-number');
+            if (totalOccupied) {
+                const current = parseInt(totalOccupied.textContent.split('/')[0]);
+                totalOccupied.textContent = `${current + 1}/50`;
+            }
+        }
+
+        // Initialize calendar display
+        updateCalendarDisplay();
+
+        // Keyboard navigation for accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                // Close any open modals or dropdowns
+                console.log('Escape pressed - would close modals');
             }
         });
-
-        // Add some dynamic updates
-        setInterval(() => {
-            // Simulate real-time updates
-            const stats = document.querySelectorAll('.stat-value');
-            // Occasionally update occupancy
-            if (Math.random() > 0.95) {
-                const currentOccupied = parseInt(stats[0].textContent);
-                if (Math.random() > 0.5) {
-                    stats[0].textContent = Math.min(50, currentOccupied + 1);
-                } else {
-                    stats[0].textContent = Math.max(0, currentOccupied - 1);
-                }
-                showNotification('Workspace status updated');
-            }
-        }, 10000);
     </script>
-
-    <style>
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-    </style>
 </body>
 </html>

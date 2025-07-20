@@ -3,1011 +3,1501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get a Room - Weekly Team Booking (High-Fidelity)</title>
+    <title>Weekly Space Booking - Get a Room</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ==========================================================================
+           Get a Room - High Fidelity Weekly Booking Prototype
+           Designer: Stella Oiro
+           Matches wireframe structure with moodboard design system
+           ========================================================================== */
+
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: #2c3e50;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            min-height: 100vh;
+            background-color: #f8fafc;
+            line-height: 1.6;
         }
 
+        /* ==========================================================================
+           Color System from Moodboard
+           ========================================================================== */
+        :root {
+            --primary-blue: #1B4B8C;
+            --kenya-green: #006B3C;
+            --mpesa-green: #00A651;
+            --accent-orange: #FF7F00;
+            --warning-yellow: #FFC107;
+            --error-red: #C62828;
+            --text-primary: #2c3e50;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --surface-white: #ffffff;
+            --surface-light: #f8fafc;
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+        }
+
+        /* ==========================================================================
+           Typography
+           ========================================================================== */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.5rem; }
+        h5 { font-size: 1.25rem; }
+        h6 { font-size: 1rem; }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--kenya-green);
+        }
+
+        /* ==========================================================================
+           Grid System
+           ========================================================================== */
         .container {
-            max-width: 800px;
+            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            min-height: 100vh;
-            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            padding: 0 1rem;
         }
 
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.5rem;
+        }
+
+        .col {
+            flex: 1;
+            padding: 0 0.5rem;
+        }
+
+        .col-6 { flex: 0 0 50%; max-width: 50%; }
+        .col-lg-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+        .col-lg-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+
+        /* ==========================================================================
+           Header Component
+           ========================================================================== */
         .header {
-            background: linear-gradient(135deg, #1B4B8C 0%, #006B3C 100%);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--kenya-green) 100%);
             color: white;
-            padding: 2rem;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(27, 75, 140, 0.15);
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .justify-content-end {
+            justify-content: flex-end;
+        }
+
+        /* ==========================================================================
+           Main Content
+           ========================================================================== */
+        .main-content {
+            padding: 3rem 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        .booking-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .text-center {
             text-align: center;
         }
 
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .welcome-text {
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-
-        .team-indicator {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            margin-top: 1rem;
-            display: inline-block;
-        }
-
-        .content {
-            padding: 2rem;
-        }
-
-        .progress-bar {
-            background: #e2e8f0;
-            height: 6px;
-            border-radius: 3px;
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background: linear-gradient(90deg, #1B4B8C 0%, #006B3C 100%);
-            height: 100%;
-            width: 60%;
-            transition: width 0.3s ease;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #1B4B8C;
-            margin-bottom: 1.5rem;
-        }
-
-        .team-info-card {
-            background: #f0f9ff;
-            border: 2px solid #1B4B8C;
-            border-radius: 12px;
-            padding: 1.5rem;
+        .mb-4 {
             margin-bottom: 2rem;
         }
 
-        .team-leader {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #1B4B8C;
-            margin-bottom: 0.5rem;
+        .mb-5 {
+            margin-bottom: 3rem;
         }
 
-        .team-details {
-            color: #64748b;
+        .text-muted {
+            color: var(--text-muted);
         }
 
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: #1B4B8C;
-            font-size: 1.1rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            min-height: 56px;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #1B4B8C;
-            box-shadow: 0 0 0 3px rgba(27, 75, 140, 0.1);
-        }
-
+        /* ==========================================================================
+           Calendar Component
+           ========================================================================== */
         .calendar-container {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
+            background: var(--surface-white);
+            border: 2px solid var(--border-light);
+            border-radius: 16px;
+            padding: 2rem;
             margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.08);
         }
 
         .calendar-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .calendar-month {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #1B4B8C;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-light);
         }
 
         .calendar-nav {
             display: flex;
-            gap: 0.5rem;
+            gap: 1rem;
+            align-items: center;
         }
 
-        .nav-btn {
-            background: #1B4B8C;
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 6px;
+        .calendar-nav button {
+            background: var(--surface-white);
+            border: 2px solid var(--border-light);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--primary-blue);
+            transition: all 0.2s ease;
         }
 
-        .nav-btn:hover {
-            background: #15375e;
+        .calendar-nav button:hover {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(27, 75, 140, 0.3);
+        }
+
+        #currentMonth {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+            min-width: 120px;
+            text-align: center;
         }
 
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 0.25rem;
+            gap: 2px;
+            background: var(--border-light);
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .calendar-day-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--kenya-green) 100%);
+            color: white;
+            padding: 1rem;
             text-align: center;
             font-weight: 600;
-            color: #64748b;
-            padding: 0.5rem;
             font-size: 0.9rem;
         }
 
         .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
+            background: var(--surface-white);
+            padding: 1rem;
+            min-height: 70px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
             position: relative;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .calendar-day:hover {
-            background: #f0f9ff;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            transform: scale(1.02);
         }
 
-        .calendar-day.disabled {
-            color: #cbd5e1;
-            cursor: not-allowed;
-        }
-
-        .calendar-day.disabled:hover {
-            background: none;
+        .calendar-day.other-month {
+            color: var(--text-muted);
+            background: #f8f9fa;
         }
 
         .calendar-day.selected {
-            background: #1B4B8C;
+            background: var(--primary-blue);
             color: white;
-        }
-
-        .calendar-day.start-date {
-            background: #006B3C;
-            color: white;
-        }
-
-        .calendar-day.end-date {
-            background: #00A651;
-            color: white;
+            box-shadow: 0 4px 12px rgba(27, 75, 140, 0.3);
         }
 
         .calendar-day.in-range {
-            background: #ecfdf5;
-            color: #047857;
+            background: var(--kenya-green);
+            color: white;
         }
 
-        .workspace-options {
+        .calendar-day.unavailable {
+            background: #f8f9fa;
+            color: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .calendar-day.today {
+            border: 3px solid var(--accent-orange);
+            box-shadow: 0 0 0 2px rgba(255, 127, 0, 0.2);
+        }
+
+        .day-number {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .day-availability {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .selected .day-availability,
+        .in-range .day-availability {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Selection Indicator */
+        .selection-indicator {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid var(--primary-blue);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            color: var(--primary-blue);
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* ==========================================================================
+           Space Selection
+           ========================================================================== */
+        .space-selection {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
             margin-bottom: 2rem;
         }
 
-        .workspace-card {
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            cursor: pointer;
+        .space-category {
+            background: var(--surface-white);
+            border: 2px solid var(--border-light);
+            border-radius: 16px;
+            padding: 2rem;
             transition: all 0.3s ease;
-            background: white;
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.08);
         }
 
-        .workspace-card:hover {
-            border-color: #1B4B8C;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.1);
+        .space-category:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 12px 35px rgba(27, 75, 140, 0.15);
+            transform: translateY(-3px);
         }
 
-        .workspace-card.selected {
-            border-color: #1B4B8C;
-            background: #f0f9ff;
+        .category-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-light);
         }
 
-        .workspace-name {
+        .category-title {
             font-size: 1.3rem;
             font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-blue);
         }
 
-        .workspace-capacity {
-            background: #ecfdf5;
-            color: #047857;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 0.75rem;
-        }
-
-        .workspace-features {
-            color: #64748b;
-            margin-bottom: 1rem;
+        .category-description {
+            color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.5;
         }
 
-        .workspace-pricing {
+        .space-options {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .price {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #1B4B8C;
-        }
-
-        .price-period {
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-
-        .discount-badge {
-            background: #fef3c7;
-            color: #d97706;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .team-member-input {
-            display: grid;
-            grid-template-columns: 2fr 2fr 1fr;
+            flex-direction: column;
             gap: 1rem;
-            margin-bottom: 1rem;
-            align-items: end;
         }
 
-        .add-member-btn {
-            background: #006B3C;
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 8px;
-            font-weight: 600;
+        .space-option {
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.25rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-height: 56px;
+            background: var(--surface-white);
+            position: relative;
+            overflow: hidden;
         }
 
-        .add-member-btn:hover {
-            background: #005030;
+        .space-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--kenya-green));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
-        .team-members-list {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
+        .space-option:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 6px 20px rgba(27, 75, 140, 0.15);
+            transform: translateY(-2px);
         }
 
-        .team-member {
+        .space-option:hover::before {
+            transform: scaleX(1);
+        }
+
+        .space-option.selected {
+            border-color: var(--primary-blue);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            box-shadow: 0 6px 20px rgba(27, 75, 140, 0.2);
+        }
+
+        .space-option.selected::before {
+            transform: scaleX(1);
+        }
+
+        .space-option.unavailable {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f8f9fa;
+            border-style: dashed;
+        }
+
+        .space-option.unavailable:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .space-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+        }
+
+        .space-features {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .space-pricing {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem;
-            background: white;
-            border-radius: 6px;
-            margin-bottom: 0.5rem;
-            border: 1px solid #e2e8f0;
         }
 
-        .member-info {
-            flex: 1;
+        .weekly-price {
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
         }
 
-        .member-name {
+        .daily-price {
+            font-size: 0.85rem;
+            color: var(--mpesa-green);
             font-weight: 600;
-            color: #1e293b;
         }
 
-        .member-role {
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-
-        .remove-btn {
-            background: #fef2f2;
-            color: #dc2626;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .remove-btn:hover {
-            background: #dc2626;
-            color: white;
-        }
-
-        .summary-card {
-            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
-            border: 2px solid #00A651;
-            border-radius: 12px;
+        /* ==========================================================================
+           Recurring Options
+           ========================================================================== */
+        .recurring-options {
+            background: var(--surface-white);
+            border: 2px solid var(--border-light);
+            border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.08);
         }
 
-        .summary-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #047857;
-            margin-bottom: 1rem;
-        }
-
-        .summary-details {
+        .recurring-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .recurring-option {
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--surface-white);
+            text-align: center;
+        }
+
+        .recurring-option:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 6px 20px rgba(27, 75, 140, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .recurring-option.selected {
+            border-color: var(--kenya-green);
+            background: linear-gradient(135deg, rgba(0, 107, 60, 0.05) 0%, rgba(0, 166, 81, 0.05) 100%);
+            box-shadow: 0 6px 20px rgba(0, 107, 60, 0.2);
+        }
+
+        .recurring-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+        }
+
+        .recurring-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .recurring-discount {
+            font-size: 0.9rem;
+            color: var(--mpesa-green);
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           Contact Form
+           ========================================================================== */
+        .contact-form {
+            background: var(--surface-white);
+            border: 2px solid var(--border-light);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.08);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
-        .summary-item {
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        .summary-label {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin-bottom: 0.25rem;
-        }
-
-        .summary-value {
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .total-amount {
-            text-align: center;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 8px;
-        }
-
-        .amount-before {
-            font-size: 1.1rem;
-            color: #64748b;
-            text-decoration: line-through;
-            margin-bottom: 0.25rem;
-        }
-
-        .amount-after {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #047857;
-            margin-bottom: 0.25rem;
-        }
-
-        .discount-info {
-            font-size: 0.9rem;
-            color: #d97706;
-            font-weight: 600;
-        }
-
-        .btn {
+        .form-label {
             display: block;
-            width: 100%;
-            padding: 1.2rem 2rem;
-            border: none;
-            border-radius: 8px;
+            margin-bottom: 0.5rem;
             font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
-            min-height: 60px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: var(--surface-white);
+            color: var(--text-primary);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(27, 75, 140, 0.1);
+        }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        /* Special Requirements */
+        .special-requirements {
+            margin-top: 1.5rem;
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .requirement-item {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .requirement-item:hover {
+            border-color: var(--kenya-green);
+            background: rgba(0, 107, 60, 0.05);
+        }
+
+        .requirement-item.selected {
+            border-color: var(--kenya-green);
+            background: rgba(0, 107, 60, 0.1);
+        }
+
+        .form-check-input {
+            transform: scale(1.2);
+            accent-color: var(--kenya-green);
+        }
+
+        .form-check-label {
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ==========================================================================
+           Booking Summary Sidebar
+           ========================================================================== */
+        .booking-summary {
+            background: var(--surface-white);
+            border: 2px solid var(--border-light);
+            border-radius: 16px;
+            padding: 2rem;
+            position: sticky;
+            top: 2rem;
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.08);
+        }
+
+        .booking-summary h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .summary-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            padding: 0.25rem 0;
+        }
+
+        .summary-item span:first-child {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .summary-item span:last-child {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .summary-total {
+            border-top: 2px solid var(--primary-blue);
+            padding-top: 1rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+        }
+
+        /* ==========================================================================
+           Buttons
+           ========================================================================== */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 120px;
         }
 
         .btn-primary {
-            background: #1B4B8C;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--kenya-green) 100%);
             color: white;
+            box-shadow: 0 4px 12px rgba(27, 75, 140, 0.3);
         }
 
-        .btn-primary:hover {
-            background: #15375e;
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.3);
+            box-shadow: 0 6px 20px rgba(27, 75, 140, 0.4);
         }
 
-        .btn-success {
-            background: #00A651;
-            color: white;
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: var(--border-medium);
         }
 
-        .btn-success:hover {
-            background: #008442;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 166, 81, 0.3);
+        .btn-block {
+            width: 100%;
         }
 
-        .btn-outline {
-            background: transparent;
-            color: #1B4B8C;
-            border: 2px solid #1B4B8C;
+        .mt-3 {
+            margin-top: 1rem;
         }
 
-        .btn-outline:hover {
-            background: #1B4B8C;
-            color: white;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .approval-notice {
-            background: #fffbeb;
-            border: 2px solid #f59e0b;
+        /* ==========================================================================
+           Messages and Alerts
+           ========================================================================== */
+        .error-message {
+            background: rgba(198, 40, 40, 0.1);
+            border: 2px solid var(--error-red);
+            color: var(--error-red);
+            padding: 1rem;
             border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid var(--error-red);
+        }
+
+        .success-message {
+            background: rgba(0, 166, 81, 0.1);
+            border: 2px solid var(--mpesa-green);
+            color: var(--kenya-green);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid var(--mpesa-green);
+        }
+
+        /* ==========================================================================
+           Footer
+           ========================================================================== */
+        .footer {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
             text-align: center;
         }
 
-        .approval-title {
-            font-weight: 600;
-            color: #d97706;
+        .footer p {
             margin-bottom: 0.5rem;
+            opacity: 0.9;
         }
 
-        .approval-text {
-            color: #92400e;
+        /* ==========================================================================
+           Mobile Responsive
+           ========================================================================== */
+        @media (max-width: 991px) {
+            .col-lg-4 { flex: 0 0 100%; max-width: 100%; }
+            .col-lg-8 { flex: 0 0 100%; max-width: 100%; }
+
+            .booking-summary {
+                position: static;
+                margin-top: 2rem;
+            }
         }
 
-        @media (max-width: 768px) {
-            .container {
-                margin: 0;
+        @media (max-width: 767px) {
+            .main-content {
+                padding: 1.5rem 0;
             }
-            
-            .content {
-                padding: 1rem;
+
+            .calendar-container,
+            .space-category,
+            .recurring-options,
+            .contact-form,
+            .booking-summary {
+                padding: 1.5rem;
             }
-            
-            .workspace-options {
+
+            .calendar-grid {
+                font-size: 0.875rem;
+            }
+
+            .calendar-day {
+                padding: 0.75rem;
+                min-height: 60px;
+            }
+
+            .space-selection {
                 grid-template-columns: 1fr;
             }
-            
-            .summary-details {
+
+            .form-row {
                 grid-template-columns: 1fr;
             }
-            
-            .team-member-input {
+
+            .requirements-grid {
                 grid-template-columns: 1fr;
-                gap: 0.5rem;
             }
-            
-            .btn-group {
+
+            .recurring-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-nav {
                 flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.75rem;
+            }
+
+            .calendar-day {
+                padding: 0.5rem;
+                min-height: 50px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">Get a Room</div>
-            <div class="welcome-text">Team Workspace Booking</div>
-            <div class="team-indicator">Professional Team Solutions</div>
-        </div>
-
-        <div class="content">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <a href="#" class="header-brand">Get a Room</a>
+                </div>
+                <div class="col-6 text-right">
+                    <nav class="header-nav justify-content-end">
+                        <a href="#" class="nav-link">Daily</a>
+                        <a href="#" class="nav-link active">Weekly</a>
+                        <a href="#" class="nav-link">Monthly</a>
+                        <a href="#" class="nav-link">Help</a>
+                    </nav>
+                </div>
             </div>
+        </div>
+    </header>
 
-            <!-- Step 1: Team Information -->
-            <div class="booking-step" id="step-1">
-                <h2 class="section-title">Team Information</h2>
+    <main class="main-content">
+        <div class="container">
+            <div class="booking-container">
+                <h1 class="text-center mb-4">Book Your Weekly Workspace</h1>
+                <p class="text-center text-muted mb-5">Select your preferred dates and workspace type for a week-long booking. 
+                Enjoy discounted rates and priority access to amenities.</p>
                 
-                <div class="team-info-card">
-                    <div class="team-leader">Sarah Wanjiku - Team Lead</div>
-                    <div class="team-details">Tech Startup • Project Planning • Client Presentations</div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Company/Organization</label>
-                    <input type="text" class="form-input" placeholder="Enter your company name" value="InnovateTech Solutions">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Project/Meeting Purpose</label>
-                    <input type="text" class="form-input" placeholder="Brief description of your meeting purpose" value="Quarterly strategy planning and client presentation prep">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Team Size</label>
-                    <select class="form-input" id="team-size">
-                        <option value="">Select team size</option>
-                        <option value="2-3">2-3 people</option>
-                        <option value="4-6" selected>4-6 people</option>
-                        <option value="7-10">7-10 people</option>
-                        <option value="11-15">11-15 people</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Add Team Members</label>
-                    <div class="team-member-input">
-                        <input type="text" class="form-input" placeholder="Member name" id="member-name">
-                        <input type="text" class="form-input" placeholder="Role/Title" id="member-role">
-                        <button class="add-member-btn" onclick="addTeamMember()">Add Member</button>
-                    </div>
-                    
-                    <div class="team-members-list" id="team-members">
-                        <div class="team-member">
-                            <div class="member-info">
-                                <div class="member-name">Sarah Wanjiku</div>
-                                <div class="member-role">Team Lead & Project Manager</div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Step 1: Date Selection -->
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <h3>Select Your Week</h3>
+                                <div class="calendar-nav">
+                                    <button id="prevMonth">&lt;</button>
+                                    <span id="currentMonth">July 2025</span>
+                                    <button id="nextMonth">&gt;</button>
+                                </div>
                             </div>
-                            <button class="remove-btn" onclick="removeMember(this)" disabled>Lead</button>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary" onclick="nextStep(2)">Continue to Date Selection</button>
-            </div>
-
-            <!-- Step 2: Date and Duration Selection -->
-            <div class="booking-step" id="step-2" style="display: none;">
-                <h2 class="section-title">Select Dates & Duration</h2>
-
-                <div class="form-group">
-                    <label class="form-label">Booking Period</label>
-                    <div class="calendar-container">
-                        <div class="calendar-header">
-                            <div class="calendar-month" id="calendar-month">July 2025</div>
-                            <div class="calendar-nav">
-                                <button class="nav-btn" onclick="previousMonth()">&lt;</button>
-                                <button class="nav-btn" onclick="nextMonth()">&gt;</button>
+                            
+                            <div class="selection-indicator" id="dateSelection" style="display: none;">
+                                <strong>Selected Week:</strong> <span id="selectedWeek">None</span>
+                            </div>
+                            
+                            <div class="calendar-grid" id="calendar">
+                                <!-- Calendar will be generated by JavaScript -->
+                            </div>
+                            
+                            <div class="form-text mt-2">
+                                Click on any day to select the entire week. Weekly bookings run Monday to Friday.
                             </div>
                         </div>
-                        <div class="calendar-grid" id="calendar-grid">
-                            <!-- Calendar will be generated by JavaScript -->
-                        </div>
-                    </div>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-top: 0.5rem;">
-                        Select start and end dates for your team booking. Minimum 2 days for team discounts.
-                    </p>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">Daily Schedule</label>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div>
-                            <label style="font-size: 0.9rem; color: #64748b; margin-bottom: 0.5rem; display: block;">Start Time</label>
-                            <select class="form-input">
-                                <option>8:00 AM</option>
-                                <option selected>9:00 AM</option>
-                                <option>10:00 AM</option>
-                                <option>11:00 AM</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 0.9rem; color: #64748b; margin-bottom: 0.5rem; display: block;">End Time</label>
-                            <select class="form-input">
-                                <option>4:00 PM</option>
-                                <option selected>5:00 PM</option>
-                                <option>6:00 PM</option>
-                                <option>7:00 PM</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="btn-group">
-                    <button class="btn btn-outline" onclick="previousStep(1)">Back</button>
-                    <button class="btn btn-primary" onclick="nextStep(3)">Continue to Workspace</button>
-                </div>
-            </div>
-
-            <!-- Step 3: Workspace Selection -->
-            <div class="booking-step" id="step-3" style="display: none;">
-                <h2 class="section-title">Choose Team Workspace</h2>
-
-                <div class="workspace-options">
-                    <div class="workspace-card" onclick="selectWorkspace(this, 'conference')">
-                        <div class="workspace-name">Conference Room</div>
-                        <div class="workspace-capacity">Up to 8 people</div>
-                        <div class="workspace-features">
-                            • 65" presentation screen<br>
-                            • Video conferencing setup<br>
-                            • Whiteboard and markers<br>
-                            • Climate controlled<br>
-                            • Coffee/tea service
-                        </div>
-                        <div class="workspace-pricing">
-                            <div>
-                                <span class="price">KES 500</span>
-                                <span class="price-period">/hour</span>
+                        <!-- Step 2: Space Selection -->
+                        <div class="space-selection" id="spaceSelection" style="display: none;">
+                            <div class="space-category">
+                                <div class="category-header">
+                                    <div class="category-title">Hot Desks</div>
+                                    <div class="category-description">Flexible workspace, perfect for individuals who need variety and networking opportunities.</div>
+                                </div>
+                                <div class="space-options">
+                                    <div class="space-option" data-space="hot-desk-premium" data-weekly="3500" data-daily="800">
+                                        <div class="space-name">Premium Hot Desk</div>
+                                        <div class="space-features">Window view, priority WiFi, ergonomic chair</div>
+                                        <div class="space-pricing">
+                                            <span class="weekly-price">KES 3,500/week</span>
+                                            <span class="daily-price">Save KES 500</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-option" data-space="hot-desk-standard" data-weekly="2800" data-daily="650">
+                                        <div class="space-name">Standard Hot Desk</div>
+                                        <div class="space-features">Open area, shared amenities, power outlets</div>
+                                        <div class="space-pricing">
+                                            <span class="weekly-price">KES 2,800/week</span>
+                                            <span class="daily-price">Save KES 450</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="discount-badge">20% team discount</span>
-                        </div>
-                    </div>
-
-                    <div class="workspace-card" onclick="selectWorkspace(this, 'collaborative')">
-                        <div class="workspace-name">Collaborative Zone</div>
-                        <div class="workspace-capacity">Up to 12 people</div>
-                        <div class="workspace-features">
-                            • Open flexible seating<br>
-                            • Multiple power outlets<br>
-                            • Moveable furniture<br>
-                            • Natural lighting<br>
-                            • Brainstorming walls
-                        </div>
-                        <div class="workspace-pricing">
-                            <div>
-                                <span class="price">KES 350</span>
-                                <span class="price-period">/hour</span>
+                            
+                            <div class="space-category">
+                                <div class="category-header">
+                                    <div class="category-title">Dedicated Desks</div>
+                                    <div class="category-description">Your own assigned desk with storage, perfect for consistent weekly work.</div>
+                                </div>
+                                <div class="space-options">
+                                    <div class="space-option" data-space="dedicated-corner" data-weekly="5500" data-daily="1200">
+                                        <div class="space-name">Corner Dedicated Desk</div>
+                                        <div class="space-features">Corner location, storage drawer, monitor mount</div>
+                                        <div class="space-pricing">
+                                            <span class="weekly-price">KES 5,500/week</span>
+                                            <span class="daily-price">Save KES 500</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-option" data-space="dedicated-standard" data-weekly="4800" data-daily="1000">
+                                        <div class="space-name">Standard Dedicated Desk</div>
+                                        <div class="space-features">Personal desk, storage, consistent location</div>
+                                        <div class="space-pricing">
+                                            <span class="weekly-price">KES 4,800/week</span>
+                                            <span class="daily-price">Save KES 200</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-option unavailable" data-space="dedicated-window" data-weekly="6000" data-daily="1300">
+                                        <div class="space-name">Window Dedicated Desk</div>
+                                        <div class="space-features">Window view, premium location, storage</div>
+                                        <div class="space-pricing">
+                                            <span class="weekly-price">KES 6,000/week (Unavailable)</span>
+                                            <span class="daily-price">All slots booked</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="discount-badge">25% team discount</span>
-                        </div>
-                    </div>
-
-                    <div class="workspace-card" onclick="selectWorkspace(this, 'executive')">
-                        <div class="workspace-name">Executive Boardroom</div>
-                        <div class="workspace-capacity">Up to 15 people</div>
-                        <div class="workspace-features">
-                            • Premium leather seating<br>
-                            • 4K presentation system<br>
-                            • Professional sound system<br>
-                            • Catering preparation area<br>
-                            • Executive amenities
-                        </div>
-                        <div class="workspace-pricing">
-                            <div>
-                                <span class="price">KES 800</span>
-                                <span class="price-period">/hour</span>
+                            
+                            <div class="space-category">
+                                <div class="category-header">
+                                    <div class="category-title">Team Spaces</div>
+                                    <div class="category-description">Collaborative spaces for small teams working together.</div>
+                                </div>
+                                <div class="space-options">
+                                    <div class="space-option" data-space="team-pod-4" data-weekly="8500" data-daily="1800">
+                                        <div class="space-name">4-Person Team Pod</div>
+                                        <div class="space-features">4 desks, whiteboard, semi-private, storage</div>
+                                        <div class="space-pricing">
+                                            <span class="weekly-price">KES 8,500/week</span>
+                                            <span class="daily-price">Save KES 500</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-option" data-space="team-corner" data-weekly="6800" data-daily="1400">
+                                        <div class="space-name">Team Corner (3 desks)</div>
+                                        <div class="space-features">3 adjacent desks, shared monitor, collaborative</div>
+                                        <div class="space-pricing">
+                                            <span class="weekly-price">KES 6,800/week</span>
+                                            <span class="daily-price">Save KES 200</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="discount-badge">15% team discount</span>
+                        </div>
+
+                        <!-- Step 3: Recurring Options -->
+                        <div class="recurring-options" id="recurringOptions" style="display: none;">
+                            <h3>Recurring Booking Options</h3>
+                            <p class="text-muted">Save more with recurring weekly bookings and enjoy priority booking privileges.</p>
+                            
+                            <div class="recurring-grid">
+                                <div class="recurring-option selected" data-recurring="single">
+                                    <div class="recurring-title">Single Week</div>
+                                    <div class="recurring-description">Book just this week</div>
+                                    <div class="recurring-discount">No additional discount</div>
+                                </div>
+                                
+                                <div class="recurring-option" data-recurring="monthly">
+                                    <div class="recurring-title">4 Weeks (Monthly)</div>
+                                    <div class="recurring-description">Same day/time for 4 consecutive weeks</div>
+                                    <div class="recurring-discount">Save 10% on total booking</div>
+                                </div>
+                                
+                                <div class="recurring-option" data-recurring="quarterly">
+                                    <div class="recurring-title">12 Weeks (Quarterly)</div>
+                                    <div class="recurring-description">Same arrangement for 3 months</div>
+                                    <div class="recurring-discount">Save 20% + priority support</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Contact & Requirements -->
+                        <div class="contact-form" id="contactForm" style="display: none;">
+                            <h3>Contact Information & Requirements</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name *</label>
+                                    <input type="text" class="form-control" placeholder="Enter your full name" id="fullName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" placeholder="your.email@example.com" id="email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Phone Number *</label>
+                                    <input type="tel" class="form-control" placeholder="07XX XXX XXX" id="phone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Company/Organization</label>
+                                    <input type="text" class="form-control" placeholder="Your company name (optional)" id="company">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Working Hours Preference</label>
+                                <select class="form-control form-select" id="workingHours">
+                                    <option value="">Select your preferred working hours</option>
+                                    <option value="early">Early Bird (6 AM - 2 PM)</option>
+                                    <option value="standard">Standard Hours (8 AM - 5 PM)</option>
+                                    <option value="flexible">Flexible (9 AM - 6 PM)</option>
+                                    <option value="late">Late Hours (10 AM - 8 PM)</option>
+                                    <option value="custom">Custom Hours (specify in notes)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="special-requirements">
+                                <label class="form-label">Additional Services (Optional)</label>
+                                <div class="requirements-grid">
+                                    <div class="requirement-item">
+                                        <input type="checkbox" class="form-check-input" id="mailHandling" value="mail">
+                                        <label class="form-check-label" for="mailHandling">Mail handling service (+KES 200/week)</label>
+                                    </div>
+                                    <div class="requirement-item">
+                                        <input type="checkbox" class="form-check-input" id="meetingRoom" value="meeting">
+                                        <label class="form-check-label" for="meetingRoom">2 hrs meeting room/week (+KES 500)</label>
+                                    </div>
+                                    <div class="requirement-item">
+                                        <input type="checkbox" class="form-check-input" id="printing" value="printing">
+                                        <label class="form-check-label" for="printing">Printing credits 100 pages (+KES 300)</label>
+                                    </div>
+                                    <div class="requirement-item">
+                                        <input type="checkbox" class="form-check-input" id="coffee" value="coffee">
+                                        <label class="form-check-label" for="coffee">Unlimited coffee/tea (+KES 400)</label>
+                                    </div>
+                                    <div class="requirement-item">
+                                        <input type="checkbox" class="form-check-input" id="locker" value="locker">
+                                        <label class="form-check-label" for="locker">Personal storage locker (+KES 150)</label>
+                                    </div>
+                                    <div class="requirement-item">
+                                        <input type="checkbox" class="form-check-input" id="events" value="events">
+                                        <label class="form-check-label" for="events">Access to networking events (Free)</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Special Requests or Notes</label>
+                                <textarea class="form-control" rows="3" placeholder="Any specific requirements, accessibility needs, or special requests..." id="specialNotes"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Booking Summary Sidebar -->
+                    <div class="col-lg-4">
+                        <div class="booking-summary">
+                            <h4>Booking Summary</h4>
+                            
+                            <div class="summary-section">
+                                <div class="summary-title">Selected Dates</div>
+                                <div class="summary-item">
+                                    <span>Week:</span>
+                                    <span id="summaryWeek">Not selected</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Days:</span>
+                                    <span id="summaryDays">Monday - Friday</span>
+                                </div>
+                            </div>
+                            
+                            <div class="summary-section">
+                                <div class="summary-title">Workspace</div>
+                                <div class="summary-item">
+                                    <span>Type:</span>
+                                    <span id="summarySpace">Not selected</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Location:</span>
+                                    <span id="summaryLocation">Get a Room, Kisumu</span>
+                                </div>
+                            </div>
+                            
+                            <div class="summary-section">
+                                <div class="summary-title">Pricing</div>
+                                <div class="summary-item">
+                                    <span>Base Price:</span>
+                                    <span id="summaryBasePrice">KES 0</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Additional Services:</span>
+                                    <span id="summaryServices">KES 0</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Recurring Discount:</span>
+                                    <span id="summaryDiscount">KES 0</span>
+                                </div>
+                            </div>
+                            
+                            <div class="summary-total">
+                                <span>Total Amount:</span>
+                                <span id="summaryTotal">KES 0</span>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-block mt-3" id="proceedBtn" disabled>
+                                Select Date to Continue
+                            </button>
+                            
+                            <div class="form-text mt-2">
+                                Payment due 48 hours before start date. 
+                                Free cancellation up to 72 hours in advance.
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="approval-notice">
-                    <div class="approval-title">Team Booking Approval</div>
-                    <div class="approval-text">Team bookings require approval from Grace. You'll receive confirmation within 2 hours during business hours.</div>
+                
+                <div class="error-message" id="errorMessage">
+                    Please complete all required fields before proceeding.
                 </div>
-
-                <div class="btn-group">
-                    <button class="btn btn-outline" onclick="previousStep(2)">Back</button>
-                    <button class="btn btn-primary" onclick="nextStep(4)" id="continue-btn" disabled>Continue to Summary</button>
-                </div>
-            </div>
-
-            <!-- Step 4: Summary and Confirmation -->
-            <div class="booking-step" id="step-4" style="display: none;">
-                <h2 class="section-title">Booking Summary</h2>
-
-                <div class="summary-card">
-                    <div class="summary-title">Team Booking Request</div>
-                    
-                    <div class="summary-details">
-                        <div class="summary-item">
-                            <div class="summary-label">Team Leader</div>
-                            <div class="summary-value">Sarah Wanjiku</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Company</div>
-                            <div class="summary-value">InnovateTech Solutions</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Team Size</div>
-                            <div class="summary-value" id="summary-team-size">4 people</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Workspace</div>
-                            <div class="summary-value" id="summary-workspace">Conference Room</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Dates</div>
-                            <div class="summary-value" id="summary-dates">Jul 15-17, 2025 (3 days)</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Daily Hours</div>
-                            <div class="summary-value">9:00 AM - 5:00 PM (8 hours)</div>
-                        </div>
-                    </div>
-
-                    <div class="total-amount">
-                        <div class="amount-before">KES 12,000</div>
-                        <div class="amount-after">KES 9,600</div>
-                        <div class="discount-info">20% Team Discount Applied</div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Contact Information</label>
-                    <input type="email" class="form-input" placeholder="Email for booking confirmation" value="sarah.w@innovatetech.co.ke">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Phone Number</label>
-                    <input type="tel" class="form-input" placeholder="+254 XXX XXX XXX" value="+254 712 345 678">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Special Requirements (Optional)</label>
-                    <textarea class="form-input" rows="3" placeholder="Any special setup requirements, catering needs, or accessibility requirements...">Need projector setup for client presentation on Day 2. Vegetarian lunch catering for 4 people on Day 3.</textarea>
-                </div>
-
-                <div class="btn-group">
-                    <button class="btn btn-outline" onclick="previousStep(3)">Back</button>
-                    <button class="btn btn-success" onclick="submitBooking()">Submit for Approval</button>
-                </div>
-            </div>
-
-            <!-- Confirmation Step -->
-            <div class="booking-step" id="step-5" style="display: none;">
-                <div style="text-align: center; padding: 2rem;">
-                    <div style="width: 100px; height: 100px; background: #00A651; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: white; font-size: 3rem;"></div>
-                    
-                    <h2 style="color: #047857; margin-bottom: 1rem;">Booking Request Submitted!</h2>
-                    <p style="color: #166534; margin-bottom: 2rem; font-size: 1.1rem;">Asante Sarah! Your team booking request has been sent to Grace for approval.</p>
-                    
-                    <div style="background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; text-align: left;">
-                        <h3 style="color: #1B4B8C; margin-bottom: 1rem;">What happens next?</h3>
-                        <ul style="color: #64748b; line-height: 1.8;">
-                            <li><strong>Review:</strong> Grace will review your request within 2 hours</li>
-                            <li><strong>Confirmation:</strong> You'll receive email and SMS confirmation</li>
-                            <li><strong>Payment:</strong> Payment link will be sent upon approval</li>
-                            <li><strong>Access:</strong> Workspace access details 24 hours before</li>
-                        </ul>
-                    </div>
-                    
-                    <div style="background: #eff6ff; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
-                        <p style="color: #1e40af;"><strong>Booking Reference:</strong> GR-TEAM-2025-001</p>
-                        <p style="color: #1e40af; font-size: 0.9rem; margin-top: 0.5rem;">Questions? WhatsApp Grace: +254 XXX XXX XXX</p>
-                    </div>
-                    
-                    <button class="btn btn-primary" onclick="newBooking()">Book Another Space</button>
+                
+                <div class="success-message" id="successMessage">
+                    <strong>Booking Request Submitted!</strong> 
+                    We'll contact you within 2 hours to confirm availability and payment details. 
+                    Reference: <span id="bookingRef">WB2025001</span>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Get a Room Coworking Space, Kisumu. All rights reserved.</p>
+            <p>Weekly bookings: Call +254 XXX XXX XXX or email weekly@getaroom.co.ke</p>
+        </div>
+    </footer>
 
     <script>
-        let currentStep = 1;
-        let selectedWorkspace = null;
-        let teamMembers = [{name: "Sarah Wanjiku", role: "Team Lead & Project Manager"}];
-        let selectedDates = [];
+        // Weekly Booking Application Logic - Matches wireframe functionality with enhanced UX
+        let currentDate = new Date();
+        let selectedWeek = null;
+        let selectedSpace = null;
+        let selectedRecurring = 'single';
+        let bookingData = {
+            week: null,
+            space: null,
+            recurring: 'single',
+            basePrice: 0,
+            additionalServices: 0,
+            discount: 0
+        };
 
-        function nextStep(step) {
-            // Hide current step
-            document.getElementById('step-' + currentStep).style.display = 'none';
-            
-            // Show next step
-            document.getElementById('step-' + step).style.display = 'block';
-            currentStep = step;
-            
-            // Update progress bar
-            updateProgress();
-            
-            if (step === 2) {
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCalendar();
+            initializeEventListeners();
+        });
+
+        function initializeEventListeners() {
+            // Calendar navigation
+            document.getElementById('prevMonth').addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
                 generateCalendar();
-            }
-        }
+            });
 
-        function previousStep(step) {
-            // Hide current step
-            document.getElementById('step-' + currentStep).style.display = 'none';
-            
-            // Show previous step
-            document.getElementById('step-' + step).style.display = 'block';
-            currentStep = step;
-            
-            // Update progress bar
-            updateProgress();
-        }
+            document.getElementById('nextMonth').addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                generateCalendar();
+            });
 
-        function updateProgress() {
-            const progress = (currentStep / 5) * 100;
-            document.getElementById('progress-fill').style.width = progress + '%';
-        }
+            // Space selection
+            document.querySelectorAll('.space-option:not(.unavailable)').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.space-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    selectedSpace = {
+                        type: this.dataset.space,
+                        name: this.querySelector('.space-name').textContent,
+                        price: parseInt(this.dataset.weekly)
+                    };
+                    
+                    bookingData.space = selectedSpace;
+                    bookingData.basePrice = selectedSpace.price;
+                    
+                    updateSummary();
+                    showNextSection('recurringOptions');
+                });
+            });
 
-        function addTeamMember() {
-            const name = document.getElementById('member-name').value;
-            const role = document.getElementById('member-role').value;
-            
-            if (name && role) {
-                teamMembers.push({name, role});
-                
-                const memberDiv = document.createElement('div');
-                memberDiv.className = 'team-member';
-                memberDiv.innerHTML = `
-                    <div class="member-info">
-                        <div class="member-name">${name}</div>
-                        <div class="member-role">${role}</div>
-                    </div>
-                    <button class="remove-btn" onclick="removeMember(this)">Remove</button>
-                `;
-                
-                document.getElementById('team-members').appendChild(memberDiv);
-                
-                // Clear inputs
-                document.getElementById('member-name').value = '';
-                document.getElementById('member-role').value = '';
-            }
-        }
+            // Recurring options
+            document.querySelectorAll('.recurring-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.recurring-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    selectedRecurring = this.dataset.recurring;
+                    bookingData.recurring = selectedRecurring;
+                    
+                    updateSummary();
+                    showNextSection('contactForm');
+                });
+            });
 
-        function removeMember(button) {
-            const memberDiv = button.closest('.team-member');
-            const memberName = memberDiv.querySelector('.member-name').textContent;
-            
-            // Remove from array
-            teamMembers = teamMembers.filter(member => member.name !== memberName);
-            
-            // Remove from DOM
-            memberDiv.remove();
+            // Additional services
+            document.querySelectorAll('.requirement-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const checkbox = this.querySelector('.form-check-input');
+                    checkbox.checked = !checkbox.checked;
+                    this.classList.toggle('selected', checkbox.checked);
+                    updateSummary();
+                });
+            });
+
+            // Proceed button
+            document.getElementById('proceedBtn').addEventListener('click', function() {
+                if (validateForm()) {
+                    submitBooking();
+                }
+            });
         }
 
         function generateCalendar() {
-            const grid = document.getElementById('calendar-grid');
-            grid.innerHTML = '';
+            const calendar = document.getElementById('calendar');
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
             
-            // Day headers
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            days.forEach(day => {
+            document.getElementById('currentMonth').textContent = 
+                `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+            // Clear calendar
+            calendar.innerHTML = '';
+
+            // Add day headers
+            const dayHeaders = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            dayHeaders.forEach(day => {
                 const dayHeader = document.createElement('div');
                 dayHeader.className = 'calendar-day-header';
                 dayHeader.textContent = day;
-                grid.appendChild(dayHeader);
+                calendar.appendChild(dayHeader);
             });
+
+            // Get first day of month and number of days
+            const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+            const daysInMonth = lastDay.getDate();
             
-            // Generate days for current month (simplified)
-            for (let i = 1; i <= 31; i++) {
-                const dayDiv = document.createElement('div');
-                dayDiv.className = 'calendar-day';
-                dayDiv.textContent = i;
-                dayDiv.onclick = () => selectDate(i);
+            // Adjust for Monday start (getDay() returns 0 for Sunday)
+            const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+
+            // Add empty cells for previous month
+            for (let i = 0; i < startDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day other-month';
+                calendar.appendChild(emptyDay);
+            }
+
+            // Add days of current month
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
                 
-                // Disable past dates
-                if (i < 15) {
-                    dayDiv.classList.add('disabled');
-                    dayDiv.onclick = null;
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = day;
+                
+                const dayAvailability = document.createElement('div');
+                dayAvailability.className = 'day-availability';
+                dayAvailability.textContent = 'Available';
+                
+                dayElement.appendChild(dayNumber);
+                dayElement.appendChild(dayAvailability);
+                
+                // Check if it's today
+                const currentDayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+                if (currentDayDate.toDateString() === today.toDateString()) {
+                    dayElement.classList.add('today');
                 }
-                
-                grid.appendChild(dayDiv);
+
+                // Make past dates unavailable
+                if (currentDayDate < today) {
+                    dayElement.classList.add('unavailable');
+                    dayAvailability.textContent = 'Unavailable';
+                } else {
+                    dayElement.addEventListener('click', () => selectWeek(currentDayDate));
+                }
+
+                calendar.appendChild(dayElement);
             }
         }
 
-        function selectDate(day) {
-            const dayElements = document.querySelectorAll('.calendar-day');
-            const clickedDay = Array.from(dayElements).find(el => el.textContent == day && !el.classList.contains('disabled'));
-            
-            if (selectedDates.length < 2) {
-                selectedDates.push(day);
-                clickedDay.classList.add('selected');
-                
-                if (selectedDates.length === 2) {
-                    // Mark range
-                    const start = Math.min(...selectedDates);
-                    const end = Math.max(...selectedDates);
-                    
-                    dayElements.forEach(el => {
-                        const dayNum = parseInt(el.textContent);
-                        if (dayNum >= start && dayNum <= end && !el.classList.contains('disabled')) {
-                            if (dayNum === start) el.classList.add('start-date');
-                            else if (dayNum === end) el.classList.add('end-date');
-                            else el.classList.add('in-range');
-                        }
-                    });
-                }
-            } else {
-                // Reset selection
-                selectedDates = [day];
-                dayElements.forEach(el => {
-                    el.classList.remove('selected', 'start-date', 'end-date', 'in-range');
-                });
-                clickedDay.classList.add('selected');
-            }
-        }
+        function selectWeek(selectedDate) {
+            // Calculate start of week (Monday)
+            const dayOfWeek = selectedDate.getDay();
+            const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+            const mondayDate = new Date(selectedDate);
+            mondayDate.setDate(selectedDate.getDate() + mondayOffset);
 
-        function selectWorkspace(card, type) {
-            // Remove previous selections
-            document.querySelectorAll('.workspace-card').forEach(c => c.classList.remove('selected'));
-            
-            // Select current card
-            card.classList.add('selected');
-            selectedWorkspace = {
-                type: type,
-                name: card.querySelector('.workspace-name').textContent,
-                price: card.querySelector('.price').textContent
+            // Calculate end of week (Friday)
+            const fridayDate = new Date(mondayDate);
+            fridayDate.setDate(mondayDate.getDate() + 4);
+
+            selectedWeek = {
+                start: mondayDate,
+                end: fridayDate
             };
+
+            bookingData.week = selectedWeek;
+
+            // Update UI
+            const weekStr = `${formatDate(mondayDate)} - ${formatDate(fridayDate)}`;
+            document.getElementById('selectedWeek').textContent = weekStr;
+            document.getElementById('dateSelection').style.display = 'block';
+
+            // Highlight selected week in calendar
+            highlightWeekInCalendar(mondayDate, fridayDate);
+
+            updateSummary();
+            showNextSection('spaceSelection');
             
-            // Enable continue button
-            document.getElementById('continue-btn').disabled = false;
+            // Update proceed button
+            const proceedBtn = document.getElementById('proceedBtn');
+            proceedBtn.disabled = false;
+            proceedBtn.textContent = 'Select Space to Continue';
+        }
+
+        function highlightWeekInCalendar(startDate, endDate) {
+            // Clear previous selections
+            document.querySelectorAll('.calendar-day').forEach(day => {
+                day.classList.remove('selected', 'in-range');
+            });
+
+            // Highlight the selected week
+            const calendarDays = document.querySelectorAll('.calendar-day:not(.other-month)');
+            calendarDays.forEach(dayElement => {
+                const dayNumber = parseInt(dayElement.querySelector('.day-number')?.textContent);
+                if (dayNumber) {
+                    const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), dayNumber);
+                    
+                    if (dayDate >= startDate && dayDate <= endDate) {
+                        if (dayDate.getTime() === startDate.getTime() || dayDate.getTime() === endDate.getTime()) {
+                            dayElement.classList.add('selected');
+                        } else {
+                            dayElement.classList.add('in-range');
+                        }
+                    }
+                }
+            });
+        }
+
+        function showNextSection(sectionId) {
+            document.getElementById(sectionId).style.display = 'block';
+            document.getElementById(sectionId).scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        function updateSummary() {
+            // Update week display
+            if (selectedWeek) {
+                const weekStr = `${formatDate(selectedWeek.start)} - ${formatDate(selectedWeek.end)}`;
+                document.getElementById('summaryWeek').textContent = weekStr;
+            }
+
+            // Update space display
+            if (selectedSpace) {
+                document.getElementById('summarySpace').textContent = selectedSpace.name;
+                document.getElementById('summaryBasePrice').textContent = `KES ${selectedSpace.price}`;
+            }
+
+            // Calculate additional services
+            let servicesTotal = 0;
+            document.querySelectorAll('.requirement-item .form-check-input:checked').forEach(checkbox => {
+                const label = checkbox.parentElement.querySelector('.form-check-label').textContent;
+                const priceMatch = label.match(/\+KES (\d+)/);
+                if (priceMatch) {
+                    servicesTotal += parseInt(priceMatch[1]);
+                }
+            });
+
+            bookingData.additionalServices = servicesTotal;
+            document.getElementById('summaryServices').textContent = `KES ${servicesTotal}`;
+
+            // Calculate recurring discount
+            let discount = 0;
+            if (bookingData.basePrice > 0) {
+                switch (selectedRecurring) {
+                    case 'monthly':
+                        discount = Math.floor((bookingData.basePrice * 4 + servicesTotal * 4) * 0.1);
+                        break;
+                    case 'quarterly':
+                        discount = Math.floor((bookingData.basePrice * 12 + servicesTotal * 12) * 0.2);
+                        break;
+                }
+            }
+
+            bookingData.discount = discount;
+            document.getElementById('summaryDiscount').textContent = discount > 0 ? `-KES ${discount}` : 'KES 0';
+
+            // Calculate total
+            let total = bookingData.basePrice + servicesTotal - discount;
+            
+            // Multiply by number of weeks for recurring bookings
+            if (selectedRecurring === 'monthly') {
+                total = (bookingData.basePrice + servicesTotal) * 4 - discount;
+            } else if (selectedRecurring === 'quarterly') {
+                total = (bookingData.basePrice + servicesTotal) * 12 - discount;
+            }
+
+            document.getElementById('summaryTotal').textContent = `KES ${total}`;
+        }
+
+        function formatDate(date) {
+            const options = { month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        function validateForm() {
+            const requiredFields = ['fullName', 'email', 'phone'];
+            let valid = true;
+
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    valid = false;
+                    field.style.borderColor = 'var(--error-red)';
+                } else {
+                    field.style.borderColor = 'var(--border-light)';
+                }
+            });
+
+            if (!valid) {
+                document.getElementById('errorMessage').style.display = 'block';
+                return false;
+            }
+
+            document.getElementById('errorMessage').style.display = 'none';
+            return true;
         }
 
         function submitBooking() {
-            // Simulate submission
-            nextStep(5);
+            // Simulate booking submission
+            const successMessage = document.getElementById('successMessage');
+            const bookingContainer = document.querySelector('.booking-container');
+            
+            // Generate booking reference
+            const ref = 'WB' + new Date().getFullYear() + String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+            document.getElementById('bookingRef').textContent = ref;
+            
+            // Hide form and show success
+            bookingContainer.style.display = 'none';
+            successMessage.style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Simulate email confirmation
+            setTimeout(() => {
+                alert('Confirmation email sent! We will contact you within 2 hours to finalize your booking.');
+            }, 2000);
         }
-
-        function newBooking() {
-            // Reset everything
-            currentStep = 1;
-            selectedWorkspace = null;
-            selectedDates = [];
-            teamMembers = [{name: "Sarah Wanjiku", role: "Team Lead & Project Manager"}];
-            
-            // Reset display
-            document.querySelectorAll('.booking-step').forEach(step => step.style.display = 'none');
-            document.getElementById('step-1').style.display = 'block';
-            
-            // Reset progress
-            updateProgress();
-            
-            // Reset forms
-            document.querySelectorAll('.workspace-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById('continue-btn').disabled = true;
-        }
-
-        // Initialize
-        updateProgress();
     </script>
 </body>
 </html>

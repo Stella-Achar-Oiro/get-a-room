@@ -3,214 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get a Room - Daily Booking (High-Fidelity)</title>
+    <title>Daily Hot Spot Booking - Get a Room</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ==========================================================================
+           Get a Room - High Fidelity Daily Booking Prototype
+           Designer: Stella Oiro
+           Matches wireframe structure with moodboard design system
+           ========================================================================== */
+
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #2c3e50;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            min-height: 100vh;
+        html {
+            font-size: 16px;
+            line-height: 1.5;
         }
 
-        .mobile-container {
-            max-width: 375px;
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #2c3e50;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           Color System from Moodboard
+           ========================================================================== */
+        :root {
+            --primary-blue: #1B4B8C;
+            --kenya-green: #006B3C;
+            --mpesa-green: #00A651;
+            --accent-orange: #FF7F00;
+            --warning-yellow: #FFC107;
+            --error-red: #C62828;
+            --text-primary: #2c3e50;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --surface-white: #ffffff;
+            --surface-light: #f8fafc;
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+        }
+
+        /* ==========================================================================
+           Typography
+           ========================================================================== */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.5rem; }
+        h5 { font-size: 1.25rem; }
+        h6 { font-size: 1rem; }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--kenya-green);
+        }
+
+        /* ==========================================================================
+           Grid System
+           ========================================================================== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            min-height: 100vh;
-            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            padding: 0 1rem;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.5rem;
+        }
+
+        .col {
+            flex: 1;
+            padding: 0 0.5rem;
+        }
+
+        .col-6 { flex: 0 0 50%; max-width: 50%; }
+        .col-md-6 { flex: 0 0 50%; max-width: 50%; }
+
+        /* ==========================================================================
+           Header Component
+           ========================================================================== */
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--kenya-green) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(27, 75, 140, 0.15);
             position: relative;
+            z-index: 100;
+        }
+
+        .header-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        /* ==========================================================================
+           Main Content
+           ========================================================================== */
+        .main-content {
+            padding: 3rem 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        .booking-flow {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--surface-white);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(27, 75, 140, 0.08);
             overflow: hidden;
         }
 
-        .header {
-            background: linear-gradient(135deg, #1B4B8C 0%, #006B3C 100%);
-            color: white;
-            padding: 2rem 1.5rem 1.5rem;
+        .booking-header {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 2rem;
             text-align: center;
-            position: relative;
+            border-bottom: 1px solid var(--border-light);
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            right: 0;
-            height: 20px;
-            background: white;
-            border-radius: 20px 20px 0 0;
+        .booking-content {
+            padding: 2rem;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        .text-center {
+            text-align: center;
         }
 
-        .welcome-text {
-            opacity: 0.9;
-            font-size: 1rem;
+        .mb-4 {
+            margin-bottom: 2rem;
         }
 
-        .kiswahili-greeting {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 0.25rem;
+        .text-muted {
+            color: var(--text-muted);
         }
 
-        .content {
-            padding: 1.5rem;
-            min-height: calc(100vh - 200px);
-        }
-
+        /* ==========================================================================
+           Step Indicator
+           ========================================================================== */
         .step-indicator {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             margin-bottom: 2rem;
+            padding: 1.5rem 0;
+            border-bottom: 2px solid var(--border-light);
         }
 
         .step {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            margin: 0 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .step.active {
-            background: #1B4B8C;
-            color: white;
-        }
-
-        .step.completed {
-            background: #00A651;
-            color: white;
-        }
-
-        .step.inactive {
-            background: #e2e8f0;
-            color: #64748b;
-        }
-
-        .step-connector {
-            width: 30px;
-            height: 2px;
-            background: #e2e8f0;
-            margin-top: 19px;
-        }
-
-        .step-connector.completed {
-            background: #00A651;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1B4B8C;
-            margin-bottom: 1rem;
-        }
-
-        .workspace-grid {
-            display: grid;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .workspace-card {
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
+            flex: 1;
             position: relative;
         }
 
-        .workspace-card:hover {
-            border-color: #1B4B8C;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.1);
-        }
-
-        .workspace-card.selected {
-            border-color: #1B4B8C;
-            background: #f0f9ff;
-        }
-
-        .workspace-card.selected::after {
-            content: '';
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: #00A651;
-            color: white;
-            width: 24px;
-            height: 24px;
+        .step-number {
+            width: 2.5rem;
+            height: 2.5rem;
             border-radius: 50%;
+            background-color: var(--border-light);
+            color: var(--text-muted);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
             font-weight: 600;
+            margin-right: 0.75rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-light);
         }
 
-        .workspace-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
+        .step.active .step-number {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(27, 75, 140, 0.3);
         }
 
-        .workspace-features {
-            color: #64748b;
-            margin-bottom: 1rem;
+        .step.completed .step-number {
+            background-color: var(--mpesa-green);
+            color: white;
+            border-color: var(--mpesa-green);
+        }
+
+        .step-label {
             font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
-        .workspace-pricing {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #1B4B8C;
-        }
-
-        .price-period {
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-
-        .availability-status {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
+        .step.active .step-label {
+            color: var(--primary-blue);
             font-weight: 600;
         }
 
-        .available {
-            background: #ecfdf5;
-            color: #047857;
+        .step.completed .step-label {
+            color: var(--mpesa-green);
+            font-weight: 600;
         }
 
-        .limited {
-            background: #fef3c7;
-            color: #d97706;
+        /* ==========================================================================
+           Progress Bar
+           ========================================================================== */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--border-light) 0%, var(--border-light) 100%);
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--kenya-green) 100%);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+            box-shadow: 0 2px 8px rgba(27, 75, 140, 0.3);
+        }
+
+        /* ==========================================================================
+           Form Components
+           ========================================================================== */
+        .form-section {
+            display: none;
+            padding: 1rem 0;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .form-group {
@@ -219,267 +305,505 @@
 
         .form-label {
             display: block;
-            font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #1B4B8C;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
         }
 
-        .form-input {
+        .form-control {
             width: 100%;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border-light);
             border-radius: 8px;
             font-size: 1rem;
-            transition: all 0.3s ease;
-            min-height: 56px;
+            transition: all 0.2s ease;
+            background: var(--surface-white);
+            color: var(--text-primary);
         }
 
-        .form-input:focus {
+        .form-control:focus {
             outline: none;
-            border-color: #1B4B8C;
+            border-color: var(--primary-blue);
             box-shadow: 0 0 0 3px rgba(27, 75, 140, 0.1);
         }
 
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* ==========================================================================
+           Space Grid
+           ========================================================================== */
+        .space-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .space-option {
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--surface-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .space-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--kenya-green));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .space-option:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .space-option:hover::before {
+            transform: scaleX(1);
+        }
+
+        .space-option.selected {
+            border-color: var(--primary-blue);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            box-shadow: 0 8px 25px rgba(27, 75, 140, 0.2);
+        }
+
+        .space-option.selected::before {
+            transform: scaleX(1);
+        }
+
+        .space-option.unavailable {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f8f9fa;
+            border-style: dashed;
+        }
+
+        .space-option.unavailable:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .space-name {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .space-details {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .space-price {
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        /* ==========================================================================
+           Time Slots
+           ========================================================================== */
         .time-slots {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 0.75rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
 
         .time-slot {
             padding: 1rem;
-            border: 2px solid #e2e8f0;
+            border: 2px solid var(--border-light);
             border-radius: 8px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
+            transition: all 0.2s ease;
+            background: var(--surface-white);
+            font-weight: 500;
         }
 
         .time-slot:hover {
-            border-color: #1B4B8C;
+            border-color: var(--primary-blue);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(27, 75, 140, 0.15);
         }
 
         .time-slot.selected {
-            border-color: #1B4B8C;
-            background: #f0f9ff;
-            color: #1B4B8C;
-            font-weight: 600;
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(27, 75, 140, 0.3);
         }
 
         .time-slot.unavailable {
-            background: #f8fafc;
-            color: #94a3b8;
+            opacity: 0.5;
             cursor: not-allowed;
-            border-color: #e2e8f0;
+            background: #f8f9fa;
+            border-style: dashed;
         }
 
-        .payment-section {
-            background: #f0fdf4;
-            border: 2px solid #00A651;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+        .time-slot.unavailable:hover {
+            transform: none;
+            box-shadow: none;
         }
 
-        .mpesa-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .mpesa-logo {
-            background: #00A651;
-            color: white;
-            padding: 0.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            margin-right: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .payment-total {
-            text-align: center;
+        /* ==========================================================================
+           Amenities Grid
+           ========================================================================== */
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
             margin-bottom: 1.5rem;
         }
 
-        .total-amount {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1B4B8C;
-            margin-bottom: 0.25rem;
-        }
-
-        .total-breakdown {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border: none;
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid var(--border-light);
             border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .amenity-item:hover {
+            border-color: var(--kenya-green);
+            background: rgba(0, 107, 60, 0.05);
+        }
+
+        .amenity-item.selected {
+            border-color: var(--kenya-green);
+            background: rgba(0, 107, 60, 0.1);
+        }
+
+        .form-check-input {
+            margin-right: 0.75rem;
+            transform: scale(1.2);
+            accent-color: var(--kenya-green);
+        }
+
+        .amenity-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            background: var(--kenya-green);
+            margin-right: 0.75rem;
+            border-radius: 3px;
+        }
+
+        .form-check-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ==========================================================================
+           Payment Methods
+           ========================================================================== */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-option {
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
             text-align: center;
-            min-height: 56px;
+            background: var(--surface-white);
+            position: relative;
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(27, 75, 140, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .payment-option.selected {
+            border-color: var(--mpesa-green);
+            background: rgba(0, 166, 81, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 166, 81, 0.2);
+        }
+
+        .payment-logo {
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--kenya-green));
+            margin: 0 auto 1rem;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .btn-primary {
-            background: #1B4B8C;
             color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
         }
 
-        .btn-primary:hover {
-            background: #15375e;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(27, 75, 140, 0.3);
+        .payment-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
-        .btn-success {
-            background: #00A651;
-            color: white;
+        .payment-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
         }
 
-        .btn-success:hover {
-            background: #008442;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(0, 166, 81, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #1B4B8C;
-            border: 2px solid #1B4B8C;
-        }
-
-        .btn-outline:hover {
-            background: #1B4B8C;
-            color: white;
-        }
-
-        .confirmation-card {
-            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
-            border: 2px solid #00A651;
+        /* ==========================================================================
+           Booking Summary
+           ========================================================================== */
+        .booking-summary {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid var(--border-light);
             border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
+            padding: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background: #00A651;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            color: white;
-            font-size: 2rem;
-            animation: successPulse 1s ease-in-out;
+        .booking-summary h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1.25rem;
+            font-size: 1.2rem;
         }
 
-        @keyframes successPulse {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .confirmation-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #047857;
-            margin-bottom: 0.5rem;
-        }
-
-        .confirmation-subtitle {
-            color: #166534;
-            margin-bottom: 1rem;
-        }
-
-        .booking-details {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            text-align: left;
-        }
-
-        .detail-row {
+        .summary-row {
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.75rem;
+            padding: 0.25rem 0;
         }
 
-        .detail-label {
-            color: #64748b;
+        .summary-row span:first-child {
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
-        .detail-value {
+        .summary-row span:last-child {
+            color: var(--text-primary);
             font-weight: 600;
-            color: #1e293b;
         }
 
-        .sms-notice {
-            background: #eff6ff;
-            border: 1px solid #3b82f6;
+        .summary-total {
+            border-top: 2px solid var(--primary-blue);
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .summary-total span {
+            font-weight: 700;
+        }
+
+        .summary-total span:last-child {
+            color: var(--primary-blue);
+        }
+
+        /* ==========================================================================
+           Buttons
+           ========================================================================== */
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            border: none;
             border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: #1e40af;
-        }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #e2e8f0;
-            border-top: 4px solid #1B4B8C;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .processing-text {
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
             text-align: center;
-            color: #64748b;
-            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 120px;
         }
 
-        .cultural-touch {
-            text-align: center;
-            color: #64748b;
-            font-size: 0.9rem;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--kenya-green) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(27, 75, 140, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(27, 75, 140, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--surface-white);
+            color: var(--text-secondary);
+            border: 2px solid var(--border-medium);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-light);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--mpesa-green) 0%, var(--kenya-green) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 166, 81, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 166, 81, 0.4);
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
             margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e2e8f0;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
         }
 
-        /* Page-specific styles */
-        .step1 { display: block; }
-        .step2, .step3, .step4 { display: none; }
+        /* ==========================================================================
+           Messages and Alerts
+           ========================================================================== */
+        .error-message {
+            color: var(--error-red);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+            padding: 0.5rem;
+            background: rgba(198, 40, 40, 0.1);
+            border-radius: 4px;
+            border-left: 3px solid var(--error-red);
+        }
 
-        @media (max-width: 375px) {
-            .content {
-                padding: 1rem;
+        .success-message {
+            background: rgba(0, 166, 81, 0.1);
+            border: 2px solid var(--mpesa-green);
+            color: var(--kenya-green);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid var(--mpesa-green);
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: rgba(27, 75, 140, 0.1);
+            border-left-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        /* ==========================================================================
+           Mobile Responsive
+           ========================================================================== */
+        @media (max-width: 767px) {
+            .main-content {
+                padding: 1.5rem 0;
             }
-            
+
+            .booking-content {
+                padding: 1.5rem;
+            }
+
+            .booking-header {
+                padding: 1.5rem;
+            }
+
+            .step-indicator {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .step {
+                justify-content: center;
+            }
+
+            .space-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .amenities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .col-6,
+            .col-md-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-nav {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.75rem;
+            }
+
+            .booking-flow {
+                margin: 0 0.5rem;
+                border-radius: 12px;
+            }
+
             .time-slots {
                 grid-template-columns: 1fr;
             }
@@ -487,352 +811,566 @@
     </style>
 </head>
 <body>
-    <div class="mobile-container">
-        <div class="header">
-            <div class="logo">Get a Room</div>
-            <div class="welcome-text">Book your perfect workspace</div>
-            <div class="kiswahili-greeting">Karibu! Welcome to professional coworking</div>
-        </div>
-
-        <div class="content">
-            <!-- Step Indicator -->
-            <div class="step-indicator">
-                <div class="step active" id="step-1">1</div>
-                <div class="step-connector"></div>
-                <div class="step inactive" id="step-2">2</div>
-                <div class="step-connector"></div>
-                <div class="step inactive" id="step-3">3</div>
-                <div class="step-connector"></div>
-                <div class="step inactive" id="step-4">4</div>
-            </div>
-
-            <!-- Step 1: Workspace Selection -->
-            <div class="step1" id="content-1">
-                <h2 class="section-title">Choose Your Workspace</h2>
-                
-                <div class="workspace-grid">
-                    <div class="workspace-card" onclick="selectWorkspace(this, 'creative')">
-                        <div class="workspace-name">Creative Zone</div>
-                        <div class="workspace-features">Natural light • Whiteboard • Design tools • Quiet environment</div>
-                        <div class="workspace-pricing">
-                            <div>
-                                <span class="price">KES 200</span>
-                                <span class="price-period">/hour</span>
-                            </div>
-                            <span class="availability-status available">Available Now</span>
-                        </div>
-                    </div>
-
-                    <div class="workspace-card" onclick="selectWorkspace(this, 'focus')">
-                        <div class="workspace-name">Focus Pod</div>
-                        <div class="workspace-features">Private booth • Soundproof • High-speed WiFi • Phone calls OK</div>
-                        <div class="workspace-pricing">
-                            <div>
-                                <span class="price">KES 300</span>
-                                <span class="price-period">/hour</span>
-                            </div>
-                            <span class="availability-status available">Available Now</span>
-                        </div>
-                    </div>
-
-                    <div class="workspace-card" onclick="selectWorkspace(this, 'collaborative')">
-                        <div class="workspace-name">Collaborative Space</div>
-                        <div class="workspace-features">Open area • Team tables • Presentation screen • Coffee nearby</div>
-                        <div class="workspace-pricing">
-                            <div>
-                                <span class="price">KES 150</span>
-                                <span class="price-period">/hour</span>
-                            </div>
-                            <span class="availability-status limited">Limited spots</span>
-                        </div>
-                    </div>
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <a href="#" class="header-brand">Get a Room</a>
                 </div>
-
-                <button class="btn btn-primary" onclick="nextStep(2)" id="next-btn-1" disabled>Continue to Time Selection</button>
-            </div>
-
-            <!-- Step 2: Time Selection -->
-            <div class="step2" id="content-2">
-                <h2 class="section-title">Select Your Time</h2>
-                
-                <div class="form-group">
-                    <label class="form-label">Date</label>
-                    <input type="date" class="form-input" id="booking-date" min="" value="">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Available Time Slots</label>
-                    <div class="time-slots">
-                        <div class="time-slot" onclick="selectTime(this, '09:00-12:00')">
-                            <div>9:00 AM - 12:00 PM</div>
-                            <div style="font-size: 0.8rem; color: #64748b;">3 hours</div>
-                        </div>
-                        <div class="time-slot" onclick="selectTime(this, '12:00-15:00')">
-                            <div>12:00 PM - 3:00 PM</div>
-                            <div style="font-size: 0.8rem; color: #64748b;">3 hours</div>
-                        </div>
-                        <div class="time-slot" onclick="selectTime(this, '15:00-18:00')">
-                            <div>3:00 PM - 6:00 PM</div>
-                            <div style="font-size: 0.8rem; color: #64748b;">3 hours</div>
-                        </div>
-                        <div class="time-slot" onclick="selectTime(this, '18:00-21:00')">
-                            <div>6:00 PM - 9:00 PM</div>
-                            <div style="font-size: 0.8rem; color: #64748b;">3 hours</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn btn-outline" onclick="previousStep(1)" style="flex: 1;">Back</button>
-                    <button class="btn btn-primary" onclick="nextStep(3)" id="next-btn-2" disabled style="flex: 2;">Continue to Details</button>
-                </div>
-            </div>
-
-            <!-- Step 3: Contact & Payment -->
-            <div class="step3" id="content-3">
-                <h2 class="section-title">Your Details & Payment</h2>
-
-                <div class="form-group">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" class="form-input" placeholder="Enter your full name" id="user-name">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Phone Number (M-Pesa)</label>
-                    <input type="tel" class="form-input" placeholder="+254 XXX XXX XXX" id="phone-number">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" placeholder="your.email@example.com" id="email">
-                </div>
-
-                <div class="payment-section">
-                    <div class="mpesa-header">
-                        <div class="mpesa-logo">M-PESA</div>
-                        <div>
-                            <div style="font-weight: 600; color: #047857;">Secure Payment</div>
-                            <div style="font-size: 0.8rem; color: #166534;">Trusted by millions of Kenyans</div>
-                        </div>
-                    </div>
-
-                    <div class="payment-total">
-                        <div class="total-amount" id="total-amount">KES 600</div>
-                        <div class="total-breakdown" id="total-breakdown">Creative Zone • 3 hours • Today 3PM-6PM</div>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn btn-outline" onclick="previousStep(2)" style="flex: 1;">Back</button>
-                    <button class="btn btn-success" onclick="processPayment()" style="flex: 2;">Pay with M-Pesa</button>
-                </div>
-            </div>
-
-            <!-- Step 4: Confirmation -->
-            <div class="step4" id="content-4">
-                <div class="confirmation-card">
-                    <div class="success-icon"></div>
-                    <div class="confirmation-title">Booking Confirmed!</div>
-                    <div class="confirmation-subtitle">Asante! Your workspace is ready</div>
-
-                    <div class="booking-details">
-                        <div class="detail-row">
-                            <span class="detail-label">Workspace:</span>
-                            <span class="detail-value" id="confirm-workspace">Creative Zone</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Date & Time:</span>
-                            <span class="detail-value" id="confirm-datetime">Today, 3:00 PM - 6:00 PM</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Total Paid:</span>
-                            <span class="detail-value" id="confirm-amount">KES 600</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Booking ID:</span>
-                            <span class="detail-value">GR-2025-001234</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sms-notice">
-                    <strong>SMS Confirmation Sent</strong><br>
-                    Check your phone for booking details and access instructions. SMS delivered to +254 XXX XXX XXX
-                </div>
-
-                <button class="btn btn-primary" onclick="newBooking()">Book Another Workspace</button>
-                
-                <div class="cultural-touch">
-                    <p><strong>Karibu Get a Room!</strong></p>
-                    <p>Need help? WhatsApp us: +254 XXX XXX XXX</p>
-                </div>
-            </div>
-
-            <!-- Processing overlay -->
-            <div id="processing-overlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.95); z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <div class="loading-spinner"></div>
-                <div class="processing-text">
-                    <div style="font-weight: 600; margin-bottom: 0.5rem;">Processing M-Pesa Payment</div>
-                    <div>Please check your phone for STK push notification</div>
+                <div class="col-6 text-right">
+                    <nav class="header-nav">
+                        <a href="#" class="nav-link">Daily</a>
+                        <a href="#" class="nav-link">Weekly</a>
+                        <a href="#" class="nav-link">Monthly</a>
+                        <a href="#" class="nav-link">Help</a>
+                    </nav>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="booking-flow">
+                <div class="booking-header">
+                    <h1>Book Your Daily Hot Spot</h1>
+                    <p>Professional workspace in Kisumu's premier coworking space</p>
+                </div>
+
+                <div class="booking-content">
+                    <!-- Progress Indicator -->
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 25%"></div>
+                    </div>
+                    
+                    <!-- Step Indicator -->
+                    <div class="step-indicator">
+                        <div class="step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Select Space</div>
+                        </div>
+                        <div class="step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Choose Time</div>
+                        </div>
+                        <div class="step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Add Details</div>
+                        </div>
+                        <div class="step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Payment</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Space Selection -->
+                    <div class="form-section active" id="step1">
+                        <h3>Choose Your Workspace</h3>
+                        <p class="text-muted mb-4">Select from our available daily hot spots. All spaces include WiFi and basic amenities.</p>
+                        
+                        <div class="space-grid">
+                            <div class="space-option" data-space="hot-desk-1" data-price="800">
+                                <div class="space-name">Hot Desk - Window Side</div>
+                                <div class="space-details">Individual desk, power outlet, natural light</div>
+                                <div class="space-price">KES 800/day</div>
+                            </div>
+                            
+                            <div class="space-option" data-space="hot-desk-2" data-price="700">
+                                <div class="space-name">Hot Desk - Central</div>
+                                <div class="space-details">Individual desk, power outlet, open area</div>
+                                <div class="space-price">KES 700/day</div>
+                            </div>
+                            
+                            <div class="space-option" data-space="quiet-zone" data-price="900">
+                                <div class="space-name">Quiet Zone Desk</div>
+                                <div class="space-details">Individual desk, noise-reduced area, power</div>
+                                <div class="space-price">KES 900/day</div>
+                            </div>
+                            
+                            <div class="space-option unavailable" data-space="lounge" data-price="600">
+                                <div class="space-name">Lounge Area</div>
+                                <div class="space-details">Casual seating, shared tables, relaxed</div>
+                                <div class="space-price">KES 600/day (Unavailable)</div>
+                            </div>
+                            
+                            <div class="space-option" data-space="standing-desk" data-price="750">
+                                <div class="space-name">Standing Desk</div>
+                                <div class="space-details">Height-adjustable, ergonomic, power</div>
+                                <div class="space-price">KES 750/day</div>
+                            </div>
+                            
+                            <div class="space-option" data-space="booth" data-price="1000">
+                                <div class="space-name">Private Booth</div>
+                                <div class="space-details">Semi-private, phone calls OK, power</div>
+                                <div class="space-price">KES 1,000/day</div>
+                            </div>
+                        </div>
+                        
+                        <div class="error-message" id="spaceError">Please select a workspace to continue.</div>
+                    </div>
+
+                    <!-- Step 2: Time Selection -->
+                    <div class="form-section" id="step2">
+                        <h3>Select Your Time</h3>
+                        <p class="text-muted mb-4">Choose your preferred time slot. Our space is open from 6 AM to 10 PM.</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" id="bookingDate" min="">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Duration</label>
+                            <select class="form-control form-select" id="duration">
+                                <option value="">Select duration</option>
+                                <option value="half-day">Half Day (4 hours) - 50% off</option>
+                                <option value="full-day">Full Day (8+ hours)</option>
+                                <option value="custom">Custom Hours</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="timeSlots" style="display: none;">
+                            <label class="form-label">Available Time Slots</label>
+                            <div class="time-slots">
+                                <div class="time-slot" data-time="06:00-10:00">6 AM - 10 AM</div>
+                                <div class="time-slot" data-time="08:00-12:00">8 AM - 12 PM</div>
+                                <div class="time-slot" data-time="10:00-14:00">10 AM - 2 PM</div>
+                                <div class="time-slot" data-time="12:00-16:00">12 PM - 4 PM</div>
+                                <div class="time-slot unavailable" data-time="14:00-18:00">2 PM - 6 PM (Unavailable)</div>
+                                <div class="time-slot" data-time="16:00-20:00">4 PM - 8 PM</div>
+                                <div class="time-slot" data-time="18:00-22:00">6 PM - 10 PM</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" id="customTime" style="display: none;">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="form-label">Start Time</label>
+                                    <select class="form-control form-select" id="startTime">
+                                        <option value="">Select start time</option>
+                                        <option value="06:00">6:00 AM</option>
+                                        <option value="07:00">7:00 AM</option>
+                                        <option value="08:00">8:00 AM</option>
+                                        <option value="09:00">9:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="13:00">1:00 PM</option>
+                                        <option value="14:00">2:00 PM</option>
+                                        <option value="15:00">3:00 PM</option>
+                                        <option value="16:00">4:00 PM</option>
+                                        <option value="17:00">5:00 PM</option>
+                                        <option value="18:00">6:00 PM</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label">End Time</label>
+                                    <select class="form-control form-select" id="endTime">
+                                        <option value="">Select end time</option>
+                                        <option value="08:00">8:00 AM</option>
+                                        <option value="09:00">9:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="13:00">1:00 PM</option>
+                                        <option value="14:00">2:00 PM</option>
+                                        <option value="15:00">3:00 PM</option>
+                                        <option value="16:00">4:00 PM</option>
+                                        <option value="17:00">5:00 PM</option>
+                                        <option value="18:00">6:00 PM</option>
+                                        <option value="19:00">7:00 PM</option>
+                                        <option value="20:00">8:00 PM</option>
+                                        <option value="21:00">9:00 PM</option>
+                                        <option value="22:00">10:00 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="error-message" id="timeError">Please select a date and time to continue.</div>
+                    </div>
+
+                    <!-- Step 3: Additional Details -->
+                    <div class="form-section" id="step3">
+                        <h3>Additional Requirements</h3>
+                        <p class="text-muted mb-4">Let us know if you need any additional amenities or have special requirements.</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Contact Information</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="Full Name" id="fullName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="tel" class="form-control" placeholder="Phone Number (07XX XXX XXX)" id="phoneNumber" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Email Address" id="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Additional Amenities (Optional)</label>
+                            <div class="amenities-grid">
+                                <div class="amenity-item">
+                                    <input type="checkbox" class="form-check-input" id="powerBank" value="power-bank">
+                                    <label class="form-check-label" for="powerBank">
+                                        <div class="amenity-icon"></div>
+                                        Power Bank Rental (+KES 100)
+                                    </label>
+                                </div>
+                                <div class="amenity-item">
+                                    <input type="checkbox" class="form-check-input" id="printing" value="printing">
+                                    <label class="form-check-label" for="printing">
+                                        <div class="amenity-icon"></div>
+                                        Printing Access (+KES 50)
+                                    </label>
+                                </div>
+                                <div class="amenity-item">
+                                    <input type="checkbox" class="form-check-input" id="coffee" value="coffee">
+                                    <label class="form-check-label" for="coffee">
+                                        <div class="amenity-icon"></div>
+                                        Unlimited Coffee (+KES 150)
+                                    </label>
+                                </div>
+                                <div class="amenity-item">
+                                    <input type="checkbox" class="form-check-input" id="locker" value="locker">
+                                    <label class="form-check-label" for="locker">
+                                        <div class="amenity-icon"></div>
+                                        Personal Locker (+KES 50)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Special Requests (Optional)</label>
+                            <textarea class="form-control" rows="3" placeholder="Any special requirements or notes..." id="specialRequests"></textarea>
+                        </div>
+                        
+                        <div class="error-message" id="detailsError">Please fill in required contact information.</div>
+                    </div>
+
+                    <!-- Step 4: Payment -->
+                    <div class="form-section" id="step4">
+                        <h3>Payment & Confirmation</h3>
+                        <p class="text-muted mb-4">Review your booking details and choose your payment method.</p>
+                        
+                        <!-- Booking Summary -->
+                        <div class="booking-summary">
+                            <h4>Booking Summary</h4>
+                            <div class="summary-row">
+                                <span>Workspace:</span>
+                                <span id="summarySpace">-</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Date & Time:</span>
+                                <span id="summaryDateTime">-</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Duration:</span>
+                                <span id="summaryDuration">-</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Base Price:</span>
+                                <span id="summaryBasePrice">KES 0</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Additional Amenities:</span>
+                                <span id="summaryAmenities">KES 0</span>
+                            </div>
+                            <div class="summary-row summary-total">
+                                <span>Total Amount:</span>
+                                <span id="summaryTotal">KES 0</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Methods -->
+                        <div class="form-group">
+                            <label class="form-label">Payment Method</label>
+                            <div class="payment-methods">
+                                <div class="payment-option" data-payment="mpesa">
+                                    <div class="payment-logo">M-PESA</div>
+                                    <div class="payment-name">M-Pesa</div>
+                                    <div class="payment-desc">Pay with your M-Pesa mobile money</div>
+                                </div>
+                                <div class="payment-option" data-payment="card">
+                                    <div class="payment-logo">CARD</div>
+                                    <div class="payment-name">Credit/Debit Card</div>
+                                    <div class="payment-desc">Visa, Mastercard accepted</div>
+                                </div>
+                                <div class="payment-option" data-payment="bank">
+                                    <div class="payment-logo">BANK</div>
+                                    <div class="payment-name">Bank Transfer</div>
+                                    <div class="payment-desc">Direct bank transfer</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- M-Pesa Payment Details -->
+                        <div class="form-group" id="mpesaDetails" style="display: none;">
+                            <label class="form-label">M-Pesa Phone Number</label>
+                            <input type="tel" class="form-control" placeholder="254 7XX XXX XXX" id="mpesaNumber">
+                            <div class="form-text">You will receive an M-Pesa prompt to complete payment</div>
+                        </div>
+                        
+                        <!-- Terms and Conditions -->
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                                <label class="form-check-label" for="agreeTerms">
+                                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Cancellation Policy</a>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <strong>Cancellation Policy:</strong> Free cancellation up to 2 hours before your booking time. 
+                            50% refund for cancellations within 2 hours.
+                        </div>
+                        
+                        <div class="error-message" id="paymentError">Please select a payment method and agree to terms.</div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">Previous</button>
+                        <button type="button" class="btn btn-primary" id="nextBtn">Next Step</button>
+                        <button type="button" class="btn btn-success" id="submitBtn" style="display: none;">Complete Booking</button>
+                    </div>
+
+                    <!-- Success Message -->
+                    <div class="success-message" id="successMessage">
+                        <strong>Booking Confirmed!</strong> Your booking reference is GR-2025-001234. 
+                        You will receive SMS confirmation shortly.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <script>
-        let selectedWorkspace = null;
-        let selectedTime = null;
-        let currentStep = 1;
+        // Daily Booking Flow JavaScript - Matches wireframe functionality with enhanced UX
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentStep = 1;
+            let selectedSpace = null;
+            let selectedPrice = 0;
+            let bookingData = {};
 
-        // Set today's date as minimum
-        document.getElementById('booking-date').min = new Date().toISOString().split('T')[0];
-        document.getElementById('booking-date').value = new Date().toISOString().split('T')[0];
+            // Set minimum date to today
+            const bookingDate = document.getElementById('bookingDate');
+            const today = new Date().toISOString().split('T')[0];
+            bookingDate.min = today;
 
-        function selectWorkspace(card, type) {
-            // Remove previous selections
-            document.querySelectorAll('.workspace-card').forEach(c => c.classList.remove('selected'));
-            
-            // Select current card
-            card.classList.add('selected');
-            selectedWorkspace = {
-                type: type,
-                name: card.querySelector('.workspace-name').textContent,
-                price: card.querySelector('.price').textContent
-            };
-            
-            // Enable next button
-            document.getElementById('next-btn-1').disabled = false;
-            document.getElementById('next-btn-1').style.opacity = '1';
-        }
+            // Step navigation
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const submitBtn = document.getElementById('submitBtn');
 
-        function selectTime(slot, timeRange) {
-            // Remove previous selections
-            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-            
-            // Select current slot
-            slot.classList.add('selected');
-            selectedTime = timeRange;
-            
-            // Enable next button
-            document.getElementById('next-btn-2').disabled = false;
-            document.getElementById('next-btn-2').style.opacity = '1';
-        }
-
-        function nextStep(step) {
-            // Hide current step
-            document.querySelector('.step' + currentStep).style.display = 'none';
-            
-            // Update step indicators
-            document.getElementById('step-' + currentStep).classList.remove('active');
-            document.getElementById('step-' + currentStep).classList.add('completed');
-            document.getElementById('step-' + step).classList.remove('inactive');
-            document.getElementById('step-' + step).classList.add('active');
-            
-            // Show next step
-            document.querySelector('.step' + step).style.display = 'block';
-            currentStep = step;
-
-            // Update payment summary
-            if (step === 3) {
-                updatePaymentSummary();
-            }
-        }
-
-        function previousStep(step) {
-            // Hide current step
-            document.querySelector('.step' + currentStep).style.display = 'none';
-            
-            // Update step indicators
-            document.getElementById('step-' + currentStep).classList.remove('active');
-            document.getElementById('step-' + currentStep).classList.add('inactive');
-            document.getElementById('step-' + step).classList.remove('completed');
-            document.getElementById('step-' + step).classList.add('active');
-            
-            // Show previous step
-            document.querySelector('.step' + step).style.display = 'block';
-            currentStep = step;
-        }
-
-        function updatePaymentSummary() {
-            if (selectedWorkspace && selectedTime) {
-                const pricePerHour = parseInt(selectedWorkspace.price.replace('KES ', ''));
-                const total = pricePerHour * 3; // 3 hours
-                document.getElementById('total-amount').textContent = 'KES ' + total;
-                document.getElementById('total-breakdown').textContent = 
-                    selectedWorkspace.name + ' • 3 hours • Today ' + selectedTime.replace('-', ' - ').replace(':', ':').replace(':', ':');
-            }
-        }
-
-        function processPayment() {
-            // Validate form
-            const name = document.getElementById('user-name').value;
-            const phone = document.getElementById('phone-number').value;
-            const email = document.getElementById('email').value;
-
-            if (!name || !phone || !email) {
-                alert('Please fill in all required fields');
-                return;
-            }
-
-            // Show processing overlay
-            document.getElementById('processing-overlay').style.display = 'flex';
-
-            // Simulate M-Pesa processing
-            setTimeout(() => {
-                document.getElementById('processing-overlay').style.display = 'none';
-                nextStep(4);
-                updateConfirmation();
-            }, 3000);
-        }
-
-        function updateConfirmation() {
-            if (selectedWorkspace && selectedTime) {
-                document.getElementById('confirm-workspace').textContent = selectedWorkspace.name;
-                document.getElementById('confirm-datetime').textContent = 'Today, ' + selectedTime.replace('-', ' - ');
-                
-                const pricePerHour = parseInt(selectedWorkspace.price.replace('KES ', ''));
-                const total = pricePerHour * 3;
-                document.getElementById('confirm-amount').textContent = 'KES ' + total;
-            }
-        }
-
-        function newBooking() {
-            // Reset everything
-            currentStep = 1;
-            selectedWorkspace = null;
-            selectedTime = null;
-            
-            // Reset step indicators
-            document.querySelectorAll('.step').forEach(s => {
-                s.classList.remove('active', 'completed');
-                s.classList.add('inactive');
+            // Space selection
+            document.querySelectorAll('.space-option:not(.unavailable)').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.space-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedSpace = this.dataset.space;
+                    selectedPrice = parseInt(this.dataset.price);
+                    bookingData.space = this.querySelector('.space-name').textContent;
+                    bookingData.price = selectedPrice;
+                    document.getElementById('spaceError').style.display = 'none';
+                });
             });
-            document.getElementById('step-1').classList.remove('inactive');
-            document.getElementById('step-1').classList.add('active');
-            
-            // Reset step content
-            document.querySelectorAll('[class^="step"]').forEach(s => s.style.display = 'none');
-            document.querySelector('.step1').style.display = 'block';
-            
-            // Reset selections
-            document.querySelectorAll('.workspace-card').forEach(c => c.classList.remove('selected'));
-            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-            
-            // Reset buttons
-            document.getElementById('next-btn-1').disabled = true;
-            document.getElementById('next-btn-1').style.opacity = '0.5';
-            document.getElementById('next-btn-2').disabled = true;
-            document.getElementById('next-btn-2').style.opacity = '0.5';
-            
-            // Clear form
-            document.getElementById('user-name').value = '';
-            document.getElementById('phone-number').value = '';
-            document.getElementById('email').value = '';
-        }
 
-        // Initial setup
-        document.getElementById('next-btn-1').style.opacity = '0.5';
-        document.getElementById('next-btn-2').style.opacity = '0.5';
+            // Duration change
+            document.getElementById('duration').addEventListener('change', function() {
+                const timeSlots = document.getElementById('timeSlots');
+                const customTime = document.getElementById('customTime');
+                
+                if (this.value === 'half-day' || this.value === 'full-day') {
+                    timeSlots.style.display = 'block';
+                    customTime.style.display = 'none';
+                } else if (this.value === 'custom') {
+                    timeSlots.style.display = 'none';
+                    customTime.style.display = 'block';
+                } else {
+                    timeSlots.style.display = 'none';
+                    customTime.style.display = 'none';
+                }
+            });
+
+            // Time slot selection
+            document.querySelectorAll('.time-slot:not(.unavailable)').forEach(slot => {
+                slot.addEventListener('click', function() {
+                    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                    this.classList.add('selected');
+                    bookingData.timeSlot = this.textContent;
+                });
+            });
+
+            // Amenity selection
+            document.querySelectorAll('.amenity-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const checkbox = this.querySelector('.form-check-input');
+                    checkbox.checked = !checkbox.checked;
+                    this.classList.toggle('selected', checkbox.checked);
+                    updateSummary();
+                });
+            });
+
+            // Payment method selection
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    const mpesaDetails = document.getElementById('mpesaDetails');
+                    if (this.dataset.payment === 'mpesa') {
+                        mpesaDetails.style.display = 'block';
+                    } else {
+                        mpesaDetails.style.display = 'none';
+                    }
+                    
+                    bookingData.paymentMethod = this.dataset.payment;
+                });
+            });
+
+            // Next button
+            nextBtn.addEventListener('click', function() {
+                if (validateStep(currentStep)) {
+                    if (currentStep < 4) {
+                        currentStep++;
+                        updateStep();
+                    }
+                }
+            });
+
+            // Previous button
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateStep();
+                }
+            });
+
+            // Submit button
+            submitBtn.addEventListener('click', function() {
+                if (validateStep(4)) {
+                    submitBooking();
+                }
+            });
+
+            function validateStep(step) {
+                switch(step) {
+                    case 1:
+                        if (!selectedSpace) {
+                            document.getElementById('spaceError').style.display = 'block';
+                            return false;
+                        }
+                        return true;
+                    case 2:
+                        const date = document.getElementById('bookingDate').value;
+                        const duration = document.getElementById('duration').value;
+                        if (!date || !duration) {
+                            document.getElementById('timeError').style.display = 'block';
+                            return false;
+                        }
+                        return true;
+                    case 3:
+                        const name = document.getElementById('fullName').value;
+                        const phone = document.getElementById('phoneNumber').value;
+                        const email = document.getElementById('email').value;
+                        if (!name || !phone || !email) {
+                            document.getElementById('detailsError').style.display = 'block';
+                            return false;
+                        }
+                        return true;
+                    case 4:
+                        const paymentSelected = document.querySelector('.payment-option.selected');
+                        const termsAgreed = document.getElementById('agreeTerms').checked;
+                        if (!paymentSelected || !termsAgreed) {
+                            document.getElementById('paymentError').style.display = 'block';
+                            return false;
+                        }
+                        return true;
+                }
+                return true;
+            }
+
+            function updateStep() {
+                // Hide all form sections
+                document.querySelectorAll('.form-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Show current step
+                document.getElementById(`step${currentStep}`).classList.add('active');
+
+                // Update step indicator
+                document.querySelectorAll('.step').forEach((step, index) => {
+                    step.classList.remove('active', 'completed');
+                    if (index + 1 < currentStep) {
+                        step.classList.add('completed');
+                    } else if (index + 1 === currentStep) {
+                        step.classList.add('active');
+                    }
+                });
+
+                // Update progress bar
+                const progress = (currentStep / 4) * 100;
+                document.getElementById('progressFill').style.width = progress + '%';
+
+                // Update buttons
+                prevBtn.style.display = currentStep > 1 ? 'inline-block' : 'none';
+                nextBtn.style.display = currentStep < 4 ? 'inline-block' : 'none';
+                submitBtn.style.display = currentStep === 4 ? 'inline-block' : 'none';
+
+                // Update summary on step 4
+                if (currentStep === 4) {
+                    updateSummary();
+                }
+            }
+
+            function updateSummary() {
+                if (currentStep === 4) {
+                    document.getElementById('summarySpace').textContent = bookingData.space || '-';
+                    
+                    const date = document.getElementById('bookingDate').value;
+                    const duration = document.getElementById('duration').value;
+                    document.getElementById('summaryDateTime').textContent = date ? `${date} - ${duration}` : '-';
+                    document.getElementById('summaryDuration').textContent = duration || '-';
+                    
+                    document.getElementById('summaryBasePrice').textContent = `KES ${selectedPrice}`;
+                    
+                    // Calculate amenities
+                    let amenitiesTotal = 0;
+                    document.querySelectorAll('.amenity-item .form-check-input:checked').forEach(checkbox => {
+                        const label = checkbox.parentElement.querySelector('.form-check-label').textContent;
+                        const price = parseInt(label.match(/\d+/)[0]);
+                        amenitiesTotal += price;
+                    });
+                    
+                    document.getElementById('summaryAmenities').textContent = `KES ${amenitiesTotal}`;
+                    
+                    const total = selectedPrice + amenitiesTotal;
+                    document.getElementById('summaryTotal').textContent = `KES ${total}`;
+                }
+            }
+
+            function submitBooking() {
+                // Simulate booking submission
+                const successMessage = document.getElementById('successMessage');
+                const bookingFlow = document.querySelector('.booking-content');
+                
+                bookingFlow.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // Simulate SMS confirmation
+                setTimeout(() => {
+                    alert('SMS sent: Your booking at Get a Room has been confirmed. Reference: GR-2025-001234');
+                }, 2000);
+            }
+        });
     </script>
 </body>
 </html>
