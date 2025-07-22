@@ -117,3 +117,6 @@ settings.local.json
 
 # HTML files (keep local, exclude from repo)
 *.html
+
+# CSS files (keep local, exclude from repo)
+*.css
