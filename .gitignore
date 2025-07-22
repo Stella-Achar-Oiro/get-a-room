@@ -114,3 +114,6 @@ error.log
 # Local configuration files
 config.local.json
 settings.local.json
+
+# HTML files (keep local, exclude from repo)
+*.html
